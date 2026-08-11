@@ -262,6 +262,106 @@
     color: var(--ink-soft);
     white-space: nowrap;
   }
+  /* ListenLink faceplate: miniature replica of the plugin UI (always dark,
+     like the real thing, so its colors are fixed rather than tokenized) */
+  .faceplate-ll {
+    border-bottom: 1px solid var(--rule);
+    background: #16171B;
+    padding: 14px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .ll-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .ll-id { display: flex; align-items: center; gap: 9px; }
+  .ll-icon {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: #6D5DF6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+  }
+  .ll-icon::after {
+    content: "";
+    width: 10px; height: 10px;
+    border: 2.5px solid #fff;
+    border-radius: 50%;
+  }
+  .ll-name { color: #ECEEF3; font-size: 12.5px; font-weight: 600; line-height: 1.25; }
+  .ll-sub { color: #8A8F9B; font-size: 9px; line-height: 1.25; }
+  .ll-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(62, 207, 110, .45);
+    border-radius: 999px;
+    padding: 3px 9px;
+    color: #3ECF6E;
+    font-size: 9px;
+    letter-spacing: .08em;
+    white-space: nowrap;
+  }
+  .ll-live::before {
+    content: "";
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #3ECF6E;
+  }
+  .ll-meter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ll-meter .ch { color: #8A8F9B; font-size: 8px; width: 8px; }
+  .ll-track {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: #2A2C33;
+    overflow: hidden;
+  }
+  .ll-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #2FD470, #A8DC4B);
+  }
+  .ll-fill.l { width: 78%; animation: ll-meter-l 2.3s ease-in-out infinite; }
+  .ll-fill.r { width: 66%; animation: ll-meter-r 1.9s ease-in-out infinite; }
+  @keyframes ll-meter-l { 50% { width: 84%; } }
+  @keyframes ll-meter-r { 50% { width: 58%; } }
+  .ll-linkrow { display: flex; gap: 8px; }
+  .ll-url {
+    flex: 1;
+    min-width: 0;
+    background: #101114;
+    border: 1px solid #2A2C33;
+    border-radius: 6px;
+    padding: 5px 9px;
+    color: #C9CDD6;
+    font-size: 9.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ll-copy {
+    background: #2A2C33;
+    border-radius: 6px;
+    padding: 5px 10px;
+    color: #ECEEF3;
+    font-size: 9.5px;
+    flex: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ll-fill.l, .ll-fill.r { animation: none; }
+  }
+
   .faceplate-meta {
     display: flex;
     flex-direction: column;
@@ -429,20 +529,30 @@
     <div class="rack">
       <!-- ListenLink — streaming audio plugin -->
       <article class="unit">
-        <div class="faceplate">
-          <div class="knobs">
-            <span class="knob-group">
-              <span class="knob k2"></span>
-              <span class="knob-label display">Quality</span>
+        <div class="faceplate-ll" aria-hidden="true">
+          <div class="ll-top">
+            <span class="ll-id">
+              <span class="ll-icon"></span>
+              <span>
+                <span class="ll-name" style="display:block;">ListenLink</span>
+                <span class="ll-sub" style="display:block;">Serving on port 17654</span>
+              </span>
             </span>
-            <span class="knob-group">
-              <span class="knob k1"></span>
-              <span class="knob-label display">Level</span>
-            </span>
+            <span class="ll-live mono">LIVE · 3 listeners</span>
           </div>
-          <div class="faceplate-meta">
-            <span class="lamp" aria-hidden="true"></span>
-            <span class="model-no mono">LL-01</span>
+          <div>
+            <div class="ll-meter" style="margin-bottom:5px;">
+              <span class="ch mono">L</span>
+              <span class="ll-track"><span class="ll-fill l"></span></span>
+            </div>
+            <div class="ll-meter">
+              <span class="ch mono">R</span>
+              <span class="ll-track"><span class="ll-fill r"></span></span>
+            </div>
+          </div>
+          <div class="ll-linkrow mono">
+            <span class="ll-url">http://192.168.1.24:17654</span>
+            <span class="ll-copy">Copy</span>
           </div>
         </div>
         <div class="unit-body">
