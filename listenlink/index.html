@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="ListenLink — a free, open-source audio plugin that streams your DAW master bus to a web link anyone can open in a browser. VST3 & AU for macOS.">
+<title>ListenLink — Stream your master bus to anyone · GGG</title>
+<style>
+  /* ---------- tokens (shared with the GGG shop) ---------- */
+  :root {
+    --paper: #F4F2ED;
+    --paper-raised: #FBFAF7;
+    --ink: #20221F;
+    --ink-soft: #5A5C55;
+    --rule: #D8D5CB;
+    --rule-strong: #20221F;
+    --accent: #D8402B;
+    --accent-ink: #FFFFFF;
+    --chip-bg: #E9E6DE;
+    --ok: #3E8E5A;
+    --screen-frame: #20221F;
+    --shadow: 0 1px 0 rgba(32,34,31,.08), 0 12px 32px -18px rgba(32,34,31,.35);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #191A17;
+      --paper-raised: #211F1C;
+      --ink: #EAE7DE;
+      --ink-soft: #9B988D;
+      --rule: #35342E;
+      --rule-strong: #EAE7DE;
+      --accent: #FF5B44;
+      --accent-ink: #1B120F;
+      --chip-bg: #2B2A25;
+      --ok: #6FBF8B;
+      --screen-frame: #35342E;
+      --shadow: 0 1px 0 rgba(0,0,0,.4), 0 12px 32px -18px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #191A17;
+    --paper-raised: #211F1C;
+    --ink: #EAE7DE;
+    --ink-soft: #9B988D;
+    --rule: #35342E;
+    --rule-strong: #EAE7DE;
+    --accent: #FF5B44;
+    --accent-ink: #1B120F;
+    --chip-bg: #2B2A25;
+    --ok: #6FBF8B;
+    --screen-frame: #35342E;
+    --shadow: 0 1px 0 rgba(0,0,0,.4), 0 12px 32px -18px rgba(0,0,0,.7);
+  }
+
+  /* ---------- base ---------- */
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Avenir Next", "Avenir", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  a { color: inherit; }
+  .display { font-family: "Futura", "Century Gothic", "Trebuchet MS", "Avenir Next", sans-serif; }
+  .mono {
+    font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* ---------- header ---------- */
+  header { border-bottom: 1px solid var(--rule-strong); background: var(--paper); }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 18px 0;
+  }
+  .back {
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .back:hover { color: var(--ink); }
+  nav { display: flex; gap: 28px; }
+  nav a {
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  nav a:hover { color: var(--ink); }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 56px 0 0; }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 18px;
+  }
+  .eyebrow .live-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--ok);
+    flex: none;
+  }
+  .hero h1 {
+    margin: 0;
+    font-weight: 600;
+    font-size: clamp(52px, 10.5vw, 128px);
+    line-height: .96;
+    text-transform: uppercase;
+    letter-spacing: .01em;
+  }
+  .hero-tag {
+    margin: 20px 0 0;
+    font-size: clamp(18px, 2.6vw, 26px);
+    max-width: 30ch;
+    text-wrap: balance;
+  }
+  .hero-sub {
+    margin: 12px 0 0;
+    color: var(--ink-soft);
+    max-width: 54ch;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin: 30px 0 48px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 24px;
+    border: 1px solid var(--rule-strong);
+    background: transparent;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background .15s ease, color .15s ease;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .btn.primary:hover { filter: brightness(.94); }
+  .cta-note { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+
+  /* ---------- screenshot panels ---------- */
+  .screen {
+    border: 1px solid var(--screen-frame);
+    background: #101114; /* the shots are dark; a fixed dark bezel suits both themes */
+    box-shadow: var(--shadow);
+  }
+  .screen img { width: 100%; }
+  .screen-caption {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 2px 0;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- sections ---------- */
+  .section { padding: 64px 0 0; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    border-top: 1px solid var(--rule-strong);
+    padding-top: 18px;
+    margin-bottom: 28px;
+  }
+  .section-head h2 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+  }
+  .section-head span { font-size: 12px; color: var(--ink-soft); }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 28px;
+  }
+  .step h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .step h3 .n { color: var(--accent); font-size: 13px; letter-spacing: .1em; }
+  .step p { margin: 0; color: var(--ink-soft); font-size: 15px; }
+
+  .feature {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 40px;
+    align-items: center;
+  }
+  .feature.flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  .feature.flip .feature-copy { order: 2; }
+  .feature.flip .feature-media { order: 1; }
+  .feature h2 {
+    margin: 0 0 12px;
+    font-size: clamp(24px, 3.4vw, 34px);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+  .feature p { margin: 0; color: var(--ink-soft); max-width: 44ch; }
+  @media (max-width: 800px) {
+    .feature, .feature.flip { grid-template-columns: 1fr; gap: 20px; }
+    .feature.flip .feature-copy { order: 1; }
+    .feature.flip .feature-media { order: 2; }
+  }
+
+  /* ---------- spec sheet ---------- */
+  .spec-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .spec-table th, .spec-table td {
+    text-align: left;
+    padding: 10px 16px 10px 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .spec-table th {
+    width: 220px;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .spec-table td { color: var(--ink); }
+  .spec-table .dim { color: var(--ink-soft); }
+  .table-scroll { overflow-x: auto; }
+
+  /* ---------- install ---------- */
+  .install ol {
+    margin: 0;
+    padding-left: 1.2em;
+    max-width: 62ch;
+  }
+  .install li { margin-bottom: 10px; }
+  .install .note {
+    margin: 18px 0 0;
+    padding: 14px 18px;
+    border: 1px solid var(--rule);
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    font-size: 14px;
+    max-width: 62ch;
+  }
+  code {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: .92em;
+    background: var(--chip-bg);
+    padding: 1px 6px;
+  }
+
+  /* ---------- final cta ---------- */
+  .final {
+    margin-top: 72px;
+    border-top: 1px solid var(--rule-strong);
+    padding: 56px 0 64px;
+    text-align: center;
+  }
+  .final h2 {
+    margin: 0 0 24px;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    text-wrap: balance;
+  }
+  .final .hero-cta { justify-content: center; margin: 0; }
+
+  /* ---------- footer ---------- */
+  footer { border-top: 1px solid var(--rule-strong); padding: 24px 0 40px; }
+  .foot-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .foot-row a { text-decoration: none; }
+  .foot-row a:hover { color: var(--ink); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap masthead">
+    <a class="back display" href="../">&larr; GGG Shop</a>
+    <nav aria-label="Site">
+      <a href="#download">Download</a>
+      <a href="https://github.com/gleyzeddonut/listenlink">Source</a>
+      <a href="mailto:aigora.marketplace@gmail.com?subject=ListenLink">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <p class="eyebrow mono"><span class="live-dot" aria-hidden="true"></span> LL-01 · v0.2.0 · Free · Open source</p>
+    <h1 class="display">Listen&shy;Link</h1>
+    <p class="hero-tag display">Stream your master bus to anyone.</p>
+    <p class="hero-sub">An audio plugin for your DAW's master bus that streams whatever passes
+       through it to a web link. Your listener opens the link in a browser and presses play —
+       no account, no app, no setup on their end.</p>
+    <div class="hero-cta" id="download">
+      <a class="btn primary display" href="https://github.com/gleyzeddonut/listenlink/releases/download/v0.2.0/ListenLink-0.2.0-mac.zip">Download for macOS</a>
+      <a class="btn display" href="https://github.com/gleyzeddonut/listenlink">Source code</a>
+      <span class="cta-note mono">VST3 · AU · Signed &amp; notarized</span>
+    </div>
+    <figure class="screen" style="margin:0;">
+      <img src="img/01-hero.png" alt="The ListenLink plugin window: stream quality selector with live level meters, a copyable network link, and a Create Public Link button, shown live with 3 listeners." width="1600" height="1000">
+    </figure>
+    <div class="screen-caption mono" aria-hidden="true">
+      <span>Fig. 01 — The whole interface</span>
+      <span>48 kHz · 16-bit</span>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="section-head">
+      <h2 class="display">How it works</h2>
+      <span class="mono">3 steps · under a minute</span>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3 class="display"><span class="n mono">01</span> Drop it on your master</h3>
+        <p>Add ListenLink (VST3 or AU) to your master bus. Audio passes through untouched —
+           it just gets copied to the stream.</p>
+      </div>
+      <div class="step">
+        <h3 class="display"><span class="n mono">02</span> Create a link</h3>
+        <p>Share on your network for anyone on the same Wi-Fi, or create a public link that
+           works anywhere. Copy, send.</p>
+      </div>
+      <div class="step">
+        <h3 class="display"><span class="n mono">03</span> They press play</h3>
+        <p>The link opens a listener page in any browser, typically less than half a second
+           behind you. It shows its own meters and a listener count.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="feature">
+      <div class="feature-copy">
+        <h2 class="display">A public link in one click</h2>
+        <p>ListenLink spins up a secure Cloudflare tunnel — no account, no port forwarding.
+           Send the link to a client across the world; they press play. The link lives as
+           long as your session does.</p>
+      </div>
+      <div class="feature-media">
+        <figure class="screen" style="margin:0;">
+          <img src="img/02-public-link.png" alt="ListenLink with an active public link: a trycloudflare.com URL with Copied and Stop buttons, tunnel-up indicator, and 7 listeners connected." width="1600" height="1000" loading="lazy">
+        </figure>
+        <div class="screen-caption mono" aria-hidden="true">
+          <span>Fig. 02 — Public link</span>
+          <span>tunnel up · 7 listening</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="feature flip">
+      <div class="feature-media">
+        <figure class="screen" style="margin:0;">
+          <img src="img/03-quality.png" alt="The stream quality menu open in ListenLink, showing Lossless PCM at 1.5 Mbit/s, Opus 256 kbps at 0.26 Mbit/s, and Opus 128 kbps at 0.13 Mbit/s." width="1600" height="1000" loading="lazy">
+        </figure>
+        <div class="screen-caption mono" aria-hidden="true">
+          <span>Fig. 03 — Stream quality</span>
+          <span>switch mid-stream</span>
+        </div>
+      </div>
+      <div class="feature-copy">
+        <h2 class="display">Lossless when it matters, light when it doesn't</h2>
+        <p>Switch between lossless PCM and Opus on the fly — listeners re-sync in under a
+           second. The bandwidth readout tells you exactly what each listener costs your
+           connection.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="section-head">
+      <h2 class="display">Spec sheet</h2>
+      <span class="mono">LL-01 · v0.2.0</span>
+    </div>
+    <div class="table-scroll">
+      <table class="spec-table">
+        <tbody>
+          <tr><th scope="row">Formats</th><td>VST3 · Audio Units (AU) · macOS, signed and notarized</td></tr>
+          <tr><th scope="row">Listener</th><td>Any modern browser — nothing to install. <span class="dim">Typical latency well under half a second plus network.</span></td></tr>
+          <tr><th scope="row">Stream quality</th><td class="mono">Lossless PCM &nbsp;~1.5 Mbit/s<br>Opus 256 kbps &nbsp;~0.26 Mbit/s<br>Opus 128 kbps &nbsp;~0.13 Mbit/s</td></tr>
+          <tr><th scope="row">Audio</th><td>48 kHz streaming; other project rates resampled internally. <span class="dim">Quality is saved with your project.</span></td></tr>
+          <tr><th scope="row">Public links</th><td>Free Cloudflare quick tunnel via <code>cloudflared</code> — temporary URL, new one each session. LAN links need nothing extra.</td></tr>
+          <tr><th scope="row">License</th><td>Free · Open source (AGPL-3.0)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section wrap install">
+    <div class="section-head">
+      <h2 class="display">Install</h2>
+      <span class="mono">~1 minute</span>
+    </div>
+    <ol>
+      <li>Download and unzip <span class="mono">ListenLink-0.2.0-mac.zip</span>.</li>
+      <li>Copy the two bundles into your plugin folders (instructions are in the zip).</li>
+      <li>Restart your DAW or rescan plugins, then add ListenLink to your master bus.</li>
+    </ol>
+    <p class="note">For public links, install the free tunnel client once:
+       <code>brew install cloudflared</code>. macOS may ask to allow incoming network
+       connections the first time — allow it. Local-network streaming works without any of this.</p>
+  </section>
+
+  <div class="final">
+    <div class="wrap">
+      <h2 class="display">Get a link. Press play.</h2>
+      <div class="hero-cta">
+        <a class="btn primary display" href="https://github.com/gleyzeddonut/listenlink/releases/download/v0.2.0/ListenLink-0.2.0-mac.zip">Download for macOS — Free</a>
+        <a class="btn display" href="https://github.com/gleyzeddonut/listenlink/releases">All releases</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-row mono">
+    <span>© 2026 GGG</span>
+    <a href="../">GGG Shop</a>
+    <a href="mailto:aigora.marketplace@gmail.com">aigora.marketplace@gmail.com</a>
+  </div>
+</footer>
+
+</body>
+</html>
