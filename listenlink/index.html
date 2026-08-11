@@ -315,29 +315,6 @@
   .spec-table .dim { color: var(--ink-soft); }
   .table-scroll { overflow-x: auto; }
 
-  /* ---------- install ---------- */
-  .install ol {
-    margin: 0;
-    padding-left: 1.2em;
-    max-width: 62ch;
-  }
-  .install li { margin-bottom: 10px; }
-  .install .note {
-    margin: 18px 0 0;
-    padding: 14px 18px;
-    border: 1px solid var(--rule);
-    background: var(--paper-raised);
-    color: var(--ink-soft);
-    font-size: 14px;
-    max-width: 62ch;
-  }
-  code {
-    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-    font-size: .92em;
-    background: var(--chip-bg);
-    padding: 1px 6px;
-  }
-
   /* ---------- final cta ---------- */
   .final {
     margin-top: 72px;
@@ -492,27 +469,11 @@
           <tr><th scope="row">Listener</th><td>Any modern browser — nothing to install. <span class="dim">Typical latency well under half a second plus network.</span></td></tr>
           <tr><th scope="row">Stream quality</th><td class="mono">Lossless PCM &nbsp;~1.5 Mbit/s<br>Opus 256 kbps &nbsp;~0.26 Mbit/s<br>Opus 128 kbps &nbsp;~0.13 Mbit/s</td></tr>
           <tr><th scope="row">Audio</th><td>48 kHz streaming; other project rates resampled internally. <span class="dim">Quality is saved with your project.</span></td></tr>
-          <tr><th scope="row">Public links</th><td>Free Cloudflare quick tunnel via <code>cloudflared</code> — temporary URL, new one each session. LAN links need nothing extra.</td></tr>
+          <tr><th scope="row">Public links</th><td>Free Cloudflare quick tunnel, built in — temporary URL, new one each session. LAN links work out of the box.</td></tr>
           <tr><th scope="row">License</th><td>Free · Open source (AGPL-3.0)</td></tr>
         </tbody>
       </table>
     </div>
-  </section>
-
-  <section class="section wrap install">
-    <div class="section-head">
-      <h2 class="display">Install</h2>
-      <span class="mono">~1 minute</span>
-    </div>
-    <ol>
-      <li>Download <span class="mono">ListenLink-0.2.0.pkg</span> and open it.</li>
-      <li>The installer puts the VST3 and AU into your plugin folders for you — nothing to
-          drag anywhere.</li>
-      <li>Restart your DAW or rescan plugins, then add ListenLink to your master bus.</li>
-    </ol>
-    <p class="note">For public links, install the free tunnel client once:
-       <code>brew install cloudflared</code>. macOS may ask to allow incoming network
-       connections the first time — allow it. Local-network streaming works without any of this.</p>
   </section>
 
   <div class="final">
