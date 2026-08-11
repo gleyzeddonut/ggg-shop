@@ -402,8 +402,8 @@
       <span class="cta-note mono">VST3 · AU</span>
     </div>
     <figure class="screen" style="margin:0;">
-      <button class="zoom" type="button" aria-label="Enlarge screenshot: the full ListenLink interface">
-        <img src="img/01-live.png" alt="The ListenLink plugin window: stream quality selector with live level meters, a copyable network link, and a Create Public Link button, shown live with 3 listeners." width="1600" height="1000">
+      <button class="zoom" type="button" data-full="img/01-live@2x.png" aria-label="Enlarge screenshot: the full ListenLink interface">
+        <img src="img/01-live.png" srcset="img/01-live.png 1600w, img/01-live@2x.png 2560w" sizes="(max-width: 1128px) 100vw, 1032px" alt="The ListenLink plugin window: stream quality selector with live level meters, a copyable network link, and a Create Public Link button, shown live with 3 listeners." width="1600" height="1000">
       </button>
     </figure>
     <div class="screen-caption mono" aria-hidden="true">
@@ -446,8 +446,8 @@
       </div>
       <div class="feature-media">
         <figure class="screen" style="margin:0;">
-          <button class="zoom" type="button" aria-label="Enlarge screenshot: public link">
-            <img src="img/02-public-link.png" alt="ListenLink with an active public link: a trycloudflare.com URL with Copied and Stop buttons, tunnel-up indicator, and 7 listeners connected." width="1600" height="1000" loading="lazy">
+          <button class="zoom" type="button" data-full="img/02-public-link@2x.png" aria-label="Enlarge screenshot: public link">
+            <img src="img/02-public-link.png" srcset="img/02-public-link.png 1600w, img/02-public-link@2x.png 2560w" sizes="(max-width: 800px) 100vw, 55vw" alt="ListenLink with an active public link: a trycloudflare.com URL with Copied and Stop buttons, tunnel-up indicator, and 7 listeners connected." width="1600" height="1000" loading="lazy">
           </button>
         </figure>
         <div class="screen-caption mono" aria-hidden="true">
@@ -462,8 +462,8 @@
     <div class="feature flip">
       <div class="feature-media">
         <figure class="screen" style="margin:0;">
-          <button class="zoom" type="button" aria-label="Enlarge screenshot: stream quality menu">
-            <img src="img/03-quality.png" alt="The stream quality menu open in ListenLink, showing Lossless PCM at 1.5 Mbit/s, Opus 256 kbps at 0.26 Mbit/s, and Opus 128 kbps at 0.13 Mbit/s." width="1600" height="1000" loading="lazy">
+          <button class="zoom" type="button" data-full="img/03-quality@2x.png" aria-label="Enlarge screenshot: stream quality menu">
+            <img src="img/03-quality.png" srcset="img/03-quality.png 1600w, img/03-quality@2x.png 2560w" sizes="(max-width: 800px) 100vw, 55vw" alt="The stream quality menu open in ListenLink, showing Lossless PCM at 1.5 Mbit/s, Opus 256 kbps at 0.26 Mbit/s, and Opus 128 kbps at 0.13 Mbit/s." width="1600" height="1000" loading="lazy">
           </button>
         </figure>
         <div class="screen-caption mono" aria-hidden="true">
@@ -546,7 +546,7 @@
 
   function openLightbox(trigger) {
     var img = trigger.querySelector('img');
-    lbImg.src = img.src;
+    lbImg.src = trigger.dataset.full || img.src;
     lbImg.alt = img.alt;
     lightbox.hidden = false;
     document.body.style.overflow = 'hidden';
