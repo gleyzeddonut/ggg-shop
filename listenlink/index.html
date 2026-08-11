@@ -176,6 +176,51 @@
     box-shadow: var(--shadow);
   }
   .screen img { width: 100%; }
+  .zoom {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+  }
+
+  /* ---------- lightbox ---------- */
+  #lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4vmin;
+    background: rgba(13, 14, 17, .93);
+    cursor: zoom-out;
+  }
+  #lightbox[hidden] { display: none; }
+  #lightbox img {
+    max-width: 100%;
+    max-height: 92vh;
+    width: auto;
+    height: auto;
+    box-shadow: 0 24px 80px -20px rgba(0,0,0,.8);
+  }
+  #lb-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    border: 1px solid rgba(255,255,255,.4);
+    background: none;
+    color: #EAE7DE;
+    font: 13px/1 "Avenir Next", "Helvetica Neue", sans-serif;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    padding: 9px 16px;
+    cursor: pointer;
+  }
+  #lb-close:hover { background: rgba(255,255,255,.12); }
+  #lb-close:focus-visible { outline: 2px solid #FF5B44; outline-offset: 3px; }
   .screen-caption {
     display: flex;
     justify-content: space-between;
@@ -357,7 +402,9 @@
       <span class="cta-note mono">VST3 · AU</span>
     </div>
     <figure class="screen" style="margin:0;">
-      <img src="img/01-live.png" alt="The ListenLink plugin window: stream quality selector with live level meters, a copyable network link, and a Create Public Link button, shown live with 3 listeners." width="1600" height="1000">
+      <button class="zoom" type="button" aria-label="Enlarge screenshot: the full ListenLink interface">
+        <img src="img/01-live.png" alt="The ListenLink plugin window: stream quality selector with live level meters, a copyable network link, and a Create Public Link button, shown live with 3 listeners." width="1600" height="1000">
+      </button>
     </figure>
     <div class="screen-caption mono" aria-hidden="true">
       <span>Fig. 01 — The whole interface</span>
@@ -399,7 +446,9 @@
       </div>
       <div class="feature-media">
         <figure class="screen" style="margin:0;">
-          <img src="img/02-public-link.png" alt="ListenLink with an active public link: a trycloudflare.com URL with Copied and Stop buttons, tunnel-up indicator, and 7 listeners connected." width="1600" height="1000" loading="lazy">
+          <button class="zoom" type="button" aria-label="Enlarge screenshot: public link">
+            <img src="img/02-public-link.png" alt="ListenLink with an active public link: a trycloudflare.com URL with Copied and Stop buttons, tunnel-up indicator, and 7 listeners connected." width="1600" height="1000" loading="lazy">
+          </button>
         </figure>
         <div class="screen-caption mono" aria-hidden="true">
           <span>Fig. 02 — Public link</span>
@@ -413,7 +462,9 @@
     <div class="feature flip">
       <div class="feature-media">
         <figure class="screen" style="margin:0;">
-          <img src="img/03-quality.png" alt="The stream quality menu open in ListenLink, showing Lossless PCM at 1.5 Mbit/s, Opus 256 kbps at 0.26 Mbit/s, and Opus 128 kbps at 0.13 Mbit/s." width="1600" height="1000" loading="lazy">
+          <button class="zoom" type="button" aria-label="Enlarge screenshot: stream quality menu">
+            <img src="img/03-quality.png" alt="The stream quality menu open in ListenLink, showing Lossless PCM at 1.5 Mbit/s, Opus 256 kbps at 0.26 Mbit/s, and Opus 128 kbps at 0.13 Mbit/s." width="1600" height="1000" loading="lazy">
+          </button>
         </figure>
         <div class="screen-caption mono" aria-hidden="true">
           <span>Fig. 03 — Stream quality</span>
@@ -482,5 +533,40 @@
   </div>
 </footer>
 
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged screenshot" hidden>
+  <button id="lb-close" type="button">Close &times;</button>
+  <img id="lb-img" src="" alt="">
+</div>
+
+<script>
+  var lightbox = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lb-img');
+  var lbClose = document.getElementById('lb-close');
+  var lastTrigger = null;
+
+  function openLightbox(trigger) {
+    var img = trigger.querySelector('img');
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+    lastTrigger = trigger;
+    lbClose.focus();
+  }
+  function closeLightbox() {
+    lightbox.hidden = true;
+    lbImg.src = '';
+    document.body.style.overflow = '';
+    if (lastTrigger) lastTrigger.focus();
+  }
+
+  document.querySelectorAll('.zoom').forEach(function (z) {
+    z.addEventListener('click', function () { openLightbox(z); });
+  });
+  lightbox.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !lightbox.hidden) closeLightbox();
+  });
+</script>
 </body>
 </html>
