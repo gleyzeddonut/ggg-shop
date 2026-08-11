@@ -206,199 +206,75 @@
   }
   .catalog-head span { font-size: 12px; color: var(--ink-soft); }
 
-  .rack {
+  .index {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--rule-strong);
+  }
+  .row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 28px;
-  }
-  .unit {
-    background: var(--paper-raised);
-    border: 1px solid var(--rule);
-    box-shadow: var(--shadow);
-    display: flex;
-    flex-direction: column;
-    transition: border-color .15s ease;
-  }
-  .unit:hover { border-color: var(--knob-ring); }
-  .faceplate {
+    grid-template-columns: 96px minmax(0, 1fr) auto;
+    gap: 10px 32px;
+    align-items: start;
+    padding: 34px 0;
     border-bottom: 1px solid var(--rule);
-    padding: 22px;
-    display: flex;
-    align-items: stretch;
-    justify-content: space-between;
-    gap: 16px;
   }
-  .knobs { display: flex; gap: 26px; }
-  .knob-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-  .knob {
-    width: 52px; height: 52px;
-    border-radius: 50%;
-    background: var(--knob-face);
-    border: 1px solid var(--knob-ring);
-    position: relative;
-    box-shadow: inset 0 2px 3px rgba(0,0,0,.08);
-    flex: none;
-  }
-  .knob::after {
-    content: "";
-    position: absolute;
-    left: 50%; top: 4px;
-    width: 2px; height: 15px;
-    margin-left: -1px;
-    background: var(--knob-tick);
-    transform-origin: 1px 22px;
-  }
-  .knob.k2::after { transform: rotate(52deg); }
-  .knob.k3::after { transform: rotate(-64deg); }
-  .knob-label {
-    font-size: 9px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    white-space: nowrap;
-  }
-  /* ListenLink faceplate: miniature replica of the plugin UI (always dark,
-     like the real thing, so its colors are fixed rather than tokenized) */
-  .faceplate-ll {
-    border-bottom: 1px solid var(--rule);
-    background: #16171B;
-    padding: 14px 16px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .ll-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  .ll-id { display: flex; align-items: center; gap: 9px; }
-  .ll-icon {
-    width: 28px; height: 28px;
-    border-radius: 8px;
-    background: #6D5DF6;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: none;
-  }
-  .ll-icon::after {
-    content: "";
-    width: 10px; height: 10px;
-    border: 2.5px solid #fff;
-    border-radius: 50%;
-  }
-  .ll-name { color: #ECEEF3; font-size: 12.5px; font-weight: 600; line-height: 1.25; }
-  .ll-sub { color: #8A8F9B; font-size: 9px; line-height: 1.25; }
-  .ll-live {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    border: 1px solid rgba(62, 207, 110, .45);
-    border-radius: 999px;
-    padding: 3px 9px;
-    color: #3ECF6E;
-    font-size: 9px;
-    letter-spacing: .08em;
-    white-space: nowrap;
-  }
-  .ll-live::before {
-    content: "";
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: #3ECF6E;
-  }
-  .ll-meter {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .ll-meter .ch { color: #8A8F9B; font-size: 8px; width: 8px; }
-  .ll-track {
-    flex: 1;
-    height: 6px;
-    border-radius: 3px;
-    background: #2A2C33;
-    overflow: hidden;
-  }
-  .ll-fill {
-    height: 100%;
-    border-radius: 3px;
-    background: linear-gradient(90deg, #2FD470, #A8DC4B);
-  }
-  .ll-fill.l { width: 78%; animation: ll-meter-l 2.3s ease-in-out infinite; }
-  .ll-fill.r { width: 66%; animation: ll-meter-r 1.9s ease-in-out infinite; }
-  @keyframes ll-meter-l { 50% { width: 84%; } }
-  @keyframes ll-meter-r { 50% { width: 58%; } }
-  .ll-linkrow { display: flex; gap: 8px; }
-  .ll-url {
-    flex: 1;
-    min-width: 0;
-    background: #101114;
-    border: 1px solid #2A2C33;
-    border-radius: 6px;
-    padding: 5px 9px;
-    color: #C9CDD6;
-    font-size: 9.5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .ll-copy {
-    background: #2A2C33;
-    border-radius: 6px;
-    padding: 5px 10px;
-    color: #ECEEF3;
-    font-size: 9.5px;
-    flex: none;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .ll-fill.l, .ll-fill.r { animation: none; }
-  }
-
-  .faceplate-meta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: space-between;
-    padding: 4px 0 1px;
-  }
-  .lamp {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 8px var(--accent);
-    flex: none;
-  }
-  .model-no {
+  .model {
     font-size: 11px;
     letter-spacing: .16em;
     color: var(--ink-soft);
-    text-align: right;
+    padding-top: 12px;
   }
-
-  .unit-body { padding: 22px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
-  .unit-title-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-  .unit-title-row h3 {
-    margin: 0;
-    font-size: 24px;
+  .row-title { margin: 0; }
+  .row-name {
+    display: inline-block;
+    font-size: clamp(28px, 4vw, 40px);
     font-weight: 600;
-    letter-spacing: .06em;
+    line-height: 1.05;
+    letter-spacing: .04em;
     text-transform: uppercase;
+    text-decoration: none;
   }
-  .unit-link { text-decoration: none; }
-  .unit-link:hover { color: var(--accent); }
+  a.row-name:hover { color: var(--accent); }
+  a.row-name::after {
+    content: " ↗";
+    font-size: .5em;
+    vertical-align: .5em;
+    color: var(--ink-soft);
+  }
+  a.row-name:hover::after { color: var(--accent); }
+  .row-desc {
+    margin: 10px 0 8px;
+    color: var(--ink-soft);
+    font-size: 15px;
+    max-width: 52ch;
+  }
+  .row-meta {
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .row-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 14px;
+    padding-top: 12px;
+  }
+  @media (max-width: 720px) {
+    .row { grid-template-columns: 1fr; gap: 6px; padding: 28px 0; }
+    .model { padding-top: 0; }
+    .row-side {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 14px;
+      gap: 12px 16px;
+    }
+  }
   .status {
     display: inline-flex;
     align-items: center;
@@ -416,23 +292,6 @@
     background: var(--accent);
   }
   .status.live::before { background: var(--ok); }
-  .unit-desc { margin: 0; color: var(--ink-soft); font-size: 15px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip {
-    font-size: 10px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    background: var(--chip-bg);
-    padding: 4px 9px;
-    color: var(--ink-soft);
-  }
-  .unit-actions {
-    margin-top: auto;
-    display: flex;
-    gap: 12px;
-    padding-top: 6px;
-  }
-  .buy, .buy-link { flex: 1; justify-content: center; }
   .link-quiet {
     align-self: center;
     font-size: 12px;
@@ -483,7 +342,7 @@
   #toast.show { opacity: 1; transform: translate(-50%, 0); }
 
   @media (prefers-reduced-motion: reduce) {
-    .btn, #toast, .unit { transition: none; }
+    .btn, #toast { transition: none; }
   }
 </style>
 </head>
@@ -526,93 +385,38 @@
       <span class="mono">2 products · macOS &amp; iOS</span>
     </div>
 
-    <div class="rack">
+    <ul class="index">
       <!-- ListenLink — streaming audio plugin -->
-      <article class="unit">
-        <div class="faceplate-ll" aria-hidden="true">
-          <div class="ll-top">
-            <span class="ll-id">
-              <span class="ll-icon"></span>
-              <span>
-                <span class="ll-name" style="display:block;">ListenLink</span>
-                <span class="ll-sub" style="display:block;">Serving on port 17654</span>
-              </span>
-            </span>
-            <span class="ll-live mono">LIVE · 3 listeners</span>
-          </div>
-          <div>
-            <div class="ll-meter" style="margin-bottom:5px;">
-              <span class="ch mono">L</span>
-              <span class="ll-track"><span class="ll-fill l"></span></span>
-            </div>
-            <div class="ll-meter">
-              <span class="ch mono">R</span>
-              <span class="ll-track"><span class="ll-fill r"></span></span>
-            </div>
-          </div>
-          <div class="ll-linkrow mono">
-            <span class="ll-url">http://192.168.1.24:17654</span>
-            <span class="ll-copy">Copy</span>
-          </div>
+      <li class="row">
+        <span class="model mono">LL-01</span>
+        <div class="row-main">
+          <h3 class="row-title"><a class="row-name display" href="https://gleyzeddonut.github.io/ggg-shop/listenlink/">ListenLink</a></h3>
+          <p class="row-desc">Stream your master bus to a web link anyone can open in a
+             browser — no accounts, no apps for the listener.</p>
+          <span class="row-meta mono">Audio plugin · VST3 · AU · macOS · Open source</span>
         </div>
-        <div class="unit-body">
-          <div class="unit-title-row">
-            <h3 class="display"><a class="unit-link" href="https://gleyzeddonut.github.io/ggg-shop/listenlink/">ListenLink</a></h3>
-            <span class="status live mono">v0.2.0 · Free</span>
-          </div>
-          <p class="unit-desc">Drop it on your master bus and stream your session to a web
-             link anyone can open in a browser — no accounts, no apps for the listener.
-             Lossless PCM or Opus, with latency well under half a second.</p>
-          <div class="chips">
-            <span class="chip">VST3</span><span class="chip">AU</span>
-            <span class="chip">macOS</span><span class="chip">Works with Ableton</span>
-            <span class="chip">Open source</span>
-          </div>
-          <div class="unit-actions">
-            <a class="btn primary display buy-link" href="https://github.com/gleyzeddonut/listenlink/releases/download/v0.2.0/ListenLink-0.2.0.pkg">Download for macOS</a>
-            <a class="link-quiet" href="https://gleyzeddonut.github.io/ggg-shop/listenlink/">Full details</a>
-          </div>
+        <div class="row-side">
+          <span class="status live mono">v0.2.0 · Free</span>
+          <a class="btn primary display" href="https://github.com/gleyzeddonut/listenlink/releases/download/v0.2.0/ListenLink-0.2.0.pkg">Download</a>
         </div>
-      </article>
+      </li>
 
       <!-- Notable — voice memo app -->
-      <article class="unit">
-        <div class="faceplate">
-          <div class="knobs">
-            <span class="knob-group">
-              <span class="knob k3"></span>
-              <span class="knob-label display">Pitch</span>
-            </span>
-            <span class="knob-group">
-              <span class="knob k1"></span>
-              <span class="knob-label display">Gain</span>
-            </span>
-          </div>
-          <div class="faceplate-meta">
-            <span class="lamp" aria-hidden="true"></span>
-            <span class="model-no mono">NB-02</span>
-          </div>
+      <li class="row">
+        <span class="model mono">NB-02</span>
+        <div class="row-main">
+          <h3 class="row-title"><span class="row-name display">Notable</span></h3>
+          <p class="row-desc">Voice memos you can transpose — record, pitch-shift without
+             changing timing, drop markers, export MIDI.</p>
+          <span class="row-meta mono">iOS app · App Store soon</span>
         </div>
-        <div class="unit-body">
-          <div class="unit-title-row">
-            <h3 class="display">Notable</h3>
-            <span class="status mono">Beta</span>
-          </div>
-          <p class="unit-desc">Voice memos you can transpose. Record an idea, pitch-shift it
-             without changing the timing, drop markers on the good parts, and export
-             straight to MIDI.</p>
-          <div class="chips">
-            <span class="chip">iOS</span><span class="chip">Pitch-shift</span>
-            <span class="chip">Markers</span><span class="chip">MIDI export</span>
-            <span class="chip">App Store soon</span>
-          </div>
-          <div class="unit-actions">
-            <button class="btn primary display buy" data-product="Notable">Coming soon</button>
-            <a class="link-quiet" href="mailto:aigora.marketplace@gmail.com?subject=Notable">Get notified</a>
-          </div>
+        <div class="row-side">
+          <span class="status mono">Beta</span>
+          <button class="btn primary display buy" data-product="Notable">Coming soon</button>
+          <a class="link-quiet" href="mailto:aigora.marketplace@gmail.com?subject=Notable">Get notified</a>
         </div>
-      </article>
-    </div>
+      </li>
+    </ul>
 
   </section>
 </main>
