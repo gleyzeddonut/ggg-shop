@@ -347,6 +347,21 @@
   .foot-row a { text-decoration: none; }
   .foot-row a:hover { color: var(--ink); }
 
+  /* ---------- phone layout ---------- */
+  @media (max-width: 720px) {
+    .masthead { padding: 14px 0; }
+    nav { gap: 18px; }
+    .hero { padding: 40px 0 0; }
+    .hero-cta { margin: 26px 0 36px; gap: 12px; }
+    .hero-cta .btn { flex: 1 1 auto; justify-content: center; }
+    .cta-note { flex-basis: 100%; }
+    .section { padding: 48px 0 0; }
+    .steps { gap: 22px; }
+    .final { margin-top: 56px; padding: 44px 0 52px; }
+    .final .hero-cta { margin: 0; }
+    #lb-close { top: 12px; right: 14px; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .btn { transition: none; }
   }
