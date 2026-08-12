@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="ListenLink — a free, open-source audio plugin that streams your DAW master bus to a web link anyone can open in a browser. VST3 & AU for macOS.">
+<meta name="description" content="ListenLink — a free, open-source audio plugin that streams your DAW master bus to a web link anyone can open in a browser. VST3 &amp; AU for macOS.">
 <title>ListenLink — Stream your master bus to anyone · GGG</title>
 <style>
   /* ---------- tokens (shared with the GGG shop) ---------- */
@@ -542,7 +542,9 @@
   });
   lightbox.addEventListener('click', closeLightbox);
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && !lightbox.hidden) closeLightbox();
+    if (lightbox.hidden) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'Tab') { e.preventDefault(); lbClose.focus(); } /* only focusable element in the dialog */
   });
 </script>
 </body>
