@@ -319,27 +319,8 @@
   .foot-row a { text-decoration: none; }
   .foot-row a:hover { color: var(--ink); }
 
-  /* ---------- toast ---------- */
-  #toast {
-    position: fixed;
-    left: 50%;
-    bottom: 28px;
-    transform: translate(-50%, 8px);
-    background: var(--ink);
-    color: var(--paper);
-    padding: 12px 20px;
-    font-size: 13px;
-    letter-spacing: .04em;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .2s ease, transform .2s ease;
-    max-width: min(90vw, 480px);
-    text-align: center;
-  }
-  #toast.show { opacity: 1; transform: translate(-50%, 0); }
-
   @media (prefers-reduced-motion: reduce) {
-    .btn, #toast { transition: none; }
+    .btn { transition: none; }
   }
 </style>
 </head>
@@ -402,15 +383,14 @@
       <li class="row">
         <span class="model mono">NB-02</span>
         <div class="row-main">
-          <h3 class="row-title"><span class="row-name display">Notable</span></h3>
+          <h3 class="row-title"><a class="row-name display" href="https://apps.apple.com/us/app/notable-control-voice-memos/id6794952090">Notable</a></h3>
           <p class="row-desc">Voice memos you can transpose — record, pitch-shift without
              changing timing, drop markers, export MIDI.</p>
-          <span class="row-meta mono">iOS app · App Store soon</span>
+          <span class="row-meta mono">iOS app · iPhone · App Store</span>
         </div>
         <div class="row-side">
-          <span class="status mono">Beta</span>
-          <button class="btn primary display buy" data-product="Notable">Coming soon</button>
-          <a class="link-quiet" href="mailto:aigora.marketplace@gmail.com?subject=Notable">Get notified</a>
+          <span class="status live mono">v1.1 · Free</span>
+          <a class="btn primary display" href="https://apps.apple.com/us/app/notable-control-voice-memos/id6794952090">Get — Free</a>
         </div>
       </li>
     </ul>
@@ -425,25 +405,7 @@
   </div>
 </footer>
 
-<div id="toast" role="status" aria-live="polite"></div>
-
 <script>
-  // "Coming soon" buttons become real download/App Store links at launch —
-  // swap each button for an <a href="...">.
-  var toastEl = document.getElementById('toast');
-  var toastTimer = null;
-  function toast(msg) {
-    toastEl.textContent = msg;
-    toastEl.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 2600);
-  }
-  document.querySelectorAll('.buy').forEach(function (b) {
-    b.addEventListener('click', function () {
-      toast(b.dataset.product + " isn't out yet — hit “Get notified” and you'll hear the moment it ships.");
-    });
-  });
-
   // Hero oscilloscope
   var canvas = document.getElementById('wave');
   var ctx = canvas.getContext('2d');
