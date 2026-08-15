@@ -14,6 +14,7 @@
     --rule: #D8D5CB;
     --rule-strong: #20221F;
     --accent: #D8402B;
+    --accent-hover: #C23622;
     --accent-ink: #FFFFFF;
     --wave: #20221F;
     --wave-dim: #C9C6BC;
@@ -27,6 +28,7 @@
       --rule: #35342E;
       --rule-strong: #EAE7DE;
       --accent: #FF5B44;
+      --accent-hover: #FF6249; /* #FF5B44 at brightness(1.08) — hover brightens in dark, darkens in light */
       --accent-ink: #1B120F;
       --wave: #EAE7DE;
       --wave-dim: #3B3A33;
@@ -40,6 +42,7 @@
     --rule: #35342E;
     --rule-strong: #EAE7DE;
     --accent: #FF5B44;
+    --accent-hover: #FF6249;
     --accent-ink: #1B120F;
     --wave: #EAE7DE;
     --wave-dim: #3B3A33;
@@ -84,10 +87,20 @@
   .masthead {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     gap: 24px;
-    padding: 18px 0;
+    /* vertical only — horizontal gutter comes from .wrap, don't override it */
+    padding-top: 16px;
+    padding-bottom: 16px;
   }
+  .brand {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+  }
+  .brand em { font-style: normal; color: var(--accent); }
   nav { display: flex; gap: 28px; }
   nav a {
     text-decoration: none;
@@ -99,11 +112,11 @@
   nav a:hover { color: var(--ink); }
 
   /* ---------- hero ---------- */
-  .hero { padding: 64px 0 0; }
+  .hero { padding-top: 56px; }
   .hero h1 {
     margin: 0;
     font-weight: 600;
-    font-size: clamp(96px, 19vw, 240px);
+    font-size: clamp(96px, 19vw, 220px);
     line-height: .96;
     text-transform: uppercase;
   }
@@ -120,10 +133,17 @@
   }
   .hero-cta {
     display: flex;
-    gap: 16px;
+    gap: 24px;
     align-items: center;
     margin: 32px 0 56px;
     flex-wrap: wrap;
+  }
+  .hero-cta .btn { padding: 13px 24px; }
+  .tagline {
+    font-size: 12px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
   }
   .btn {
     display: inline-flex;
@@ -139,15 +159,16 @@
     text-transform: uppercase;
     cursor: pointer;
     font-family: inherit;
-    transition: background .15s ease, color .15s ease;
+    transition: background .15s ease, color .15s ease, transform .1s ease;
   }
   .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn:active { transform: translateY(1px); }
   .btn.primary {
     background: var(--accent);
     border-color: var(--accent);
     color: var(--accent-ink);
   }
-  .btn.primary:hover { filter: brightness(.94); }
+  .btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
 
   .scope {
     border-top: 1px solid var(--rule-strong);
@@ -171,7 +192,7 @@
   }
 
   /* ---------- catalog ---------- */
-  .catalog { padding: 64px 0 72px; scroll-margin-top: 16px; }
+  .catalog { padding-top: 64px; padding-bottom: 72px; scroll-margin-top: 16px; }
   .catalog-head {
     display: flex;
     align-items: baseline;
@@ -196,17 +217,33 @@
   }
   .row {
     display: grid;
-    grid-template-columns: 96px minmax(0, 1fr) auto;
+    grid-template-columns: 72px 180px minmax(0, 1fr) auto;
     gap: 10px 32px;
     align-items: start;
-    padding: 34px 0;
+    padding: 36px 0;
     border-bottom: 1px solid var(--rule);
   }
   .model {
     font-size: 11px;
     letter-spacing: .16em;
     color: var(--ink-soft);
-    padding-top: 12px;
+    padding-top: 4px;
+  }
+  .thumb {
+    display: block;
+    border: 1px solid var(--rule-strong);
+    line-height: 0;
+  }
+  .thumb img { width: 100%; height: auto; display: block; }
+  .thumb-ll { background: #16161B; } /* screenshot's own backdrop, both themes */
+  .thumb-placeholder {
+    aspect-ratio: 533 / 333;
+    /* reserved slot until a Notable screenshot exists — faint diagonal hatch */
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent 0 10px,
+      var(--rule) 10px 11px
+    );
   }
   .row-title { margin: 0; }
   .row-name {
@@ -227,10 +264,10 @@
   }
   a.row-name:hover::after { color: var(--accent); }
   .row-desc {
-    margin: 10px 0 8px;
+    margin: 10px 0 12px;
     color: var(--ink-soft);
     font-size: 15px;
-    max-width: 52ch;
+    max-width: 46ch;
   }
   .row-meta {
     font-size: 11px;
@@ -242,35 +279,33 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 14px;
-    padding-top: 12px;
+    gap: 14px 16px;
+    padding-top: 4px;
   }
-  @media (max-width: 720px) {
-    .row { grid-template-columns: 1fr; gap: 6px; padding: 28px 0; }
+  @media (max-width: 760px) {
+    .row { grid-template-columns: 1fr; gap: 10px; padding: 28px 0; }
     .model { padding-top: 0; }
     .row-side {
       flex-direction: row;
       flex-wrap: wrap;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: space-between;
       padding-top: 14px;
-      gap: 12px 16px;
     }
     .row-side .btn { flex: 1 1 auto; justify-content: center; }
-    .row-side .link-quiet { align-self: center; }
   }
 
   /* ---------- phone layout ---------- */
   @media (max-width: 720px) {
-    .masthead { padding: 14px 0; }
+    .masthead { padding-top: 14px; padding-bottom: 14px; }
     nav { gap: 20px; }
-    .hero { padding: 40px 0 0; }
+    .hero { padding-top: 40px; }
     /* keep the wordmark monumental on small screens: size to the viewport
        so SHOP nearly spans it, instead of bottoming out the clamp */
     .hero h1 { font-size: 25vw; }
     .hero-cta { margin: 24px 0 40px; }
     .hero-cta .btn { flex: 1 1 auto; justify-content: center; }
-    .catalog { padding: 48px 0 56px; }
+    .catalog { padding-top: 48px; padding-bottom: 56px; }
   }
   .status {
     display: inline-flex;
@@ -289,17 +324,6 @@
     background: var(--accent);
   }
   .status.live::before { background: var(--ok); }
-  .link-quiet {
-    align-self: flex-end;
-    font-size: 12px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    text-decoration: none;
-    border-bottom: 1px solid var(--rule);
-    padding-bottom: 2px;
-  }
-  .link-quiet:hover { color: var(--ink); border-color: var(--ink); }
 
   /* ---------- footer ---------- */
   footer {
@@ -309,6 +333,7 @@
   .foot-row {
     display: flex;
     justify-content: space-between;
+    align-items: baseline;
     gap: 16px;
     flex-wrap: wrap;
     font-size: 12px;
@@ -318,6 +343,7 @@
   }
   .foot-row a { text-decoration: none; }
   .foot-row a:hover { color: var(--ink); }
+  .foot-links { display: flex; gap: 24px; }
 
   @media (prefers-reduced-motion: reduce) {
     .btn { transition: none; }
@@ -328,6 +354,7 @@
 
 <header>
   <div class="wrap masthead">
+    <a class="brand display" href="#top">G<em>G</em>G</a>
     <nav aria-label="Site">
       <a href="#catalog">Products</a>
       <a href="mailto:aigora.marketplace@gmail.com">Support</a>
@@ -343,6 +370,7 @@
     </h1>
     <div class="hero-cta">
       <a class="btn primary display" href="#catalog">Browse the catalog</a>
+      <span class="tagline mono">Independent audio software · Est. 2025</span>
     </div>
   </section>
 
@@ -353,7 +381,7 @@
     <div class="scope-legend mono" aria-hidden="true">
       <span>Input · Live</span>
       <span>44.1 kHz</span>
-      <span>−6.0 dBFS</span>
+      <span id="db">−6.0 dBFS</span>
     </div>
   </div>
 
@@ -367,6 +395,10 @@
       <!-- ListenLink — streaming audio plugin -->
       <li class="row">
         <span class="model mono">LL-01</span>
+        <a class="thumb thumb-ll" href="https://gggaudio.store/listenlink/">
+          <img src="img/listenlink.png" srcset="img/listenlink.png 1x, img/listenlink@2x.png 2x"
+               width="533" height="333" alt="ListenLink plugin UI">
+        </a>
         <div class="row-main">
           <h3 class="row-title"><a class="row-name display" href="https://gggaudio.store/listenlink/">ListenLink</a></h3>
           <p class="row-desc">Stream your master bus to a web link anyone can open in a
@@ -374,7 +406,7 @@
           <span class="row-meta mono">Audio plugin · VST3 · AU · macOS · Open source</span>
         </div>
         <div class="row-side">
-          <span class="status live mono">v0.3.0 · $3</span>
+          <span class="status live mono">v0.3.0 · Live</span>
           <a class="btn primary display" href="https://dmgleyzer.gumroad.com/l/listenlink">Buy — $3</a>
         </div>
       </li>
@@ -382,6 +414,7 @@
       <!-- Notable — voice memo app -->
       <li class="row">
         <span class="model mono">NB-02</span>
+        <div class="thumb thumb-placeholder" aria-hidden="true"></div>
         <div class="row-main">
           <h3 class="row-title"><a class="row-name display" href="https://apps.apple.com/us/app/notable-control-voice-memos/id6794952090">Notable</a></h3>
           <p class="row-desc">Voice memos you can transpose — record, pitch-shift without
@@ -389,8 +422,8 @@
           <span class="row-meta mono">iOS app · iPhone · App Store</span>
         </div>
         <div class="row-side">
-          <span class="status live mono">v1.1 · Free</span>
-          <a class="btn primary display" href="https://apps.apple.com/us/app/notable-control-voice-memos/id6794952090">Get — Free</a>
+          <span class="status live mono">v1.1 · Live</span>
+          <a class="btn display" href="https://apps.apple.com/us/app/notable-control-voice-memos/id6794952090">Get — Free</a>
         </div>
       </li>
     </ul>
@@ -401,7 +434,10 @@
 <footer>
   <div class="wrap foot-row mono">
     <span>© 2026 GGG</span>
-    <a href="mailto:aigora.marketplace@gmail.com">aigora.marketplace@gmail.com</a>
+    <span class="foot-links">
+      <a href="#catalog">Products</a>
+      <a href="mailto:aigora.marketplace@gmail.com">aigora.marketplace@gmail.com</a>
+    </span>
   </div>
 </footer>
 
@@ -409,8 +445,10 @@
   // Hero oscilloscope
   var canvas = document.getElementById('wave');
   var ctx = canvas.getContext('2d');
+  var dbEl = document.getElementById('db');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var t = 0;
+  var frame = 0;
 
   function cssVar(name) {
     return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -462,6 +500,12 @@
     ctx.beginPath();
     ctx.arc(hx, hy, 4, 0, Math.PI * 2);
     ctx.fill();
+
+    // live dBFS readout, driven by the same sample function as the waveform;
+    // stays at its static value under reduced motion
+    if (!reduced && ++frame % 12 === 0) {
+      dbEl.textContent = '−' + Math.abs(-6 + sample(0.6, t) * 3).toFixed(1) + ' dBFS';
+    }
   }
 
   function loop() {
