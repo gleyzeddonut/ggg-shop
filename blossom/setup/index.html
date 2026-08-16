@@ -1,0 +1,395 @@
+<title>Blossom Setup</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --panel-top: #232028;
+    --panel-bottom: #1B1820;
+    --display: #0D0B12;
+    --well: #141119;
+    --accent: #9D6BFF;
+    --glow: #B48AFF;
+    --dim-accent: #6D55A0;
+    --text: #E0DAEE;
+    --section: #8A819C;
+    --hint: #9A91AC;
+    --faint: #6F6786;
+    --brand: #B9A8DE;
+    --line: rgba(255, 255, 255, 0.07);
+    --card: rgba(255, 255, 255, 0.03);
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { background: var(--panel-bottom); }
+  body {
+    font-family: var(--sans);
+    background: linear-gradient(180deg, var(--panel-top) 0%, var(--panel-bottom) 480px);
+    color: var(--text);
+    line-height: 1.65;
+    font-size: 15.5px;
+    padding: 0 20px 80px;
+  }
+  .page { max-width: 680px; margin: 0 auto; }
+
+  /* -- header ---------------------------------------------------------- */
+  header { text-align: center; padding: 64px 0 8px; }
+  .wordmark {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.38em;
+    color: var(--brand); text-indent: 0.38em;
+  }
+  h1 {
+    font-size: 30px; font-weight: 700; letter-spacing: -0.01em;
+    margin-top: 18px; text-wrap: balance;
+  }
+  .lede {
+    color: var(--hint); max-width: 46ch; margin: 14px auto 0;
+    text-wrap: balance;
+  }
+  .lede strong { color: var(--glow); font-weight: 600; }
+
+  /* -- mini piano ------------------------------------------------------ */
+  .piano {
+    display: flex; gap: 1px; height: 56px; margin: 36px auto 10px;
+    max-width: 480px; background: var(--display); border-radius: 8px;
+    padding: 5px; overflow: hidden;
+  }
+  .piano .k {
+    flex: 1; background: #ECE7DB; border-radius: 0 0 3px 3px;
+    position: relative;
+  }
+  .piano .k.zone { background: #D9C6F4; }
+  .piano .k.sounding {
+    background: var(--accent);
+    box-shadow: 0 0 10px rgba(157, 107, 255, 0.75);
+  }
+  .piano .k .b {
+    position: absolute; top: 0; right: -31%; width: 62%; height: 60%;
+    background: #17141C; border-radius: 0 0 2px 2px; z-index: 2;
+  }
+  .piano .k.zone .b { background: #7A5FAE; }
+  .piano-caption {
+    display: flex; justify-content: space-between; max-width: 480px;
+    margin: 0 auto 8px; font-family: var(--mono); font-size: 11px;
+    color: var(--faint);
+  }
+  .piano-caption .z { color: var(--dim-accent); }
+  .piano-caption .s { color: var(--glow); }
+
+  /* -- cards & sections ------------------------------------------------ */
+  section {
+    background: var(--card); border: 0.5px solid var(--line);
+    border-radius: 12px; padding: 26px 28px 28px; margin-top: 28px;
+  }
+  .eyebrow {
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em;
+    color: var(--section); text-transform: uppercase;
+  }
+  section > h2 {
+    font-size: 21px; font-weight: 700; margin: 6px 0 4px;
+    letter-spacing: -0.01em;
+  }
+  .sub { color: var(--faint); font-size: 14px; }
+  h3 {
+    font-size: 16px; font-weight: 650; margin: 26px 0 8px;
+    color: var(--text);
+  }
+  p { margin-top: 10px; }
+  p, li { color: var(--hint); }
+  p strong, li strong { color: var(--text); font-weight: 600; }
+  a { color: var(--glow); text-decoration: none; }
+  a:hover, a:focus-visible { text-decoration: underline; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+  kbd, .v {
+    font-family: var(--mono); font-size: 0.86em; color: var(--glow);
+    background: var(--well); border: 0.5px solid var(--line);
+    border-radius: 4px; padding: 1.5px 6px; white-space: nowrap;
+  }
+  .path { font-family: var(--mono); font-size: 0.86em; color: var(--brand); }
+
+  /* -- step rows (hairline-separated, like the Harmony card) ----------- */
+  ol.steps { list-style: none; counter-reset: step; margin-top: 8px; }
+  ol.steps > li {
+    counter-increment: step; display: grid;
+    grid-template-columns: 30px 1fr; gap: 14px;
+    padding: 13px 0; border-top: 0.5px solid var(--line);
+  }
+  ol.steps > li:first-child { border-top: none; }
+  ol.steps > li::before {
+    content: counter(step); font-family: var(--mono); font-size: 12px;
+    color: var(--dim-accent); background: var(--well);
+    border: 0.5px solid var(--line); border-radius: 50%;
+    width: 24px; height: 24px; display: flex; align-items: center;
+    justify-content: center; margin-top: 1px;
+  }
+  ul.plain { list-style: none; }
+  ul.plain > li { padding: 6px 0 6px 18px; position: relative; }
+  ul.plain > li::before {
+    content: "·"; position: absolute; left: 4px; color: var(--dim-accent);
+    font-weight: 700;
+  }
+
+  /* -- routing diagram ------------------------------------------------- */
+  .route {
+    display: flex; align-items: stretch; gap: 10px; margin: 18px 0 6px;
+    overflow-x: auto; padding: 16px 14px; background: var(--display);
+    border-radius: 10px;
+  }
+  .node {
+    background: var(--well); border: 0.5px solid var(--line);
+    border-radius: 6px; padding: 10px 14px; min-width: 128px; flex: 1;
+  }
+  .node .tag {
+    font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em;
+    color: var(--faint); text-transform: uppercase;
+  }
+  .node .name {
+    font-family: var(--mono); font-size: 13px; color: var(--glow);
+    margin-top: 2px; white-space: nowrap;
+  }
+  .node .note { font-size: 11px; color: var(--faint); margin-top: 3px; }
+  .arrow {
+    align-self: center; color: var(--dim-accent); font-family: var(--mono);
+    font-size: 15px; flex: 0 0 auto;
+  }
+  .node.lit { border-color: rgba(157, 107, 255, 0.45); }
+  .node.lit .name { text-shadow: 0 0 9px rgba(157, 107, 255, 0.6); }
+
+  /* -- callout well ---------------------------------------------------- */
+  .callout {
+    background: var(--well); border-radius: 8px; padding: 14px 18px;
+    margin-top: 18px; border: 0.5px solid var(--line);
+  }
+  .callout .tag {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.16em;
+    color: var(--glow); text-transform: uppercase;
+  }
+  .callout p { margin-top: 5px; font-size: 14px; }
+
+  /* -- troubleshooting rows -------------------------------------------- */
+  .fix { border-top: 0.5px solid var(--line); padding: 13px 0; }
+  .fix:first-of-type { border-top: none; margin-top: 8px; }
+  .fix .q { color: var(--text); font-weight: 600; }
+  .fix .a { color: var(--hint); font-size: 14.5px; margin-top: 3px; }
+
+  footer {
+    text-align: center; margin-top: 44px; font-family: var(--mono);
+    font-size: 11px; color: var(--faint);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .piano .k.sounding { transition: box-shadow 0.3s; }
+  }
+</style>
+
+<div class="page">
+<header>
+  <div class="wordmark">BLOSSOM</div>
+  <h1>Setup Guide</h1>
+  <p class="lede">Hold a <strong>chord key</strong> in the violet bottom
+  octave, play a note above it, and Blossom sends the full chord to your
+  synth.</p>
+</header>
+
+<div class="piano" aria-hidden="true">
+  <div class="k zone"><span class="b"></span></div>
+  <div class="k zone"><span class="b"></span></div>
+  <div class="k zone"></div>
+  <div class="k zone"><span class="b"></span></div>
+  <div class="k zone"><span class="b"></span></div>
+  <div class="k zone"><span class="b"></span></div>
+  <div class="k zone"></div>
+  <div class="k"><span class="b"></span></div>
+  <div class="k"><span class="b"></span></div>
+  <div class="k"></div>
+  <div class="k"><span class="b"></span></div>
+  <div class="k"><span class="b"></span></div>
+  <div class="k sounding"><span class="b"></span></div>
+  <div class="k"></div>
+  <div class="k sounding"><span class="b"></span></div>
+  <div class="k"><span class="b"></span></div>
+  <div class="k sounding"></div>
+  <div class="k"><span class="b"></span></div>
+  <div class="k"><span class="b"></span></div>
+  <div class="k"></div>
+  <div class="k"><span class="b"></span></div>
+</div>
+<div class="piano-caption">
+  <span class="z">chord keys</span><span class="s">your chord</span>
+</div>
+
+<section>
+  <div class="eyebrow">Two ways to run it</div>
+  <h2>Pick your setup</h2>
+  <p><strong>The app</strong> connects MIDI ports directly. Use it to play
+  hardware synths &mdash; no DAW needed. It can also feed a DAW over a
+  virtual port.</p>
+  <p><strong>The plugin</strong> (AU&nbsp;+&nbsp;VST3) runs inside
+  Logic&nbsp;Pro or Ableton&nbsp;Live and follows the session
+  tempo.</p>
+  <p>Both have the same features. One installer sets up both.</p>
+</section>
+
+<section id="install">
+  <div class="eyebrow">One installer</div>
+  <h2>Install</h2>
+  <ol class="steps">
+    <li><div>Open the downloaded <span class="v">Blossom.dmg</span>.</div></li>
+    <li><div>Double-click <span class="v">Install Blossom.pkg</span>.</div></li>
+    <li><div>Follow the installer. It places the app in
+      <span class="path">Applications</span> and the AU and VST3 plugins
+      in <span class="path">/Library/Audio/Plug-Ins</span>.</div></li>
+    <li><div>Restart your DAW, or rescan plug-ins.</div></li>
+  </ol>
+  <p>The app's first launch takes about a minute to set up. After that it
+  opens instantly.</p>
+</section>
+
+<section id="app">
+  <div class="eyebrow">Standalone</div>
+  <h2>The Blossom app</h2>
+
+  <h3>Play a hardware synth</h3>
+  <ol class="steps">
+    <li><div>Set <span class="v">IN</span> to your keyboard.</div></li>
+    <li><div>Set <span class="v">OUT</span> to your synth. Set
+      <span class="v">CH</span> to the synth's MIDI channel (usually
+      1).</div></li>
+    <li><div>Play. Keys above the bottom octave light up on the piano and
+      sound as chords.</div></li>
+  </ol>
+  <p>Click <span class="v">&#8635; Refresh</span> after plugging in new
+  gear.</p>
+
+  <h3>Play a soft synth in your DAW</h3>
+  <p>Route the chords through an <strong>IAC bus</strong>, macOS's
+  built-in virtual MIDI port:</p>
+  <ol class="steps">
+    <li><div>Open <span class="path">Audio MIDI Setup &rarr; Window &rarr;
+      Show MIDI Studio</span>. Double-click <strong>IAC
+      Driver</strong>.</div></li>
+    <li><div>Tick <strong>Device is online</strong>. If the Ports list is
+      empty, click <span class="v">+</span> to add
+      <span class="v">IAC Bus 1</span>. Click Apply. Restart your
+      DAW.</div></li>
+    <li><div>In Blossom, set <span class="v">OUT</span> to the IAC
+      bus.</div></li>
+    <li><div>In the DAW, set the synth track's MIDI input to the IAC bus
+      &mdash; <strong>not &ldquo;All Ins&rdquo;</strong>, which also
+      passes your raw notes and doubles everything. Arm the track or set
+      Monitor to <span class="v">In</span>.</div></li>
+  </ol>
+  <div class="route" role="img" aria-label="Routing: keyboard into Blossom, out over the IAC bus into a DAW synth track">
+    <div class="node"><div class="tag">Keyboard</div>
+      <div class="name">Prophet</div><div class="note">IN port</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="node lit"><div class="tag">App</div>
+      <div class="name">Blossom</div><div class="note">makes the chord</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="node"><div class="tag">Virtual port</div>
+      <div class="name">IAC Bus 1</div><div class="note">OUT port</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="node"><div class="tag">DAW track</div>
+      <div class="name">Serum</div><div class="note">MIDI From: IAC Bus 1</div></div>
+  </div>
+  <p>To sync the arp to the DAW's tempo: send MIDI clock to the same bus
+  (Live: <span class="path">Settings &rarr; Link/Tempo/MIDI</span>, enable
+  Sync Out on the bus. Logic: <span class="path">Settings &rarr; MIDI
+  &rarr; Sync</span>). In Blossom, set <span class="v">SYNC</span> to the
+  bus and turn the toggle on.</p>
+
+  <h3>Updates</h3>
+  <p>The version number in the bottom-right checks for updates at launch.
+  When one is available it shows <span class="v">get v2.2.0</span>. Click
+  it to install, then click <span class="v">relaunch &#8635;</span>.
+  Click the plain version number to check manually.</p>
+</section>
+
+<section id="plugin">
+  <div class="eyebrow">AU &middot; VST3</div>
+  <h2>The Blossom plugin</h2>
+
+  <h3>Logic Pro</h3>
+  <p>On a software instrument track, click the <strong>MIDI FX</strong>
+  slot (above the instrument) and choose
+  <span class="path">Audio Units &rarr; Blossom &rarr; Blossom</span>.
+  Play the track. No routing needed.</p>
+
+  <h3>Ableton Live</h3>
+  <p>Live has no MIDI FX slot, so Blossom loads as an instrument and you
+  route its MIDI to your synth with two tracks:</p>
+  <ol class="steps">
+    <li><div><strong>Track 1:</strong> load <strong>Blossom</strong>. Set
+      <span class="v">MIDI From</span> to your keyboard. Set
+      <span class="v">Monitor</span> to <span class="v">In</span>, or arm
+      the track.</div></li>
+    <li><div><strong>Track 2:</strong> load your synth. Set
+      <span class="v">MIDI From</span> to the Blossom track. In the
+      <strong>second dropdown below it</strong>, pick
+      <span class="v">Blossom</span> (the device) &mdash; not
+      <span class="v">Pre FX</span>.</div></li>
+    <li><div>Set Track 2's <span class="v">Monitor</span> to
+      <span class="v">In</span>, or arm it. Play.</div></li>
+  </ol>
+  <div class="route" role="img" aria-label="Routing in Ableton Live: keyboard into the Blossom track, tapped at the Blossom device, into the Serum track">
+    <div class="node"><div class="tag">Keyboard</div>
+      <div class="name">Prophet</div><div class="note">MIDI From, track 1</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="node lit"><div class="tag">Track 1 &middot; monitor in</div>
+      <div class="name">Blossom</div><div class="note">tap the device, not Pre FX</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="node"><div class="tag">Track 2 &middot; monitor in</div>
+      <div class="name">Serum</div><div class="note">MIDI From: 1-Blossom &rsaquo; Blossom</div></div>
+  </div>
+  <div class="callout">
+    <div class="tag">Hearing raw notes pass through?</div>
+    <p>The second dropdown is on <span class="v">Pre FX</span>. Set it to
+    <span class="v">Blossom</span>.</p>
+  </div>
+  <p>The arp follows Live's tempo and beat grid automatically.</p>
+
+  <h3>Updates</h3>
+  <p>The version number at the bottom of the plugin shows
+  <span class="v">v2.2.0 available &middot; install</span> when an update
+  is out. Click it to install, then restart your DAW or rescan
+  plug-ins.</p>
+</section>
+
+<section id="troubleshooting">
+  <div class="eyebrow">When it doesn't</div>
+  <h2>Troubleshooting</h2>
+  <div class="fix">
+    <div class="q">No sound from the app</div>
+    <div class="a">Make sure your keyboard sends MIDI over USB (Prophet-6:
+    <span class="path">GLOBALS &rarr; MIDI Out Select &rarr; USB</span>).
+    Then click Blossom's on-screen piano. Sound means the keyboard side is
+    the problem; no sound means the synth side is.</div>
+  </div>
+  <div class="fix">
+    <div class="q">Blossom isn't listed in Ableton</div>
+    <div class="a">Look under VST3 in the browser. Make sure the VST3
+    folder is enabled in <span class="path">Settings &rarr;
+    Plug-Ins</span>. After an update, hold <span class="v">Option</span>
+    and click Rescan.</div>
+  </div>
+  <div class="fix">
+    <div class="q">Blossom isn't in Logic's instrument list</div>
+    <div class="a">It's in the <strong>MIDI FX</strong> slot above the
+    instrument, not the instrument slot.</div>
+  </div>
+  <div class="fix">
+    <div class="q">Chords double up or raw notes leak through</div>
+    <div class="a">Something is listening to the keyboard directly. In
+    Live: the second MIDI-From dropdown is on
+    <span class="v">Pre FX</span>. With the app + IAC bus: a DAW track is
+    set to &ldquo;All Ins&rdquo;.</div>
+  </div>
+  <div class="fix">
+    <div class="q">The arp ignores the beat</div>
+    <div class="a">Plugin: the arp locks to the beat only while the
+    transport is playing. App: it needs MIDI clock on the SYNC port
+    &mdash; see the IAC steps above.</div>
+  </div>
+</section>
+
+<footer>BLOSSOM &middot; chords from single keys &middot; macOS</footer>
+</div>
