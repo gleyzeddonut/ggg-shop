@@ -32,6 +32,12 @@
   .page { max-width: 680px; margin: 0 auto; }
 
   /* -- header ---------------------------------------------------------- */
+  .back {
+    position: absolute; top: 22px; left: 20px;
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--faint);
+  }
+  .back:hover, .back:focus-visible { color: var(--glow); text-decoration: none; }
   header { text-align: center; padding: 64px 0 8px; }
   .wordmark {
     font-size: 13px; font-weight: 700; letter-spacing: 0.38em;
@@ -181,6 +187,7 @@
   }
 </style>
 
+<a class="back" href="../">&larr; Blossom</a>
 <div class="page">
 <header>
   <div class="wordmark">BLOSSOM</div>
