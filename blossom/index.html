@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Blossom — a MIDI chord instrument for Mac. Hold a chord key, play a note, and the full chord is voiced straight to your synth. Mac app · AU · VST3. Coming soon.">
+<title>Blossom — One finger. Full chords. · GGG</title>
+<style>
+  /* ---------- tokens (shared with the GGG shop) ---------- */
+  :root {
+    --paper: #F4F2ED;
+    --paper-raised: #FBFAF7;
+    --ink: #20221F;
+    --ink-soft: #5A5C55;
+    --rule: #D8D5CB;
+    --rule-strong: #20221F;
+    --accent: #D8402B;
+    --accent-hover: #C23622;
+    --accent-ink: #FFFFFF;
+    --chip-bg: #E9E6DE;
+    --ok: #3E8E5A;
+    --screen-frame: #20221F;
+    --shadow: 0 1px 0 rgba(32,34,31,.08), 0 12px 32px -18px rgba(32,34,31,.35);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #191A17;
+      --paper-raised: #211F1C;
+      --ink: #EAE7DE;
+      --ink-soft: #9B988D;
+      --rule: #35342E;
+      --rule-strong: #EAE7DE;
+      --accent: #FF5B44;
+      --accent-hover: #FF6249;
+      --accent-ink: #1B120F;
+      --chip-bg: #2B2A25;
+      --ok: #6FBF8B;
+      --screen-frame: #35342E;
+      --shadow: 0 1px 0 rgba(0,0,0,.4), 0 12px 32px -18px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #191A17;
+    --paper-raised: #211F1C;
+    --ink: #EAE7DE;
+    --ink-soft: #9B988D;
+    --rule: #35342E;
+    --rule-strong: #EAE7DE;
+    --accent: #FF5B44;
+    --accent-hover: #FF6249;
+    --accent-ink: #1B120F;
+    --chip-bg: #2B2A25;
+    --ok: #6FBF8B;
+    --screen-frame: #35342E;
+    --shadow: 0 1px 0 rgba(0,0,0,.4), 0 12px 32px -18px rgba(0,0,0,.7);
+  }
+
+  /* ---------- base ---------- */
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Avenir Next", "Avenir", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  a { color: inherit; }
+  .display { font-family: "Futura", "Century Gothic", "Trebuchet MS", "Avenir Next", sans-serif; }
+  .mono {
+    font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* ---------- header ---------- */
+  header { border-bottom: 1px solid var(--rule-strong); background: var(--paper); }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+  .back {
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .back:hover { color: var(--ink); }
+  nav { display: flex; gap: 28px; }
+  nav a {
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  nav a:hover { color: var(--ink); }
+
+  /* ---------- hero ---------- */
+  .hero { padding-top: 56px; }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 18px;
+  }
+  .eyebrow .soon-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex: none;
+  }
+  .hero h1 {
+    margin: 0;
+    font-weight: 600;
+    font-size: clamp(52px, 10.5vw, 128px);
+    line-height: .96;
+    text-transform: uppercase;
+    letter-spacing: .01em;
+  }
+  .hero-tag {
+    margin: 20px 0 0;
+    font-size: clamp(18px, 2.6vw, 26px);
+    max-width: 30ch;
+    text-wrap: balance;
+  }
+  .hero-sub {
+    margin: 12px 0 0;
+    color: var(--ink-soft);
+    max-width: 54ch;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin: 30px 0 48px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 24px;
+    border: 1px solid var(--rule-strong);
+    background: transparent;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background .15s ease, color .15s ease, transform .1s ease;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn:active { transform: translateY(1px); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+  .cta-note { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+
+  /* ---------- screenshot panels ---------- */
+  .screen {
+    border: 1px solid var(--screen-frame);
+    background: #16131C; /* the shots are dark purple; a fixed dark bezel suits both themes */
+    box-shadow: var(--shadow);
+  }
+  .screen img { width: 100%; }
+  .zoom {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+  }
+
+  /* ---------- lightbox ---------- */
+  #lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4vmin;
+    background: rgba(13, 14, 17, .93);
+    cursor: zoom-out;
+  }
+  #lightbox[hidden] { display: none; }
+  #lightbox img {
+    max-width: 100%;
+    max-height: 92vh;
+    width: auto;
+    height: auto;
+    box-shadow: 0 24px 80px -20px rgba(0,0,0,.8);
+  }
+  #lb-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    border: 1px solid rgba(255,255,255,.4);
+    background: none;
+    color: #EAE7DE;
+    font: 13px/1 "Avenir Next", "Helvetica Neue", sans-serif;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    padding: 9px 16px;
+    cursor: pointer;
+  }
+  #lb-close:hover { background: rgba(255,255,255,.12); }
+  #lb-close:focus-visible { outline: 2px solid #FF5B44; outline-offset: 3px; }
+  .screen-caption {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 2px 0;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- sections ---------- */
+  .section { padding-top: 64px; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    border-top: 1px solid var(--rule-strong);
+    padding-top: 18px;
+    margin-bottom: 28px;
+  }
+  .section-head h2 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+  }
+  .section-head span { font-size: 12px; color: var(--ink-soft); }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 28px;
+  }
+  .step h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .step h3 .n { color: var(--accent); font-size: 13px; letter-spacing: .1em; }
+  .step p { margin: 0; color: var(--ink-soft); font-size: 15px; }
+
+  .feature {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 40px;
+    align-items: center;
+  }
+  .feature.flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  .feature.flip .feature-copy { order: 2; }
+  .feature.flip .feature-media { order: 1; }
+  .feature h2 {
+    margin: 0 0 12px;
+    font-size: clamp(24px, 3.4vw, 34px);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+  .feature p { margin: 0; color: var(--ink-soft); max-width: 44ch; }
+  @media (max-width: 800px) {
+    .feature, .feature.flip { grid-template-columns: 1fr; gap: 20px; }
+    .feature.flip .feature-copy { order: 1; }
+    .feature.flip .feature-media { order: 2; }
+  }
+
+  /* ---------- spec sheet ---------- */
+  .spec-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .spec-table th, .spec-table td {
+    text-align: left;
+    padding: 10px 16px 10px 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .spec-table th {
+    width: 220px;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .spec-table td { color: var(--ink); }
+  .spec-table .dim { color: var(--ink-soft); }
+  .table-scroll { overflow-x: auto; }
+
+  /* ---------- final cta ---------- */
+  .final {
+    margin-top: 72px;
+    border-top: 1px solid var(--rule-strong);
+    padding: 56px 0 64px;
+    text-align: center;
+  }
+  .final h2 {
+    margin: 0 0 24px;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    text-wrap: balance;
+  }
+  .final .hero-cta { justify-content: center; margin: 0; }
+
+  /* ---------- footer ---------- */
+  footer { border-top: 1px solid var(--rule-strong); padding: 24px 0 40px; }
+  .foot-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .foot-row a { text-decoration: none; }
+  .foot-row a:hover { color: var(--ink); }
+
+  /* ---------- phone layout ---------- */
+  @media (max-width: 720px) {
+    .masthead { padding-top: 14px; padding-bottom: 14px; }
+    nav { gap: 18px; }
+    .hero { padding-top: 40px; }
+    .hero-cta { margin: 26px 0 36px; gap: 12px; }
+    .hero-cta .btn { flex: 1 1 auto; justify-content: center; }
+    .cta-note { flex-basis: 100%; }
+    .section { padding-top: 48px; }
+    .steps { gap: 22px; }
+    .final { margin-top: 56px; padding: 44px 0 52px; }
+    .final .hero-cta { margin: 0; }
+    #lb-close { top: 12px; right: 14px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap masthead">
+    <a class="back display" href="../">&larr; GGG Shop</a>
+    <nav aria-label="Site">
+      <a href="#specs">Specs</a>
+      <a href="mailto:aigora.marketplace@gmail.com?subject=Blossom">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <p class="eyebrow mono"><span class="soon-dot" aria-hidden="true"></span> BL-03 · v2.1.1 · Coming soon</p>
+    <h1 class="display">Blossom</h1>
+    <p class="hero-tag display">One finger. Full chords.</p>
+    <p class="hero-sub">A MIDI chord instrument for your Mac. Hold a chord key in your
+       keyboard's bottom octave, play a note — Blossom voices the chord and sends it
+       straight to your synth or DAW.</p>
+    <div class="hero-cta">
+      <a class="btn primary display" href="mailto:aigora.marketplace@gmail.com?subject=Blossom">Get notified</a>
+      <span class="cta-note mono">Mac app · AU · VST3</span>
+    </div>
+    <figure class="screen" style="margin:0;">
+      <button class="zoom" type="button" data-full="img/01-hero@2x.png" aria-label="Enlarge screenshot: the full Blossom instrument">
+        <img src="img/01-hero.png" srcset="img/01-hero.png 1600w, img/01-hero@2x.png 2560w" sizes="(max-width: 1128px) 100vw, 1032px" alt="The Blossom window: a glowing C maj7 chord display, on-screen keyboard, twelve chord-key pads, arp bar, harmony panel, and MIDI routing footer." width="1600" height="1000">
+      </button>
+    </figure>
+    <div class="screen-caption mono" aria-hidden="true">
+      <span>Fig. 01 — The whole instrument</span>
+      <span>C maj7 · 120 bpm</span>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="section-head">
+      <h2 class="display">How it works</h2>
+      <span class="mono">3 steps · no theory required</span>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3 class="display"><span class="n mono">01</span> Hold a chord key</h3>
+        <p>Your keyboard's bottom octave becomes twelve chord-quality pads — maj, min7,
+           sus4, dim, and more. Hold the quality you want.</p>
+      </div>
+      <div class="step">
+        <h3 class="display"><span class="n mono">02</span> Play a note</h3>
+        <p>Whatever you play becomes the root. Blossom builds the full chord — voiced,
+           spread, strummed, exactly how you set it.</p>
+      </div>
+      <div class="step">
+        <h3 class="display"><span class="n mono">03</span> It plays your synth</h3>
+        <p>The chord goes straight out as MIDI — hardware synth or DAW instrument. Or run
+           the AU/VST3 plugin right in your session.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="feature">
+      <div class="feature-copy">
+        <h2 class="display">See every chord as you play</h2>
+        <p>The display names whatever harmony is sounding — hold two roots and it reads
+           the combination. Every note lights up on the on-screen keyboard as it plays.</p>
+      </div>
+      <div class="feature-media">
+        <figure class="screen" style="margin:0;">
+          <button class="zoom" type="button" data-full="img/02-display@2x.png" aria-label="Enlarge screenshot: chord display">
+            <img src="img/02-display.png" srcset="img/02-display.png 1600w, img/02-display@2x.png 2560w" sizes="(max-width: 800px) 100vw, 55vw" alt="Blossom's chord display reading C maj7 with the sounding notes C3, E3, G3, B3, above a keyboard with the chord lit in purple." width="1600" height="1000" loading="lazy">
+          </button>
+        </figure>
+        <div class="screen-caption mono" aria-hidden="true">
+          <span>Fig. 02 — Chord display</span>
+          <span>named live</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="feature flip">
+      <div class="feature-media">
+        <figure class="screen" style="margin:0;">
+          <button class="zoom" type="button" data-full="img/03-chord-keys@2x.png" aria-label="Enlarge screenshot: chord keys">
+            <img src="img/03-chord-keys.png" srcset="img/03-chord-keys.png 1600w, img/03-chord-keys@2x.png 2560w" sizes="(max-width: 800px) 100vw, 55vw" alt="The chord-key bank: twelve pads labeled C through B, each with a chord quality like maj, maj7, min, sus4, dim, and aug." width="1600" height="1000" loading="lazy">
+          </button>
+        </figure>
+        <div class="screen-caption mono" aria-hidden="true">
+          <span>Fig. 03 — Chord keys</span>
+          <span>19 qualities · combinable</span>
+        </div>
+      </div>
+      <div class="feature-copy">
+        <h2 class="display">Twelve chord keys under your left hand</h2>
+        <p>The bottom octave is tinted on screen so you always know where the pads are.
+           Click any pad to reassign it — nineteen qualities to pick from — and held keys
+           combine: maj7 + add9 = maj9.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="feature">
+      <div class="feature-copy">
+        <h2 class="display">Shape the performance</h2>
+        <p>A synced arp cycles the held chord in rhythm — locked to your DAW's clock or
+           free-running. Key mode makes every white key play its correct diatonic chord.
+           Strum and humanize add guitar-style rakes and human timing, with spread, mono,
+           and automatic voice leading on top.</p>
+      </div>
+      <div class="feature-media">
+        <figure class="screen" style="margin:0;">
+          <button class="zoom" type="button" data-full="img/04-perform@2x.png" aria-label="Enlarge screenshot: performance controls">
+            <img src="img/04-perform.png" srcset="img/04-perform.png 1600w, img/04-perform@2x.png 2560w" sizes="(max-width: 800px) 100vw, 55vw" alt="Blossom beside its performance features: synced arp, key mode, strum and humanize sliders, and MIDI routing for any keyboard and synth." width="1600" height="1000" loading="lazy">
+          </button>
+        </figure>
+        <div class="screen-caption mono" aria-hidden="true">
+          <span>Fig. 04 — Performance</span>
+          <span>arp · key mode · strum</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap" id="specs">
+    <div class="section-head">
+      <h2 class="display">Spec sheet</h2>
+      <span class="mono">BL-03 · v2.1.1</span>
+    </div>
+    <div class="table-scroll">
+      <table class="spec-table">
+        <tbody>
+          <tr><th scope="row">Formats</th><td>Mac app · Audio Units (AU MIDI FX) · VST3 · <span class="dim">universal, Apple silicon + Intel</span></td></tr>
+          <tr><th scope="row">Chord keys</th><td>12 pads on the keyboard's bottom octave — base key adjustable. 19 qualities, every pad reassignable; held keys combine.</td></tr>
+          <tr><th scope="row">Harmony</th><td>Key mode with diatonic white keys and configurable off-key handling · voicings with automatic voice leading · spread · mono.</td></tr>
+          <tr><th scope="row">Arp</th><td>Locks to the host's tempo and beat grid, or free-runs on its own — rate, direction, octaves, gate.</td></tr>
+          <tr><th scope="row">Performance</th><td>Strum (guitar-style rake) and humanize timing, in milliseconds. <span class="dim">In the plugin, everything but the chord-key layout is host-automatable.</span></td></tr>
+          <tr><th scope="row">MIDI</th><td>Any keyboard in, any synth out, with sync and channel routing. <span class="dim">In a DAW, the host routes MIDI for you.</span></td></tr>
+          <tr><th scope="row">Availability</th><td>Coming soon — direct download. <span class="dim">Get notified and you'll hear the moment it ships.</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="final">
+    <div class="wrap">
+      <h2 class="display">Hold a key. Hear the chord.</h2>
+      <div class="hero-cta">
+        <a class="btn primary display" href="mailto:aigora.marketplace@gmail.com?subject=Blossom">Get notified</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-row mono">
+    <span>© 2026 GGG</span>
+    <a href="../">GGG Shop</a>
+    <a href="mailto:aigora.marketplace@gmail.com">aigora.marketplace@gmail.com</a>
+  </div>
+</footer>
+
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged screenshot" hidden>
+  <button id="lb-close" type="button">Close &times;</button>
+  <img id="lb-img" src="" alt="">
+</div>
+
+<script>
+  var lightbox = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lb-img');
+  var lbClose = document.getElementById('lb-close');
+  var lastTrigger = null;
+
+  function openLightbox(trigger) {
+    var img = trigger.querySelector('img');
+    lbImg.src = trigger.dataset.full || img.src;
+    lbImg.alt = img.alt;
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+    lastTrigger = trigger;
+    lbClose.focus();
+  }
+  function closeLightbox() {
+    lightbox.hidden = true;
+    lbImg.src = '';
+    document.body.style.overflow = '';
+    if (lastTrigger) lastTrigger.focus();
+  }
+
+  document.querySelectorAll('.zoom').forEach(function (z) {
+    z.addEventListener('click', function () { openLightbox(z); });
+  });
+  lightbox.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !lightbox.hidden) closeLightbox();
+  });
+</script>
+</body>
+</html>
