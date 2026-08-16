@@ -236,15 +236,7 @@
   }
   .thumb img { width: 100%; height: auto; display: block; }
   .thumb-ll { background: #16161B; } /* screenshot's own backdrop, both themes */
-  .thumb-placeholder {
-    aspect-ratio: 533 / 333;
-    /* reserved slot until a Notable screenshot exists — faint diagonal hatch */
-    background: repeating-linear-gradient(
-      -45deg,
-      transparent 0 10px,
-      var(--rule) 10px 11px
-    );
-  }
+  .thumb-nb { background: #121214; }
   .row-title { margin: 0; }
   .row-name {
     display: inline-block;
@@ -414,7 +406,10 @@
       <!-- Notable — voice memo app -->
       <li class="row">
         <span class="model mono">NB-02</span>
-        <div class="thumb thumb-placeholder" aria-hidden="true"></div>
+        <a class="thumb thumb-nb" href="https://apps.apple.com/us/app/notable-control-voice-memos/id6794952090">
+          <img src="img/notable.png" srcset="img/notable.png 1x, img/notable@2x.png 2x"
+               width="533" height="333" alt="Notable pitch-shift playback UI">
+        </a>
         <div class="row-main">
           <h3 class="row-title"><a class="row-name display" href="https://apps.apple.com/us/app/notable-control-voice-memos/id6794952090">Notable</a></h3>
           <p class="row-desc">Voice memos you can transpose — record, pitch-shift without
