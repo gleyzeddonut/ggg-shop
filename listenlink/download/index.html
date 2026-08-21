@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Download ListenLink for macOS — free. The installer starts automatically.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://gggaudio.store/listenlink/download/">
+<title>Download ListenLink · GGG</title>
+<meta http-equiv="refresh" content="1;url=https://github.com/gleyzeddonut/listenlink/releases/latest/download/ListenLink.pkg">
+<style>
+  /* ---------- tokens (shared with the GGG shop) ---------- */
+  :root {
+    --paper: #F4F2ED;
+    --paper-raised: #FBFAF7;
+    --ink: #20221F;
+    --ink-soft: #5A5C55;
+    --rule: #D8D5CB;
+    --rule-strong: #20221F;
+    --accent: #D8402B;
+    --accent-ink: #FFFFFF;
+    --chip-bg: #E9E6DE;
+    --ok: #3E8E5A;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #191A17;
+      --paper-raised: #211F1C;
+      --ink: #EAE7DE;
+      --ink-soft: #9B988D;
+      --rule: #35342E;
+      --rule-strong: #EAE7DE;
+      --accent: #FF5B44;
+      --accent-ink: #1B120F;
+      --chip-bg: #2B2A25;
+      --ok: #6FBF8B;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #191A17;
+    --paper-raised: #211F1C;
+    --ink: #EAE7DE;
+    --ink-soft: #9B988D;
+    --rule: #35342E;
+    --rule-strong: #EAE7DE;
+    --accent: #FF5B44;
+    --accent-ink: #1B120F;
+    --chip-bg: #2B2A25;
+    --ok: #6FBF8B;
+  }
+
+  /* ---------- base ---------- */
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Avenir Next", "Avenir", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  a { color: inherit; }
+  .display { font-family: "Futura", "Century Gothic", "Trebuchet MS", "Avenir Next", sans-serif; }
+  .mono {
+    font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  /* ---------- header ---------- */
+  header { border-bottom: 1px solid var(--rule-strong); background: var(--paper); }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 18px 0;
+  }
+  .back {
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .back:hover { color: var(--ink); }
+  nav { display: flex; gap: 28px; }
+  nav a {
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  nav a:hover { color: var(--ink); }
+
+  /* ---------- page ---------- */
+  .hero { padding: 56px 0 72px; }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 18px;
+  }
+  .eyebrow .live-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--ok);
+    flex: none;
+  }
+  h1 {
+    margin: 0;
+    font-weight: 600;
+    font-size: clamp(36px, 6.5vw, 72px);
+    line-height: 1.02;
+    text-transform: uppercase;
+    letter-spacing: .01em;
+  }
+  .hero-sub { margin: 16px 0 0; color: var(--ink-soft); max-width: 54ch; }
+  .hero-cta { display: flex; gap: 16px; align-items: center; margin: 30px 0 0; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 24px;
+    border: 1px solid var(--rule-strong);
+    background: transparent;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background .15s ease, color .15s ease;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .btn.primary:hover { filter: brightness(.94); }
+  .cta-note { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+
+  .steps { padding: 0 0 88px; }
+  .steps h2 {
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+  }
+  .steps ol {
+    list-style: none;
+    counter-reset: step;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--rule-strong);
+    max-width: 640px;
+  }
+  .steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 24px;
+    align-items: baseline;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .steps li::before {
+    content: "0" counter(step);
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12px;
+    letter-spacing: .16em;
+    color: var(--ink-soft);
+    flex: none;
+  }
+  .steps .dim { color: var(--ink-soft); }
+
+  /* ---------- footer ---------- */
+  footer { border-top: 1px solid var(--rule-strong); padding: 24px 0 40px; }
+  .foot-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .foot-row a { text-decoration: none; }
+  .foot-row a:hover { color: var(--ink); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap masthead">
+    <a class="back display" href="../">&larr; ListenLink</a>
+    <nav aria-label="Site">
+      <a href="../../">GGG Shop</a>
+      <a href="mailto:info@gggaudio.store?subject=ListenLink">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <p class="eyebrow mono"><span class="live-dot" aria-hidden="true"></span> LL-01 · Free · macOS</p>
+    <h1 class="display">Downloading ListenLink&hellip;</h1>
+    <p class="hero-sub">The newest version is on its way — your download starts automatically.
+       Signed and notarized for macOS.</p>
+    <div class="hero-cta">
+      <a class="btn primary display" href="https://github.com/gleyzeddonut/listenlink/releases/latest/download/ListenLink.pkg">Download didn't start? Click here</a>
+      <span class="cta-note mono">VST3 · AU · macOS</span>
+    </div>
+  </section>
+
+  <section class="steps wrap">
+    <h2 class="display">Then, three steps</h2>
+    <ol>
+      <li><span>Open <span class="mono">ListenLink.pkg</span> from your Downloads folder and click through the installer.</span></li>
+      <li><span>It installs the AU and VST3 system-wide — nothing else to do. <span class="dim">Updating? It replaces your old version.</span></span></li>
+      <li><span>Restart your DAW and drop ListenLink on your master bus. <span class="dim">First install may need a plugin rescan.</span></span></li>
+    </ol>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-row mono">
+    <span>&copy; 2026 GGG</span>
+    <a href="../">ListenLink</a>
+    <a href="https://github.com/gleyzeddonut/listenlink/releases">What's new</a>
+    <a href="https://github.com/gleyzeddonut/listenlink">Source (AGPL-3.0)</a>
+    <a href="mailto:info@gggaudio.store">info@gggaudio.store</a>
+  </div>
+</footer>
+
+</body>
+</html>
