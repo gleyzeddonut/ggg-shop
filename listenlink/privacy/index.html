@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="How ListenLink handles audio, links and optional Google Docs notes.">
+<link rel="canonical" href="https://gggaudio.store/listenlink/privacy/">
+<title>Privacy Policy · ListenLink · GGG</title>
+<style>
+  /* ---------- tokens (shared with the GGG shop) ---------- */
+  :root {
+    --paper: #F4F2ED;
+    --paper-raised: #FBFAF7;
+    --ink: #20221F;
+    --ink-soft: #5A5C55;
+    --rule: #D8D5CB;
+    --rule-strong: #20221F;
+    --accent: #D8402B;
+    --accent-ink: #FFFFFF;
+    --chip-bg: #E9E6DE;
+    --ok: #3E8E5A;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #191A17;
+      --paper-raised: #211F1C;
+      --ink: #EAE7DE;
+      --ink-soft: #9B988D;
+      --rule: #35342E;
+      --rule-strong: #EAE7DE;
+      --accent: #FF5B44;
+      --accent-ink: #1B120F;
+      --chip-bg: #2B2A25;
+      --ok: #6FBF8B;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #191A17;
+    --paper-raised: #211F1C;
+    --ink: #EAE7DE;
+    --ink-soft: #9B988D;
+    --rule: #35342E;
+    --rule-strong: #EAE7DE;
+    --accent: #FF5B44;
+    --accent-ink: #1B120F;
+    --chip-bg: #2B2A25;
+    --ok: #6FBF8B;
+  }
+
+  /* ---------- base ---------- */
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Avenir Next", "Avenir", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  a { color: inherit; }
+  .display { font-family: "Futura", "Century Gothic", "Trebuchet MS", "Avenir Next", sans-serif; }
+  .mono {
+    font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  /* ---------- header ---------- */
+  header { border-bottom: 1px solid var(--rule-strong); background: var(--paper); }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 18px 0;
+  }
+  .back {
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .back:hover { color: var(--ink); }
+  nav { display: flex; gap: 28px; }
+  nav a {
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  nav a:hover { color: var(--ink); }
+
+  /* ---------- page ---------- */
+  .hero { padding: 56px 0 72px; }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 18px;
+  }
+  .eyebrow .live-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--ok);
+    flex: none;
+  }
+  h1 {
+    margin: 0;
+    font-weight: 600;
+    font-size: clamp(36px, 6.5vw, 72px);
+    line-height: 1.02;
+    text-transform: uppercase;
+    letter-spacing: .01em;
+  }
+  .hero-sub { margin: 16px 0 0; color: var(--ink-soft); max-width: 54ch; }
+  .hero-cta { display: flex; gap: 16px; align-items: center; margin: 30px 0 0; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 24px;
+    border: 1px solid var(--rule-strong);
+    background: transparent;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background .15s ease, color .15s ease;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .btn.primary:hover { filter: brightness(.94); }
+  .cta-note { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+
+  /* ---------- footer ---------- */
+  footer { border-top: 1px solid var(--rule-strong); padding: 24px 0 40px; }
+  .foot-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .foot-row a { text-decoration: none; }
+  .foot-row a:hover { color: var(--ink); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn { transition: none; }
+  }
+
+  /* ---------- prose ---------- */
+  .prose { max-width: 72ch; padding: 48px 0 80px; }
+  .prose h1 { font-size: clamp(30px, 5vw, 52px); margin-bottom: 8px; }
+  .prose .updated { color: var(--ink-soft); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 36px; }
+  .prose h2 { font-size: 15px; letter-spacing: .12em; text-transform: uppercase; margin: 40px 0 10px; padding-top: 18px; border-top: 1px solid var(--rule); }
+  .prose p, .prose li { color: var(--ink); }
+  .prose ul { padding-left: 20px; }
+  .prose li { margin: 6px 0; }
+  .prose code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 14px; background: var(--chip-bg); padding: 1px 6px; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap masthead">
+    <a class="back display" href="../">&larr; ListenLink</a>
+    <nav aria-label="Site">
+      <a href="../../">GGG Shop</a>
+      <a href="mailto:info@gggaudio.store?subject=ListenLink">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <article class="prose wrap">
+    <h1 class="display">Privacy Policy</h1>
+    <p class="updated mono">Effective 25 September 2026</p>
+
+    <p>ListenLink is a free audio plugin made by GGG (Dan Gleyzer). It streams the audio from your
+       DAW to a web link so other people can listen live. This policy explains what the plugin, the
+       listener page and this website do with information. The short version: ListenLink has no
+       accounts, we run no server that stores your audio, and the only personal data involved is
+       what you choose to connect.</p>
+
+    <h2>Streaming audio</h2>
+    <p>Audio leaves your computer through a Cloudflare tunnel and goes straight to the browsers of
+       people who open your link. We do not receive, record or store any of it. Streams pass through
+       Cloudflare&rsquo;s network, which is subject to
+       <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare&rsquo;s privacy policy</a>.</p>
+
+    <h2>Your public link</h2>
+    <p>To keep one link working across sessions, the plugin registers a random stream ID, an
+       ownership token and the current tunnel address with our link service at gggaudio.store. That
+       record contains no name, email or account information and is deleted seven days after the
+       stream was last active, or as soon as you press Stop.</p>
+
+    <h2>Google Docs session notes (optional)</h2>
+    <p>You can connect a Google account so ListenLink can attach a Google Doc to your stream as
+       session notes. If you do:</p>
+    <ul>
+      <li>ListenLink asks Google for permission to <strong>create documents and see the documents it
+          created</strong> (the <code>drive.file</code> scope), and for your <strong>email
+          address</strong> so the plugin can show which account is connected. It cannot see the
+          rest of your Google Drive.</li>
+      <li>Docs are created in <strong>your</strong> Google Drive and belong to you. ListenLink sets
+          them to &ldquo;anyone with the link can edit&rdquo; so listeners can type in them, and shares
+          the doc link with people who open your stream link.</li>
+      <li>Your Google sign-in token is stored only on your computer, in
+          <code>~/Library/Application Support/ListenLink/</code>. It is never sent to us. We operate
+          no server that receives your Google data; the plugin talks to Google directly.</li>
+      <li>You can disconnect at any time from the plugin&rsquo;s notes menu, or revoke access at
+          <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>.
+          Disconnecting does not delete docs you created.</li>
+    </ul>
+    <p>ListenLink&rsquo;s use of information received from Google APIs adheres to the
+       <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services
+       User Data Policy</a>, including the Limited Use requirements.</p>
+
+    <h2>Listeners</h2>
+    <p>The listener page sets no cookies, runs no analytics and asks for no account. A listener&rsquo;s
+       connection passes through Cloudflare on its way to the streamer&rsquo;s computer. If a
+       session-notes doc is attached, the page shows a link to it; opening that link takes the listener
+       to Google Docs, under Google&rsquo;s terms and privacy policy.</p>
+
+    <h2>Updates and downloads</h2>
+    <p>When you open the plugin it checks GitHub once for a newer release, and the first time you
+       create a link it downloads Cloudflare&rsquo;s tunnel tool from GitHub. GitHub sees those requests
+       like any download.</p>
+
+    <h2>This website</h2>
+    <p>gggaudio.store uses Cloudflare Web Analytics, which counts visits without cookies or
+       cross-site tracking. Listener pages are not included.</p>
+
+    <h2>Children</h2>
+    <p>ListenLink is not directed at children under 13 and we do not knowingly collect information
+       from them.</p>
+
+    <h2>Changes and contact</h2>
+    <p>If this policy changes, the new version is posted here with a new effective date. Questions:
+       <a href="mailto:info@gggaudio.store">info@gggaudio.store</a>.</p>
+
+  </article>
+</main>
+
+<footer>
+  <div class="wrap foot-row mono">
+    <span>&copy; 2026 GGG</span>
+    <a href="../">ListenLink</a>
+    <a href="../privacy/">Privacy</a>
+    <a href="../terms/">Terms</a>
+    <a href="https://github.com/gleyzeddonut/listenlink">Source (AGPL-3.0)</a>
+    <a href="mailto:info@gggaudio.store">info@gggaudio.store</a>
+  </div>
+</footer>
+
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "850a6758077f404180dcd5e8a61bfe90"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
