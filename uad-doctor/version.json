@@ -1,5 +1,5 @@
 {
-  "version": "1.2.2",
+  "version": "1.2.3",
   "url": "https://gggaudio.store/uad-doctor/download/",
-  "notes": "Every registered UA interface gets its own line in the menu, and a unit that drops offline during a session is flagged."
+  "notes": "Every registered UA interface gets its own line in the menu; a unit that drops offline during a session is flagged and the flag clears when it returns. Two identical units are told apart."
 }
