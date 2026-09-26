@@ -1,5 +1,5 @@
 {
-  "version": "1.2.0",
+  "version": "1.2.1",
   "url": "https://gggaudio.store/uad-doctor/download/",
-  "notes": "Works with any DAW: UAD Doctor now finds whichever app is running audio on your UA device and checks that it is still responding. The watchdog is built into the app (no separate background agent). Universal binary for Apple silicon and Intel."
+  "notes": "Works with any DAW: UAD Doctor finds whichever app is running audio on your UA device and checks that it is still responding. The watchdog is built into the app. Universal binary. 1.2.1 keeps the monitor responsive even if CoreAudio itself is stuck, and prefers a DAW over a media player when both use the interface."
 }
