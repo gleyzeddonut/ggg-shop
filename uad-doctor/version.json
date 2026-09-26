@@ -1,5 +1,5 @@
 {
-  "version": "1.1.1",
+  "version": "1.2.0",
   "url": "https://gggaudio.store/uad-doctor/download/",
-  "notes": "New app icon."
+  "notes": "Works with any DAW: UAD Doctor now finds whichever app is running audio on your UA device and checks that it is still responding. The watchdog is built into the app (no separate background agent). Universal binary for Apple silicon and Intel."
 }

@@ -22,7 +22,7 @@
   "url": "https://gggaudio.store/uad-doctor/",
   "image": "https://gggaudio.store/img/uaddoctor-icon@2x.png",
   "description": "A menu-bar app for Universal Audio Apollo and UAD-2 rigs: DSP load at a glance, early warnings, and one-click recovery when your DAW freezes on a UAD device-not-responding (-38) error.",
-  "softwareVersion": "1.1.1",
+  "softwareVersion": "1.2.0",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "url": "https://gggaudio.store/uad-doctor/" }
 }
 </script>
@@ -406,13 +406,13 @@
 
 <main>
   <section class="hero wrap">
-    <p class="eyebrow mono"><span class="live-dot" aria-hidden="true"></span> UD-04 · v1.1.1 · Free</p>
+    <p class="eyebrow mono"><span class="live-dot" aria-hidden="true"></span> UD-04 · v1.2.0 · Free</p>
     <h1 class="display">UAD Doctor</h1>
     <p class="hero-tag display">See the &minus;38 coming.</p>
     <p class="hero-sub">A menu-bar app for Universal Audio Apollo and UAD-2 rigs. It shows your UAD DSP
        load as a dot and a number, warns you when the host or the DSP is heading for trouble, and
        when your DAW freezes on "a UAD device is not responding (code &minus;38)", it brings it
-       back with one click instead of a power-cycle. Works with any DAW; built and tested with Ableton Live.</p>
+       back with one click instead of a power-cycle. Works with any DAW.</p>
     <div class="hero-cta" id="download">
       <a class="btn primary display" href="download/">Download — Free</a>
       <span class="cta-note mono">Mac app · macOS 13+ · Apple silicon &amp; Intel</span>
@@ -442,7 +442,7 @@
       <div class="step">
         <h3 class="display"><span class="n mono">02</span> Watch the colour</h3>
         <p>Green is normal. Yellow means save: DSP over 75%, your DAW skipping audio cycles, a clock
-           unlock, or a recent UA error. Red means DSP over 90%, the DAW frozen, or the device gone.</p>
+           unlock, or a recent UA error. Red means DSP over 90%, the DAW not responding, or the device gone.</p>
       </div>
       <div class="step">
         <h3 class="display"><span class="n mono">03</span> Recover Now</h3>
@@ -502,7 +502,7 @@
   <section class="section wrap">
     <div class="section-head">
       <h2 class="display">Spec sheet</h2>
-      <span class="mono">UD-04 · v1.1.1</span>
+      <span class="mono">UD-04 · v1.2.0</span>
     </div>
     <div class="table-scroll">
       <table class="spec-table">
@@ -510,10 +510,10 @@
           <tr><th scope="row">Runs on</th><td>macOS 13 Ventura or later · Apple silicon and Intel · Signed and notarized</td></tr>
           <tr><th scope="row">Works with</th><td>Any DAW, and any Apollo or UAD-2 device managed by UA's Console software (UA Mixer Engine). <span class="dim">Thunderbolt, USB and PCIe.</span></td></tr>
           <tr><th scope="row">DSP readout</th><td>Total DSP, program and memory load, device online state and clock lock, read from UA's engine over one persistent local connection. <span class="dim">Same figures as the UAD Meter.</span></td></tr>
-          <tr><th scope="row">Host watch</th><td>Audio-engine overloads and stalls, and UA error reports as they are written. <span class="dim">The DSP readout, UA error watch and Recover Now work with any DAW. Reading the host's own stall and overload log is currently Ableton Live only.</span></td></tr>
+          <tr><th scope="row">Host watch</th><td>Finds whichever app is running audio on the UA device, counts its skipped audio cycles from CoreAudio's own log, and every few seconds asks it a harmless question; no answer within 4 seconds means frozen. <span class="dim">Any DAW. Ableton Live's own log is read as well. Needs macOS 14 to identify the host automatically; on macOS 13 it recognises the common DAWs by name.</span></td></tr>
           <tr><th scope="row">Recover Now</th><td>Restarts UA Mixer Engine, waits for your DAW to answer, then restarts CoreAudio only if needed (asks for your password). <span class="dim">Does nothing if the DAW is already responding.</span></td></tr>
           <tr><th scope="row">Updates</th><td>Check for Updates in the menu, and an automatic daily check that shows "Update available" when there is one. <span class="dim">Downloads come from this page; nothing installs itself.</span></td></tr>
-          <tr><th scope="row">Background watchdog</th><td>Optional login agent that notifies you and saves an incident bundle even when the menu is closed. On or off from the menu.</td></tr>
+          <tr><th scope="row">Watchdog</th><td>Built in. A new UA error report or a frozen DAW gives you a notification and saves an incident bundle: the UA report with per-chip load, the last minutes of the macOS audio log, Thunderbolt state, top processes and the DAW's log. <span class="dim">Turn on Start at Login so it is always there.</span></td></tr>
           <tr><th scope="row">Privacy</th><td>No account, no analytics. The only network request is a once-a-day fetch of a small version file from this site to offer updates; it carries no identifiers. <span class="dim">Everything else stays on your Mac.</span></td></tr>
           <tr><th scope="row">License</th><td>Free.</td></tr>
         </tbody>
