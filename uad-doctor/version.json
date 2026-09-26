@@ -1,5 +1,5 @@
 {
-  "version": "1.3.0",
+  "version": "1.3.1",
   "url": "https://gggaudio.store/uad-doctor/download/",
-  "notes": "New: Auto-fix freezes (off by default). When on, a DAW that stays frozen for 15 seconds gets UA Mixer Engine restarted automatically; the CoreAudio step still asks you."
+  "notes": "The freeze notification now has Recover Now and Snapshot buttons. UAD Doctor is also on Homebrew: brew install --cask gleyzeddonut/tap/uad-doctor."
 }

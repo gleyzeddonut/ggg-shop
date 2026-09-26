@@ -22,7 +22,7 @@
   "url": "https://gggaudio.store/uad-doctor/",
   "image": "https://gggaudio.store/img/uad-doctor-icon-dark@2x.png",
   "description": "A menu-bar app for Universal Audio Apollo and UAD-2 rigs: DSP load at a glance, early warnings, and one-click recovery when your DAW freezes on a UAD device-not-responding (-38) error.",
-  "softwareVersion": "1.3.0",
+  "softwareVersion": "1.3.1",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "url": "https://gggaudio.store/uad-doctor/" }
 }
 </script>
@@ -406,7 +406,7 @@
 
 <main>
   <section class="hero wrap">
-    <p class="eyebrow mono"><span class="live-dot" aria-hidden="true"></span> UD-04 · v1.3.0 · Free</p>
+    <p class="eyebrow mono"><span class="live-dot" aria-hidden="true"></span> UD-04 · v1.3.1 · Free</p>
     <h1 class="display">UAD Doctor</h1>
     <p class="hero-tag display">See the &minus;38 coming.</p>
     <p class="hero-sub">A menu-bar app for Universal Audio Apollo and UAD-2 rigs. It shows your UAD DSP
@@ -502,11 +502,12 @@
   <section class="section wrap">
     <div class="section-head">
       <h2 class="display">Spec sheet</h2>
-      <span class="mono">UD-04 · v1.3.0</span>
+      <span class="mono">UD-04 · v1.3.1</span>
     </div>
     <div class="table-scroll">
       <table class="spec-table">
         <tbody>
+          <tr><th scope="row">Install</th><td>Download the installer below, or with Homebrew: <code class="mono">brew install --cask gleyzeddonut/tap/uad-doctor</code></td></tr>
           <tr><th scope="row">Runs on</th><td>macOS 13 Ventura or later · Apple silicon and Intel · Signed and notarized</td></tr>
           <tr><th scope="row">Works with</th><td>Any DAW, and any Apollo or UAD-2 device managed by UA's Console software (UA Mixer Engine). <span class="dim">Thunderbolt, USB and PCIe.</span></td></tr>
           <tr><th scope="row">DSP readout</th><td>Total DSP, program and memory load, read from UA's engine over one persistent local connection, plus one line per registered UA interface with its online state and clock lock. A unit that drops offline mid-session is flagged for ten minutes. <span class="dim">Same figures as the UAD Meter. Satellites share the DSP total but are not listed as devices, because UA's Console does not expose them.</span></td></tr>
@@ -514,7 +515,7 @@
           <tr><th scope="row">Recover Now</th><td>Restarts UA Mixer Engine, waits for your DAW to answer, then restarts CoreAudio only if needed (asks for your password). <span class="dim">Does nothing if the DAW is already responding.</span></td></tr>
           <tr><th scope="row">Updates</th><td>Check for Updates in the menu, and an automatic daily check that shows "Update available" when there is one. <span class="dim">Downloads come from this page; nothing installs itself.</span></td></tr>
           <tr><th scope="row">Auto-fix</th><td>Off by default. Turned on, a DAW that stays frozen for 15 seconds gets the password-free step automatically: UAD Doctor restarts UA Mixer Engine, at most once every two minutes. <span class="dim">It never restarts CoreAudio on its own; that step still asks you.</span></td></tr>
-          <tr><th scope="row">Watchdog</th><td>Built in. A new UA error report or a frozen DAW gives you a notification and saves an incident bundle: the UA report with per-chip load, the last minutes of the macOS audio log, Thunderbolt state, top processes and the DAW's log. <span class="dim">Turn on Start at Login so it is always there.</span></td></tr>
+          <tr><th scope="row">Watchdog</th><td>Built in. A new UA error report or a frozen DAW gives you a notification, with Recover Now and Snapshot buttons right on it, and saves an incident bundle: the UA report with per-chip load, the last minutes of the macOS audio log, Thunderbolt state, top processes and the DAW's log. <span class="dim">Turn on Start at Login so it is always there.</span></td></tr>
           <tr><th scope="row">Privacy</th><td>No account, no analytics. The only network request is a once-a-day fetch of a small version file from this site to offer updates; it carries no identifiers. <span class="dim">Everything else stays on your Mac.</span></td></tr>
           <tr><th scope="row">License</th><td>Free.</td></tr>
         </tbody>
