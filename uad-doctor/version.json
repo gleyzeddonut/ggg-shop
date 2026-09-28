@@ -1,5 +1,5 @@
 {
-  "version": "1.4.0",
+  "version": "1.4.1",
   "url": "https://gggaudio.store/uad-doctor/download/",
-  "notes": "If UA Mixer Engine is not running, UAD Doctor starts it, and if it quits again right away, opens UAD Console in the background to keep it alive. Without the engine every UAD plug-in fails with -38 and Live hangs on consolidate or freeze. Auto-fix, when on, also restarts the engine the moment a -38 is reported. No more false freeze alerts while a DAW is loading or rendering."
+  "notes": "Recover Now now asks before restarting the engine unless your DAW is clearly frozen, because a restart during a bounce or freeze aborts the render and can crash the DAW. Engine restarts reopen UAD Console so the engine stays up. Auto-fix only restarts on a -38 if the DAW is also unresponsive."
 }
