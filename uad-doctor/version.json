@@ -1,5 +1,5 @@
 {
-  "version": "1.3.1",
+  "version": "1.3.2",
   "url": "https://gggaudio.store/uad-doctor/download/",
-  "notes": "The freeze notification now has Recover Now and Snapshot buttons. UAD Doctor is also on Homebrew: brew install --cask gleyzeddonut/tap/uad-doctor."
+  "notes": "Only connected UA interfaces are listed. A unit that drops offline stays in the list for ten minutes; units that are simply switched off no longer take up space (hover the menu-bar dot to see them)."
 }
