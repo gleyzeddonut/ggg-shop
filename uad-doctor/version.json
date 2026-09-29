@@ -1,5 +1,5 @@
 {
-  "version": "1.4.4",
+  "version": "1.4.5",
   "url": "https://gggaudio.store/uad-doctor/download/",
-  "notes": "Fixes: a DAW that is loading or rendering at high CPU is no longer mistaken for frozen; automatic engine restarts are capped at three per hour, skipped while a UA installer runs, and skipped when UA software is not installed."
+  "notes": "When UA Mixer Engine is running and audio works but its status port has stopped answering (a UA engine bug), UAD Doctor now shows a yellow note and pauses the DSP readout instead of a red alarm."
 }
