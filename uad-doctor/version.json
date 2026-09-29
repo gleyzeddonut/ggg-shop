@@ -1,5 +1,5 @@
 {
-  "version": "1.4.2",
+  "version": "1.4.3",
   "url": "https://gggaudio.store/uad-doctor/download/",
-  "notes": "When a UAD unit such as a Satellite drops off the driver, UAD Doctor now names it the moment UA reports it and tells you to power-cycle it, instead of leaving you to find out through -38 errors and long hangs."
+  "notes": "A UAD unit that drops off the driver is only reported if it is still physically connected; units from other setups that simply aren't plugged in are ignored."
 }
