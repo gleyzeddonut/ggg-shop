@@ -1,5 +1,5 @@
 {
-  "version": "1.4.1",
+  "version": "1.4.2",
   "url": "https://gggaudio.store/uad-doctor/download/",
-  "notes": "Recover Now now asks before restarting the engine unless your DAW is clearly frozen, because a restart during a bounce or freeze aborts the render and can crash the DAW. Engine restarts reopen UAD Console so the engine stays up. Auto-fix only restarts on a -38 if the DAW is also unresponsive."
+  "notes": "When a UAD unit such as a Satellite drops off the driver, UAD Doctor now names it the moment UA reports it and tells you to power-cycle it, instead of leaving you to find out through -38 errors and long hangs."
 }
