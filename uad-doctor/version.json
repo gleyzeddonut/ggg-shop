@@ -1,5 +1,5 @@
 {
-  "version": "1.4.7",
+  "version": "1.4.8",
   "url": "https://gggaudio.store/uad-doctor/download/",
-  "notes": "UA Mixer Engine is now restarted at 5 AM when no DAW is open, so it does not run for days and end in a −38. New: Re-enable UAD Plug-ins switches every UAD-2 plug-in in your Ableton Live set off and on again after a −38, in one go (it uses a small helper you turn on in Live's settings)."
+  "notes": "Recover Now shows its progress in a small panel and moves on as soon as each step is done. If the UA driver itself is hung, it tells you within seconds to power-cycle the interface instead of trying fixes that cannot work. Fixed: after a slow engine shutdown, Recover Now could leave UA Mixer Engine stopped. The menu now says why it is yellow after a UAD error."
 }
