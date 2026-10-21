@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="GGG — independent audio software. ListenLink: stream your DAW to a web link. Notable: voice memos you can transpose. Blossom: full chords with one finger. UAD Doctor: a menu-bar DSP meter and one-click recovery for UAD rigs.">
+<meta name="color-scheme" content="light dark">
 <link rel="canonical" href="https://gggaudio.store/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GGG Shop">
@@ -22,45 +23,31 @@
 <style>
   /* ---------- tokens ---------- */
   :root {
-    --paper: #F4F2ED;
-    --ink: #20221F;
-    --ink-soft: #5A5C55;
-    --rule: #D8D5CB;
-    --rule-strong: #20221F;
-    --accent: #D8402B;
-    --accent-hover: #C23622;
-    --accent-ink: #FFFFFF;
-    --wave: #20221F;
-    --wave-dim: #C9C6BC;
-    --ok: #3E8E5A;
+    --p: #F4F2ED;      /* page */
+    --i: #20221F;      /* ink */
+    --s: #5A5C55;      /* secondary text */
+    --r: #D8D5CB;      /* row rule */
+    --a: #D8402B;      /* accent */
+    --ah: #C23622;     /* accent hover */
+    --ai: #FFFFFF;     /* text on accent */
+    --ok: #3E8E5A;     /* live */
+    --bar: rgba(244,242,237,.72);
+    --tint: rgba(32,34,31,.06);
+    --grid: #C9C6BC;   /* scope center line */
+    --ease: cubic-bezier(.23,1,.32,1);
+    --mono: ui-monospace, "SF Mono", Menlo, monospace;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --paper: #191A17;
-      --ink: #EAE7DE;
-      --ink-soft: #9B988D;
-      --rule: #35342E;
-      --rule-strong: #EAE7DE;
-      --accent: #FF5B44;
-      --accent-hover: #FF6249; /* #FF5B44 at brightness(1.08) — hover brightens in dark, darkens in light */
-      --accent-ink: #1B120F;
-      --wave: #EAE7DE;
-      --wave-dim: #3B3A33;
-      --ok: #6FBF8B;
+      --p: #191A17; --i: #EAE7DE; --s: #9B988D; --r: #35342E;
+      --a: #FF5B44; --ah: #FF6249; --ai: #1B120F; --ok: #6FBF8B;
+      --bar: rgba(25,26,23,.72); --tint: rgba(234,231,222,.08); --grid: #3B3A33;
     }
   }
   :root[data-theme="dark"] {
-    --paper: #191A17;
-    --ink: #EAE7DE;
-    --ink-soft: #9B988D;
-    --rule: #35342E;
-    --rule-strong: #EAE7DE;
-    --accent: #FF5B44;
-    --accent-hover: #FF6249;
-    --accent-ink: #1B120F;
-    --wave: #EAE7DE;
-    --wave-dim: #3B3A33;
-    --ok: #6FBF8B;
+    --p: #191A17; --i: #EAE7DE; --s: #9B988D; --r: #35342E;
+    --a: #FF5B44; --ah: #FF6249; --ai: #1B120F; --ok: #6FBF8B;
+    --bar: rgba(25,26,23,.72); --tint: rgba(234,231,222,.08); --grid: #3B3A33;
   }
 
   /* ---------- base ---------- */
@@ -71,272 +58,256 @@
   }
   body {
     margin: 0;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: "Avenir Next", "Avenir", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.55;
+    background: var(--p);
+    color: var(--i);
+    font-family: system-ui, -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    font-optical-sizing: auto;
   }
-  a { color: inherit; }
-  .display {
-    font-family: "Futura", "Century Gothic", "Trebuchet MS", "Avenir Next", sans-serif;
-  }
-  .mono {
-    font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
-    font-variant-numeric: tabular-nums;
-  }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-  ::selection { background: var(--accent); color: var(--accent-ink); }
-
-  :focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 3px;
-  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  .mono { font-family: var(--mono); }
+  ::selection { background: #D8402B; color: #fff; }
+  :focus-visible { outline: 2px solid var(--a); outline-offset: 3px; }
+  .press { transition: transform 160ms var(--ease); }
+  .press:active { transform: scale(.97); }
 
   /* ---------- header ---------- */
-  header {
-    border-bottom: 1px solid var(--rule-strong);
-    background: var(--paper);
+  .bar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--bar);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
   }
-  .masthead {
+  @media (prefers-reduced-transparency: reduce) {
+    .bar { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--p); }
+  }
+  .bar-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    /* vertical only — horizontal gutter comes from .wrap, don't override it */
-    padding-top: 16px;
-    padding-bottom: 16px;
+    padding-top: 14px;
+    padding-bottom: 14px;
   }
   .brand {
-    text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+  .brand em, h1 em { font-style: normal; color: var(--a); }
+  nav { display: flex; gap: 4px; }
+  .bar nav a {
     font-size: 14px;
-    letter-spacing: .22em;
-    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: .01em;
+    color: var(--s);
+    padding: 7px 12px;
+    transition: background 150ms ease, color 150ms ease, transform 160ms var(--ease);
   }
-  .brand em { font-style: normal; color: var(--accent); }
-  nav { display: flex; gap: 28px; }
-  nav a {
-    text-decoration: none;
-    font-size: 13px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
+  .bar nav a:active { transform: scale(.96); }
+  .bar-edge {
+    height: 16px;
+    margin-bottom: -16px;
+    background: linear-gradient(var(--p), transparent);
+    opacity: 0;
+    transition: opacity 200ms ease;
+    pointer-events: none;
   }
-  nav a:hover { color: var(--ink); }
+  .bar.scrolled .bar-edge { opacity: 1; }
 
   /* ---------- hero ---------- */
-  .hero { padding-top: 56px; }
-  .hero h1 {
+  .hero {
+    padding-top: 72px;
+    padding-bottom: 64px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+    gap: 48px 64px;
+    align-items: end;
+  }
+  h1 {
     margin: 0;
-    font-weight: 600;
-    font-size: clamp(96px, 19vw, 220px);
-    line-height: .96;
+    font-weight: 700;
+    font-size: clamp(88px, 16vw, 196px);
+    line-height: .9;
+    letter-spacing: -.04em;
     text-transform: uppercase;
   }
-  /* Each line is justified to the same width by script (hardware-faceplate
-     wordmark): the shorter line gets extra letter-spacing to match. */
-  .wm-line {
-    display: block;
-    white-space: nowrap;
-    width: fit-content;
+  /* Both lines are justified to the same width by script: the narrower one
+     gets extra letter-spacing so the right edges land flush. */
+  .wm-line { display: block; width: fit-content; white-space: nowrap; }
+  .hero-side { display: flex; flex-direction: column; gap: 28px; padding-bottom: 8px; }
+  .intro {
+    margin: 0;
+    font-size: clamp(21px, 2.2vw, 26px);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -.012em;
+    max-width: 28ch;
+    text-wrap: pretty;
   }
-  .hero h1 em {
-    font-style: normal;
-    color: var(--accent);
+  .toc { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--i); }
+  .toc li { border-bottom: 1px solid var(--r); }
+  .toc a {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr) auto;
+    gap: 16px;
+    align-items: baseline;
+    padding: 12px 8px;
+    margin: 0 -8px;
+    transition: background 150ms ease, color 150ms ease, transform 160ms var(--ease);
   }
-  .hero-cta {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-    margin: 32px 0 56px;
-    flex-wrap: wrap;
-  }
-  .hero-cta .btn { padding: 13px 24px; }
-  .tagline {
-    font-size: 12px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-  }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 22px;
-    border: 1px solid var(--rule-strong);
-    background: transparent;
-    color: var(--ink);
-    text-decoration: none;
-    font-size: 13px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    cursor: pointer;
-    font-family: inherit;
-    transition: background .15s ease, color .15s ease, transform .1s ease;
-  }
-  .btn:hover { background: var(--ink); color: var(--paper); }
-  .btn:active { transform: translateY(1px); }
-  .btn.primary {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--accent-ink);
-  }
-  .btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+  .toc a:active { transform: scale(.99); }
+  .toc .code { font-size: 12px; letter-spacing: .08em; color: var(--s); }
+  .toc .name { font-size: 16px; font-weight: 600; letter-spacing: -.005em; }
+  .toc .kind { font-size: 13px; letter-spacing: .01em; color: var(--s); }
 
-  .scope {
-    border-top: 1px solid var(--rule-strong);
-    border-bottom: 1px solid var(--rule-strong);
-  }
+  /* ---------- scope ---------- */
+  .scope { border-top: 1px solid var(--i); border-bottom: 1px solid var(--i); }
   .scope canvas {
     display: block;
     width: 100%;
-    height: 140px;
+    height: 120px;
+    touch-action: pan-y;
+    cursor: crosshair;
   }
   .scope-legend {
     display: flex;
     justify-content: space-between;
     gap: 16px;
     padding: 10px 0;
-    border-bottom: 1px solid var(--rule);
-    font-size: 11px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
+    font-size: 12px;
+    letter-spacing: .06em;
+    color: var(--s);
+    font-variant-numeric: tabular-nums;
   }
+  .scope-legend .in { display: flex; align-items: center; gap: 8px; }
+  .scope-legend .in::before {
+    content: "";
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--a);
+  }
+  #db { min-width: 10ch; text-align: right; }
 
   /* ---------- catalog ---------- */
-  .catalog { padding-top: 64px; padding-bottom: 72px; scroll-margin-top: 16px; }
+  .catalog { padding-top: 88px; padding-bottom: 104px; scroll-margin-top: 72px; }
   .catalog-head {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: 16px;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
   }
   .catalog-head h2 {
     margin: 0;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: .2em;
-    text-transform: uppercase;
+    font-size: clamp(28px, 3vw, 36px);
+    font-weight: 700;
+    letter-spacing: -.025em;
+    line-height: 1.1;
   }
-  .catalog-head span { font-size: 12px; color: var(--ink-soft); }
+  .catalog-head span { font-size: 13px; color: var(--s); }
 
-  .index {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid var(--rule-strong);
-  }
-  .row {
-    display: grid;
-    grid-template-columns: 72px 180px minmax(0, 1fr) auto;
-    gap: 10px 32px;
-    align-items: start;
-    padding: 36px 0;
-    border-bottom: 1px solid var(--rule);
-  }
-  .model {
-    font-size: 11px;
-    letter-spacing: .16em;
-    color: var(--ink-soft);
-    padding-top: 4px;
-  }
-  .thumb-icon {
-    display: block;
-    width: 180px;
-    border: 0;
-    background: none;
-    line-height: 0;
-  }
-  .thumb-icon img { width: 100%; height: auto; display: block; }
-  /* full-bleed square masters get the macOS squircle radius (~22.5%) */
-  .thumb-icon .round { border-radius: 22.5%; }
-  .row-title { margin: 0; }
-  .row-name {
-    display: inline-block;
-    font-size: clamp(28px, 4vw, 40px);
-    font-weight: 600;
-    line-height: 1.05;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-    text-decoration: none;
-  }
-  a.row-name:hover { color: var(--accent); }
-  a.row-name::after {
-    content: " ↗";
-    font-size: .5em;
-    vertical-align: .5em;
-    color: var(--ink-soft);
-  }
-  a.row-name:hover::after { color: var(--accent); }
-  .row-desc {
-    margin: 10px 0 12px;
-    color: var(--ink-soft);
-    font-size: 15px;
-    max-width: 46ch;
-  }
-  .row-meta {
-    font-size: 11px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-  }
-  .row-side {
+  .products { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--i); }
+  .product {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 14px 16px;
-    padding-top: 4px;
+    flex-wrap: wrap;
+    gap: 32px 48px;
+    padding: 52px 0;
+    border-bottom: 1px solid var(--r);
+    scroll-margin-top: 72px;
   }
-  @media (max-width: 760px) {
-    .row { grid-template-columns: 1fr; gap: 10px; padding: 28px 0; }
-    .model { padding-top: 0; }
-    .row-side {
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 14px;
-    }
-    .row-side .btn { flex: 1 1 auto; justify-content: center; }
+  @keyframes row-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: no-preference) {
+    .product { animation: row-in 320ms var(--ease) both; }
+    .product:nth-child(2) { animation-delay: 50ms; }
+    .product:nth-child(3) { animation-delay: 100ms; }
+    .product:nth-child(4) { animation-delay: 150ms; }
   }
+  .icon { flex: 0 0 132px; display: block; align-self: flex-start; line-height: 0; border-radius: 22.5%; }
+  .icon img {
+    display: block;
+    width: 132px;
+    height: 132px;
+    border-radius: 22.5%;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.04), 0 1px 2px rgba(0,0,0,.06), 0 8px 24px -8px rgba(0,0,0,.18);
+  }
+  .copy { flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+  .eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--s); }
+  .copy h3 { margin: 0; }
+  .copy h3 a {
+    font-size: clamp(34px, 4.4vw, 48px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -.03em;
+    transition: color 150ms ease;
+  }
+  .desc { margin: 0; font-size: 17px; line-height: 1.5; color: var(--s); max-width: 42ch; text-wrap: pretty; }
+  .copy code {
+    align-self: flex-start;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    margin-top: 6px;
+    padding: 9px 12px;
+    background: var(--tint);
+    font-size: 13px;
+    font-family: var(--mono);
+  }
+  .copy code span { color: var(--s); }
 
-  /* ---------- phone layout ---------- */
-  @media (max-width: 720px) {
-    .masthead { padding-top: 14px; padding-bottom: 14px; }
-    nav { gap: 20px; }
-    .hero { padding-top: 40px; }
-    /* keep the wordmark monumental on small screens: size to the viewport
-       so SHOP nearly spans it, instead of bottoming out the clamp */
-    .hero h1 { font-size: 25vw; }
-    .hero-cta { margin: 24px 0 40px; }
-    .hero-cta .btn { flex: 1 1 auto; justify-content: center; }
-    .catalog { padding-top: 48px; padding-bottom: 56px; }
+  .specs { flex: 1 1 260px; max-width: 340px; display: flex; flex-direction: column; gap: 20px; }
+  .specs dl { margin: 0; border-top: 1px solid var(--i); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .specs dl div {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--r);
   }
-  .status {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 11px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    white-space: nowrap;
-  }
-  .status::before {
+  .specs dt { letter-spacing: .01em; color: var(--s); }
+  .specs dd { margin: 0; display: flex; align-items: center; gap: 8px; font-weight: 500; }
+  .specs dd.live::before {
     content: "";
+    flex: none;
     width: 7px; height: 7px;
     border-radius: 50%;
-    background: var(--accent);
+    background: var(--ok);
   }
-  .status.live::before { background: var(--ok); }
+  .btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background: var(--a);
+    color: var(--ai);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -.005em;
+    transition: background 150ms ease, transform 160ms var(--ease);
+  }
+  .btn:active { transform: scale(.97); }
+  .btn span:last-child { opacity: .85; font-weight: 500; }
 
   /* ---------- footer ---------- */
-  footer {
-    border-top: 1px solid var(--rule-strong);
-    padding: 24px 0 40px;
+  footer { border-top: 1px solid var(--i); scroll-margin-top: 72px; }
+  .foot { padding-top: 64px; padding-bottom: 40px; display: flex; flex-direction: column; gap: 56px; }
+  .contact { display: flex; flex-direction: column; gap: 10px; }
+  .contact span { font-size: 13px; color: var(--s); }
+  .contact a {
+    align-self: flex-start;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    letter-spacing: -.03em;
+    line-height: 1.1;
+    border-bottom: 3px solid var(--a);
+    transition: color 150ms ease;
   }
   .foot-row {
     display: flex;
@@ -344,50 +315,64 @@
     align-items: baseline;
     gap: 16px;
     flex-wrap: wrap;
-    font-size: 12px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
+    padding-top: 16px;
+    border-top: 1px solid var(--r);
+    font-size: 13px;
+    color: var(--s);
   }
-  .foot-row a { text-decoration: none; }
-  .foot-row a:hover { color: var(--ink); }
-  .foot-links { display: flex; gap: 24px; }
+  .foot-row nav { gap: 24px; }
+  .foot-row a { transition: color 150ms ease; }
+
+  /* ---------- hover (fine pointers only) ---------- */
+  @media (hover: hover) and (pointer: fine) {
+    .bar nav a:hover { color: var(--i); background: var(--tint); }
+    .toc a:hover { background: var(--tint); }
+    .copy h3 a:hover, .contact a:hover { color: var(--a); }
+    .btn:hover { background: var(--ah); }
+    .foot-row a:hover { color: var(--i); }
+  }
 
   @media (prefers-reduced-motion: reduce) {
-    .btn { transition: none; }
+    .press, .bar nav a, .toc a, .btn { transition: none; transform: none !important; }
   }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="wrap masthead">
-    <a class="brand display" href="#top">G<em>G</em>G</a>
+<header class="bar" id="bar">
+  <div class="wrap bar-inner">
+    <a class="brand" href="#top">G<em>G</em>G</a>
     <nav aria-label="Site">
       <a href="#catalog">Products</a>
-      <a href="mailto:info@gggaudio.store">Support</a>
+      <a href="#support">Support</a>
     </nav>
   </div>
+  <div class="bar-edge"></div>
 </header>
 
 <main id="top">
   <section class="hero wrap">
-    <h1 class="display">
+    <h1 aria-label="GGG Shop">
       <span class="wm-line" id="wm1">G<em>G</em>G</span>
       <span class="wm-line" id="wm2">Shop</span>
     </h1>
-    <div class="hero-cta">
-      <a class="btn primary display" href="#catalog">Browse the catalog</a>
-      <span class="tagline mono">Independent audio software · Est. 2025</span>
+    <div class="hero-side">
+      <p class="intro">Independent audio software for people who make records — stream a mix, sketch an idea, play chords, keep the rig alive.</p>
+      <ol class="toc">
+        <li><a href="#listenlink"><span class="code mono">LL-01</span><span class="name">ListenLink</span><span class="kind">Plugin</span></a></li>
+        <li><a href="#notable"><span class="code mono">NB-02</span><span class="name">Notable</span><span class="kind">iOS app</span></a></li>
+        <li><a href="#blossom"><span class="code mono">BL-03</span><span class="name">Blossom</span><span class="kind">Instrument</span></a></li>
+        <li><a href="#uad-doctor"><span class="code mono">UD-04</span><span class="name">UAD Doctor</span><span class="kind">Utility</span></a></li>
+      </ol>
     </div>
   </section>
 
-  <div class="scope" aria-hidden="true">
-    <canvas id="wave" height="140"></canvas>
+  <div class="scope">
+    <canvas id="wave" height="120" aria-hidden="true"></canvas>
   </div>
   <div class="wrap">
     <div class="scope-legend mono" aria-hidden="true">
-      <span>Input · Live</span>
+      <span class="in">Input · Live</span>
       <span>44.1 kHz</span>
       <span id="db">−6.0 dBFS</span>
     </div>
@@ -395,125 +380,156 @@
 
   <section class="catalog wrap" id="catalog">
     <div class="catalog-head">
-      <h2 class="display">Catalog</h2>
-      <span class="mono">4 products · macOS &amp; iOS</span>
+      <h2>Catalog</h2>
+      <span>4 products · macOS &amp; iOS</span>
     </div>
 
-    <ul class="index">
+    <ul class="products">
       <!-- ListenLink — streaming audio plugin -->
-      <li class="row">
-        <span class="model mono">LL-01</span>
-        <a class="thumb-icon" href="https://gggaudio.store/listenlink/">
+      <li class="product" id="listenlink">
+        <a class="icon press" href="https://gggaudio.store/listenlink/" tabindex="-1">
           <img src="img/listenlink-icon.png" srcset="img/listenlink-icon.png 1x, img/listenlink-icon@2x.png 2x"
-               width="180" height="180" alt="ListenLink app icon: interlocking link marks on a dark blue tile">
+               width="132" height="132" alt="ListenLink app icon: interlocking link marks on a dark blue tile">
         </a>
-        <div class="row-main">
-          <h3 class="row-title"><a class="row-name display" href="https://gggaudio.store/listenlink/">ListenLink</a></h3>
-          <p class="row-desc">Stream your master bus to a web link anyone can open in a
-             browser — no accounts, no apps for the listener.</p>
-          <span class="row-meta mono">Audio plugin · VST3 · AU · macOS</span>
+        <div class="copy">
+          <span class="eyebrow mono">LL-01 · Plugin</span>
+          <h3><a href="https://gggaudio.store/listenlink/">ListenLink</a></h3>
+          <p class="desc">Stream your master bus to a web link anyone can open in a browser — no accounts, no apps for the listener.</p>
         </div>
-        <div class="row-side">
-          <span class="status live mono">v0.9.1 · Live</span>
-          <a class="btn primary display" href="https://gggaudio.store/listenlink/">Download — Free</a>
+        <div class="specs">
+          <dl>
+            <div><dt>Format</dt><dd>VST3 · AU</dd></div>
+            <div><dt>Platform</dt><dd>macOS</dd></div>
+            <div><dt>Version</dt><dd class="live">v0.9.1 · Live</dd></div>
+          </dl>
+          <a class="btn" href="https://gggaudio.store/listenlink/"><span>Download</span><span>Free</span></a>
         </div>
       </li>
 
       <!-- Notable — voice memo app -->
-      <li class="row">
-        <span class="model mono">NB-02</span>
-        <a class="thumb-icon" href="https://apps.apple.com/us/app/notable-control-voice-memos/id6794952090">
-          <img class="round" src="img/notable-icon.png" srcset="img/notable-icon.png 1x, img/notable-icon@2x.png 2x"
-               width="180" height="180" alt="Notable app icon: warm waveform bars on a dark tile">
+      <li class="product" id="notable">
+        <a class="icon press" href="https://apps.apple.com/us/app/notable-control-voice-memos/id6794952090" tabindex="-1">
+          <img src="img/notable-icon.png" srcset="img/notable-icon.png 1x, img/notable-icon@2x.png 2x"
+               width="132" height="132" alt="Notable app icon: warm waveform bars on a dark tile">
         </a>
-        <div class="row-main">
-          <h3 class="row-title"><a class="row-name display" href="https://apps.apple.com/us/app/notable-control-voice-memos/id6794952090">Notable</a></h3>
-          <p class="row-desc">Voice memos you can transpose — record, pitch-shift without
-             changing timing, drop markers, export MIDI.</p>
-          <span class="row-meta mono">iOS app · iPhone · App Store</span>
+        <div class="copy">
+          <span class="eyebrow mono">NB-02 · iOS app</span>
+          <h3><a href="https://apps.apple.com/us/app/notable-control-voice-memos/id6794952090">Notable</a></h3>
+          <p class="desc">Voice memos you can transpose — record, pitch-shift without changing timing, drop markers, export MIDI.</p>
         </div>
-        <div class="row-side">
-          <span class="status live mono">v1.1 · Live</span>
-          <a class="btn display" href="https://apps.apple.com/us/app/notable-control-voice-memos/id6794952090">Get — Free</a>
+        <div class="specs">
+          <dl>
+            <div><dt>Format</dt><dd>App Store</dd></div>
+            <div><dt>Platform</dt><dd>iPhone</dd></div>
+            <div><dt>Version</dt><dd class="live">v1.1 · Live</dd></div>
+          </dl>
+          <a class="btn" href="https://apps.apple.com/us/app/notable-control-voice-memos/id6794952090"><span>App Store</span><span>Free</span></a>
         </div>
       </li>
 
       <!-- Blossom — MIDI chord instrument -->
-      <li class="row">
-        <span class="model mono">BL-03</span>
-        <a class="thumb-icon" href="https://gggaudio.store/blossom/">
+      <li class="product" id="blossom">
+        <a class="icon press" href="https://gggaudio.store/blossom/" tabindex="-1">
           <img src="img/blossom-icon.png" srcset="img/blossom-icon.png 1x, img/blossom-icon@2x.png 2x"
-               width="180" height="180" alt="Blossom app icon: a glowing purple flower on a dark tile">
+               width="132" height="132" alt="Blossom app icon: a glowing purple flower on a dark tile">
         </a>
-        <div class="row-main">
-          <h3 class="row-title"><a class="row-name display" href="https://gggaudio.store/blossom/">Blossom</a></h3>
-          <p class="row-desc">One finger, full chords — hold a chord key, play a note, and the
-             voiced chord goes straight to your synth.</p>
-          <span class="row-meta mono">MIDI chord instrument · Mac app · AU · VST3</span>
+        <div class="copy">
+          <span class="eyebrow mono">BL-03 · Instrument</span>
+          <h3><a href="https://gggaudio.store/blossom/">Blossom</a></h3>
+          <p class="desc">One finger, full chords — hold a chord key, play a note, and the voiced chord goes straight to your synth.</p>
         </div>
-        <div class="row-side">
-          <span class="status live mono">v2.1.1 · Live</span>
-          <a class="btn primary display" href="https://dmgleyzer.gumroad.com/l/blossom">Get — $0+</a>
+        <div class="specs">
+          <dl>
+            <div><dt>Format</dt><dd>Mac app · AU · VST3</dd></div>
+            <div><dt>Platform</dt><dd>macOS</dd></div>
+            <div><dt>Version</dt><dd class="live">v2.1.1 · Live</dd></div>
+          </dl>
+          <a class="btn" href="https://dmgleyzer.gumroad.com/l/blossom"><span>Get it</span><span>$0+</span></a>
         </div>
       </li>
+
       <!-- UAD Doctor — menu-bar monitor + recovery for UAD / Apollo rigs -->
-      <li class="row">
-        <span class="model mono">UD-04</span>
-        <a class="thumb-icon" href="https://gggaudio.store/uad-doctor/">
+      <li class="product" id="uad-doctor">
+        <a class="icon press" href="https://gggaudio.store/uad-doctor/" tabindex="-1">
           <picture>
             <source srcset="img/uad-doctor-icon-dark.png 1x, img/uad-doctor-icon-dark@2x.png 2x" media="(prefers-color-scheme: dark)">
             <img src="img/uad-doctor-icon-light.png" srcset="img/uad-doctor-icon-light.png 1x, img/uad-doctor-icon-light@2x.png 2x"
-                 width="180" height="180" alt="UAD Doctor app icon: a glowing green status dot on a squircle tile">
+                 width="132" height="132" alt="UAD Doctor app icon: a glowing green status dot on a squircle tile">
           </picture>
         </a>
-        <div class="row-main">
-          <h3 class="row-title"><a class="row-name display" href="https://gggaudio.store/uad-doctor/">UAD Doctor</a></h3>
-          <p class="row-desc">Your UAD DSP load as a dot in the menu bar, warnings before the
-             -38 error hits, and one-click recovery when your DAW freezes.</p>
-          <span class="row-meta mono">Menu bar utility · Mac app · UAD / Apollo</span>
+        <div class="copy">
+          <span class="eyebrow mono">UD-04 · Utility</span>
+          <h3><a href="https://gggaudio.store/uad-doctor/">UAD Doctor</a></h3>
+          <p class="desc">Your UAD DSP load as a dot in the menu bar, warnings before the -38 error hits, and one-click recovery when your DAW freezes.</p>
+          <code><span>$ </span>brew install --cask gleyzeddonut/tap/uad-doctor</code>
         </div>
-        <div class="row-side">
-          <span class="status live mono">v1.4.8 · Live</span>
-          <a class="btn primary display" href="https://gggaudio.store/uad-doctor/">Download — Free</a>
+        <div class="specs">
+          <dl>
+            <div><dt>Format</dt><dd>Menu bar app</dd></div>
+            <div><dt>Works with</dt><dd>UAD-2 · Apollo</dd></div>
+            <div><dt>Version</dt><dd class="live">v1.4.8 · Live</dd></div>
+          </dl>
+          <a class="btn" href="https://gggaudio.store/uad-doctor/"><span>Download</span><span>Free</span></a>
         </div>
       </li>
     </ul>
-
   </section>
 </main>
 
-<footer>
-  <div class="wrap foot-row mono">
-    <span>© 2026 GGG</span>
-    <span class="foot-links">
-      <a href="#catalog">Products</a>
+<footer id="support">
+  <div class="wrap foot">
+    <div class="contact">
+      <span>Support, bugs, feature requests</span>
       <a href="mailto:info@gggaudio.store">info@gggaudio.store</a>
-    </span>
+    </div>
+    <div class="foot-row">
+      <span>© 2026 GGG · Est. 2025</span>
+      <nav aria-label="Footer">
+        <a href="#catalog">Products</a>
+        <a href="#top">Back to top</a>
+      </nav>
+    </div>
   </div>
 </footer>
 
 <script>
-  // Hero oscilloscope
+(function () {
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  // ---------- header scroll edge ----------
+  var bar = document.getElementById('bar');
+  function onScroll() { bar.classList.toggle('scrolled', window.scrollY > 8); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // ---------- waveform scope ----------
   var canvas = document.getElementById('wave');
   var ctx = canvas.getContext('2d');
   var dbEl = document.getElementById('db');
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var t = 0;
-  var frame = 0;
+  var H = 120;
+  var t = 0, frame = 0, last = 0, raf = 0, running = false;
+  var colors = {};
 
-  function cssVar(name) {
-    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  function readColors() {
+    var cs = getComputedStyle(document.documentElement);
+    colors.grid = cs.getPropertyValue('--grid').trim();
+    colors.ink = cs.getPropertyValue('--i').trim();
+    colors.accent = cs.getPropertyValue('--a').trim();
   }
 
-  function sizeCanvas() {
-    var dpr = window.devicePixelRatio || 1;
-    canvas.width = canvas.clientWidth * dpr;
-    canvas.height = 140 * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  // Critically damped springs, semi-implicit Euler. Pointer input only ever moves a target.
+  var gain = { v: 1, vel: 0, target: 1 };
+  var focus = { v: 0.5, vel: 0, target: 0.5 };
+  var lift = { v: 0, vel: 0, target: 0 };
+  function spring(s, dt, k, c) {
+    var a = k * (s.target - s.v) - c * s.vel;
+    s.vel += a * dt;
+    s.v += s.vel * dt;
   }
 
+  // Layered sines under a slow envelope, so it reads as program material, not a test tone.
   function sample(x, t) {
-    // layered sines with a slow envelope so it reads as speech-ish, not a test tone
     var env = 0.35 + 0.65 * Math.pow(Math.sin(x * 0.9 + t * 0.7) * 0.5 + 0.5, 2);
     return env * (
       Math.sin(x * 7 + t * 2.1) * 0.55 +
@@ -522,62 +538,119 @@
     );
   }
 
-  function draw() {
-    var w = canvas.clientWidth, h = 140, mid = h / 2;
-    ctx.clearRect(0, 0, w, h);
+  function size() {
+    var d = window.devicePixelRatio || 1;
+    canvas.width = Math.round(canvas.clientWidth * d);
+    canvas.height = Math.round(H * d);
+    ctx.setTransform(d, 0, 0, d, 0, 0);
+  }
 
-    // faint center rule
-    ctx.strokeStyle = cssVar('--wave-dim');
+  function draw() {
+    var w = canvas.clientWidth, mid = H / 2;
+    ctx.clearRect(0, 0, w, H);
+
+    ctx.strokeStyle = colors.grid;
     ctx.lineWidth = 1;
+    ctx.setLineDash([2, 4]);
     ctx.beginPath();
     ctx.moveTo(0, mid);
     ctx.lineTo(w, mid);
     ctx.stroke();
+    ctx.setLineDash([]);
 
-    // waveform
-    ctx.strokeStyle = cssVar('--wave');
+    function amp(px) {
+      var dx = px / w - focus.v;
+      return gain.v * (1 + 0.9 * lift.v * Math.exp(-28 * dx * dx));
+    }
+
+    ctx.strokeStyle = colors.ink;
     ctx.lineWidth = 1.5;
+    ctx.lineJoin = 'round';
     ctx.beginPath();
     for (var px = 0; px <= w; px += 2) {
-      var y = mid + sample(px / w * Math.PI * 2, t) * (h * 0.42);
+      var y = mid + sample(px / w * Math.PI * 2, t) * (H * 0.42) * amp(px);
       px === 0 ? ctx.moveTo(px, y) : ctx.lineTo(px, y);
     }
     ctx.stroke();
 
-    // playhead dot in accent
     var hx = (t * 40) % w;
-    var hy = mid + sample(hx / w * Math.PI * 2, t) * (h * 0.42);
-    ctx.fillStyle = cssVar('--accent');
+    var hv = sample(hx / w * Math.PI * 2, t) * amp(hx);
+    ctx.fillStyle = colors.accent;
     ctx.beginPath();
-    ctx.arc(hx, hy, 4, 0, Math.PI * 2);
+    ctx.arc(hx, mid + hv * (H * 0.42), 4, 0, Math.PI * 2);
     ctx.fill();
 
-    // live dBFS readout, driven by the same sample function as the waveform;
-    // stays at its static value under reduced motion
-    if (!reduced && ++frame % 12 === 0) {
-      dbEl.textContent = '−' + Math.abs(-6 + sample(0.6, t) * 3).toFixed(1) + ' dBFS';
+    if (frame++ % 4 === 0) {
+      var db = 20 * Math.log10(Math.min(1, Math.max(Math.abs(hv), 1e-4)));
+      dbEl.textContent = (db > -0.05 ? '0.0' : '−' + Math.min(-db, 60).toFixed(1)) + ' dBFS';
     }
   }
 
-  function loop() {
-    t += 0.012;
+  function loop(now) {
+    var dt = Math.min(0.05, last ? (now - last) / 1000 : 1 / 60);
+    last = now;
+    t += dt * 0.72;
+    spring(gain, dt, 120, 22);
+    spring(focus, dt, 90, 19);
+    spring(lift, dt, 120, 22);
     draw();
-    requestAnimationFrame(loop);
+    raf = running ? requestAnimationFrame(loop) : 0;
+  }
+  function start() {
+    if (running || reduced || document.hidden) return;
+    running = true;
+    last = 0;
+    raf = requestAnimationFrame(loop);
+  }
+  function stop() {
+    running = false;
+    cancelAnimationFrame(raf);
   }
 
-  sizeCanvas();
-  window.addEventListener('resize', function () { sizeCanvas(); draw(); });
-  if (reduced) { t = 1.8; draw(); } else { loop(); }
-  // With the animation loop off (reduced motion), redraw on theme changes so
-  // the static waveform picks up the new palette.
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+  readColors();
+  size();
+  if (reduced) {
+    t = 1.8;
+    draw();
+  } else {
+    if (fine) {
+      canvas.addEventListener('pointermove', function (e) {
+        var r = canvas.getBoundingClientRect();
+        focus.target = (e.clientX - r.left) / r.width;
+        lift.target = 1;
+      }, { passive: true });
+      canvas.addEventListener('pointerleave', function () { lift.target = 0; });
+      // Press: instant dip, then the spring brings it back.
+      canvas.addEventListener('pointerdown', function () { gain.v = 0.55; gain.vel = 0; }, { passive: true });
+    }
+    // Draw the trace in from the left rather than popping in.
+    if (canvas.animate) {
+      canvas.animate([{ clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0 0 0)' }],
+        { duration: 900, easing: 'cubic-bezier(.23,1,.32,1)', fill: 'both' });
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries[0].isIntersecting ? start() : stop();
+      }).observe(canvas);
+    } else {
+      start();
+    }
+    document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+  }
 
-  // Justify the two wordmark lines to equal width: the narrower line gets
-  // letter-spacing so both right edges land on the same vertical.
+  window.addEventListener('resize', function () { size(); draw(); justifyWordmark(); });
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
+    readColors();
+    draw();
+  });
+
+  // ---------- wordmark ----------
+  // Justify the two lines to equal width: the narrower line gets extra
+  // letter-spacing on top of its base tracking so both right edges are flush.
   var wm1 = document.getElementById('wm1');
   var wm2 = document.getElementById('wm2');
   function justifyWordmark() {
-    wm1.style.letterSpacing = wm2.style.letterSpacing = '0';
+    wm1.style.letterSpacing = wm2.style.letterSpacing = '';
     wm1.style.marginRight = wm2.style.marginRight = '0';
     var w1 = wm1.getBoundingClientRect().width;
     var w2 = wm2.getBoundingClientRect().width;
@@ -585,15 +658,13 @@
     var diff = Math.abs(w1 - w2);
     var n = narrow.textContent.trim().length;
     if (diff < 0.5 || n < 2) return;
-    var ls = diff / n;
-    narrow.style.letterSpacing = ls + 'px';
-    narrow.style.marginRight = -ls + 'px'; /* cancel trailing letter-space */
+    var base = parseFloat(getComputedStyle(narrow).letterSpacing) || 0;
+    narrow.style.letterSpacing = (base + diff / n) + 'px';
+    narrow.style.marginRight = -(diff / n) + 'px';
   }
   justifyWordmark();
-  window.addEventListener('resize', justifyWordmark);
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(justifyWordmark);
-  }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(justifyWordmark);
+})();
 </script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "850a6758077f404180dcd5e8a61bfe90"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
