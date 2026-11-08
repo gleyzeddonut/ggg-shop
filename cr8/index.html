@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="CR8 — a free Mac app that digs through every sample folder and drive you own, learns each sound's tempo, key and role, and rolls you song starters that fit together. Lock what works, reroll the rest, drag it into your DAW.">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#7A2BF0">
+<link rel="canonical" href="https://gggaudio.store/cr8/">
+<link rel="icon" href="img/icon-512.png" type="image/png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GGG Shop">
+<meta property="og:title" content="CR8 — Sounds you forgot you had">
+<meta property="og:description" content="Free Mac app: it learns your whole sample library, rolls song starters in one key and tempo, and drags them into your DAW.">
+<meta property="og:url" content="https://gggaudio.store/cr8/">
+<meta property="og:image" content="https://gggaudio.store/cr8/img/01-build.png">
+<title>CR8 — Sounds you forgot you had · GGG</title>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "CR8",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "macOS 14 or later (Apple silicon)",
+  "url": "https://gggaudio.store/cr8/",
+  "image": "https://gggaudio.store/cr8/img/icon-512.png",
+  "description": "Digs through every sample folder and drive you own, learns each sound's tempo, key and role, and rolls song starters that fit together. Drag loops and beats straight into your DAW.",
+  "softwareVersion": "0.2.0",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "url": "https://gggaudio.store/cr8/download/" }
+}
+</script>
+<style>
+  /* ---------- fonts (bundled, OFL; the same files the app ships) ---------- */
+  @font-face { font-family: "Titan One"; font-weight: 400; font-display: swap; src: url(fonts/titan-one-latin-400-normal.woff2) format("woff2"); }
+  @font-face { font-family: Fredoka; font-weight: 300 700; font-display: swap; src: url(fonts/fredoka-latin-variable.woff2) format("woff2"); }
+  @font-face { font-family: "Space Mono"; font-weight: 700; font-display: swap; src: url(fonts/space-mono-latin-700-normal.woff2) format("woff2"); }
+
+  /* ---------- tokens: CR8's "Pop Sticker" system ---------- */
+  :root {
+    --bg: #7A2BF0;
+    --bg-deep: #4B12A8;
+    --ink: #120726;
+    --paper: #FFF8EC;
+    --white: #FFFFFF;
+    --text-2: #3A2A5C;
+    --pink: #FF3DA8;
+    --cyan: #22C7FF;
+    --yellow: #FFE03A;
+    --orange: #FF8A1F;
+    --mint: #5FE0B5;
+    --lilac: #B79BFF;
+    --bw-lg: 3px; --bw-md: 2.5px; --bw-sm: 2px;
+    --sh-lg: 6px 6px 0 var(--ink);
+    --sh-md: 4px 4px 0 var(--ink);
+    --sh-sm: 3px 3px 0 var(--ink);
+    --sh-xs: 2px 2px 0 var(--ink);
+    --r-xs: 7px; --r-sm: 10px; --r-md: 14px; --r-lg: 16px; --r-xl: 24px; --r-pill: 999px;
+    --font-display: "Titan One", system-ui, sans-serif;
+    --font-ui: Fredoka, -apple-system, system-ui, sans-serif;
+    --font-mono: "Space Mono", ui-monospace, "SF Mono", monospace;
+  }
+
+  /* ---------- base ---------- */
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 500 16px/1.5 var(--font-ui);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  img { max-width: 100%; height: auto; display: block; }
+  .wrap { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  .mono { font-family: var(--font-mono); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .display { font-family: var(--font-display); font-weight: 400; }
+  ::selection { background: var(--yellow); color: var(--ink); }
+  :focus-visible { outline: 3px solid var(--pink); outline-offset: 3px; }
+  svg.i { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+  /* ---------- background: halftone patches and a few stickers in the margins ---------- */
+  .decor { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+  .halftone {
+    position: absolute;
+    background-image: radial-gradient(var(--ink) 1.7px, transparent 2px);
+    background-size: 13px 13px;
+    opacity: .28;
+    -webkit-mask-image: radial-gradient(closest-side, #000 30%, transparent);
+    mask-image: radial-gradient(closest-side, #000 30%, transparent);
+  }
+  .halftone.h1 { left: -120px; top: -140px; width: 620px; height: 520px; }
+  .halftone.h2 { right: -160px; top: 38%; width: 640px; height: 640px; }
+  .halftone.h3 { left: 30%; bottom: -200px; width: 700px; height: 460px; }
+  .stk { position: absolute; overflow: visible; }
+  @media (prefers-reduced-motion: no-preference) {
+    .stk.bob { animation: bob 6s ease-in-out infinite; }
+    .stk.twinkle { animation: twinkle 6s ease-in-out infinite; }
+  }
+  @keyframes bob { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-6px) rotate(-4deg); } }
+  @keyframes twinkle { 0%, 100% { transform: scale(1) rotate(0); } 50% { transform: scale(.82) rotate(20deg); } }
+
+  /* ---------- surfaces and stickers ---------- */
+  .card {
+    background: var(--paper);
+    color: var(--ink);
+    border: var(--bw-lg) solid var(--ink);
+    border-radius: var(--r-xl);
+    box-shadow: var(--sh-lg);
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 0 22px;
+    border: var(--bw-lg) solid var(--ink);
+    border-radius: var(--r-pill);
+    background: var(--white);
+    color: var(--ink);
+    text-decoration: none;
+    font: 600 16px var(--font-ui);
+    box-shadow: var(--sh-sm);
+    cursor: pointer;
+    transition: transform .08s, box-shadow .08s;
+  }
+  .btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
+  .btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--ink); }
+  .btn.primary { background: var(--yellow); font-size: 17px; padding: 0 26px; min-height: 52px; }
+  .btn.cyan { background: var(--cyan); }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px;
+    border: var(--bw-md) solid var(--ink);
+    border-radius: var(--r-pill);
+    background: var(--white);
+    font: 700 11px var(--font-mono);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    box-shadow: var(--sh-xs);
+  }
+  .tag .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--mint); border: var(--bw-sm) solid var(--ink); }
+  .kcap {
+    display: inline-grid;
+    place-items: center;
+    min-width: 30px;
+    height: 30px;
+    padding: 0 8px;
+    border: var(--bw-sm) solid var(--ink);
+    border-radius: var(--r-xs);
+    background: var(--yellow);
+    font: 700 13px var(--font-mono);
+    box-shadow: var(--sh-xs);
+  }
+  .pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border: var(--bw-sm) solid var(--ink);
+    border-radius: var(--r-pill);
+    font: 700 13px var(--font-ui);
+    white-space: nowrap;
+  }
+
+  /* ---------- header: straight on the purple, like the app ---------- */
+  .topbar { position: sticky; top: 0; z-index: 20; }
+  .topbar::before, .topbar::after { content: ""; position: absolute; left: 0; right: 0; pointer-events: none; opacity: 0; transition: opacity .2s; }
+  .topbar::before { top: 0; bottom: 0; background: var(--bg); }
+  .topbar::after { top: 100%; height: 36px; background: linear-gradient(var(--bg), rgba(122,43,240,0)); }
+  .topbar.scrolled::before, .topbar.scrolled::after { opacity: 1; }
+  .masthead { display: flex; align-items: center; justify-content: space-between; gap: 16px 24px; padding: 18px 0 14px; flex-wrap: wrap; }
+  .brand { position: relative; display: flex; align-items: center; padding-right: 18px; text-decoration: none; }
+  .logo {
+    font: 400 56px/1 var(--font-display);
+    letter-spacing: -.01em;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    user-select: none;
+    -webkit-text-stroke: 5px var(--ink);
+    paint-order: stroke fill;
+    text-shadow: 5px 5px 0 var(--ink);
+  }
+  .logo .c { color: var(--pink); } .logo .r { color: var(--cyan); } .logo .e { color: var(--yellow); font-size: 1.15em; }
+  .brand .bolt { position: absolute; right: -4px; top: -10px; width: 24px; height: 24px; transform: rotate(14deg); }
+  .topnav { display: flex; gap: 10px; flex-wrap: wrap; }
+  .topnav .btn { min-height: 44px; padding: 0 16px; font-size: 15px; }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 36px 0 0; display: grid; gap: 28px; }
+  .hero-card { background: var(--pink); padding: 36px 40px 40px; display: grid; gap: 18px; position: relative; overflow: hidden; }
+  .hero-card .eyebrow { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .hero h1 {
+    margin: 4px 0 0;
+    font: 400 clamp(44px, 7.6vw, 92px)/1 var(--font-display);
+    color: var(--yellow);
+    -webkit-text-stroke: 6px var(--ink);
+    paint-order: stroke fill;
+    text-shadow: 6px 6px 0 var(--ink);
+    text-wrap: balance;
+    max-width: 14ch;
+  }
+  .hero-sub { margin: 0; font: 500 clamp(17px, 2vw, 20px)/1.45 var(--font-ui); max-width: 56ch; text-wrap: pretty; }
+  .hero-cta { display: flex; align-items: center; gap: 16px 20px; flex-wrap: wrap; margin-top: 10px; }
+  .cta-note { font: 700 11px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+  .hero-card .burst {
+    position: absolute; right: -34px; top: -34px; width: 150px; height: 150px;
+    filter: drop-shadow(5px 5px 0 var(--ink));
+    transform: rotate(12deg);
+  }
+  .hero-card .burst polygon { fill: var(--yellow); stroke: var(--ink); stroke-width: 3.5; stroke-linejoin: round; }
+  .hero-card .burst text { font: 400 22px var(--font-display); fill: var(--ink); text-anchor: middle; }
+
+  /* ---------- screenshot frames ---------- */
+  .screen {
+    margin: 0;
+    border: var(--bw-lg) solid var(--ink);
+    border-radius: var(--r-xl);
+    box-shadow: var(--sh-lg);
+    overflow: hidden;
+    background: var(--bg);
+    line-height: 0;
+  }
+  .screen img { width: 100%; }
+  .zoom { display: block; width: 100%; padding: 0; margin: 0; border: 0; background: none; cursor: zoom-in; }
+  .caption {
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    padding: 12px 4px 0;
+    font: 700 11px var(--font-mono); letter-spacing: .12em; text-transform: uppercase;
+    color: var(--white);
+  }
+
+  /* ---------- sections ---------- */
+  .section { padding: 64px 0 0; }
+  .panel { padding: 32px 36px 36px; }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+  .section-head h2 { margin: 0; font: 400 32px/1.1 var(--font-display); }
+  .section-head .mono { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--bg-deep); }
+
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 28px 32px; }
+  .step h3 { margin: 0 0 10px; display: flex; align-items: center; gap: 12px; font: 400 22px/1 var(--font-display); }
+  .step h3 .kcap { font-size: 12px; }
+  .step:nth-child(2) .kcap { background: var(--cyan); }
+  .step:nth-child(3) .kcap { background: var(--pink); }
+  .step p { margin: 0; color: var(--text-2); font-size: 15px; text-wrap: pretty; }
+
+  .feature { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px; align-items: center; }
+  .feature.flip .feature-copy { order: 2; }
+  .feature.flip .feature-media { order: 1; }
+  .feature-copy { padding: 30px 32px; }
+  .feature-copy h2 { margin: 0 0 12px; font: 400 clamp(26px, 3vw, 34px)/1.1 var(--font-display); text-wrap: balance; }
+  .feature-copy p { margin: 0; color: var(--text-2); text-wrap: pretty; }
+  .feature-copy .roles { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  @media (max-width: 820px) {
+    .feature, .feature.flip { grid-template-columns: 1fr; gap: 20px; }
+    .feature.flip .feature-copy { order: 1; }
+    .feature.flip .feature-media { order: 2; }
+  }
+
+  /* ---------- spec sheet ---------- */
+  .spec-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  .spec-table th, .spec-table td { text-align: left; padding: 12px 16px 12px 0; border-bottom: 2px solid rgba(18,7,38,.12); vertical-align: top; }
+  .spec-table tr:last-child th, .spec-table tr:last-child td { border-bottom: 0; }
+  .spec-table th { width: 180px; font: 700 11px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--bg-deep); padding-top: 15px; }
+  .spec-table .dim { color: var(--text-2); }
+  .spec-table code { font: 700 13px var(--font-mono); background: var(--white); border: var(--bw-sm) solid var(--ink); border-radius: var(--r-xs); padding: 1px 7px; white-space: nowrap; }
+
+  /* ---------- final cta ---------- */
+  .final { margin-top: 72px; text-align: center; display: grid; justify-items: center; gap: 24px; padding: 0 0 8px; }
+  .final h2 {
+    margin: 0;
+    font: 400 clamp(32px, 5vw, 56px)/1.05 var(--font-display);
+    color: var(--white);
+    text-wrap: balance;
+    max-width: 18ch;
+  }
+  .final .hero-cta { justify-content: center; margin: 0; }
+  .final .cta-note { color: var(--white); }
+
+  /* ---------- footer ---------- */
+  footer { padding: 56px 0 40px; }
+  .foot-row {
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    padding-top: 18px;
+    border-top: 3px solid rgba(255,255,255,.35);
+    font: 700 11px var(--font-mono); letter-spacing: .1em; text-transform: uppercase;
+    color: var(--white);
+  }
+  .foot-row a { text-decoration: none; }
+  .foot-row a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+  /* ---------- lightbox ---------- */
+  #lightbox {
+    position: fixed; inset: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: center;
+    padding: 4vmin;
+    background: rgba(75,18,168,.85);
+    background-image: radial-gradient(rgba(18,7,38,.5) 1.7px, transparent 2px);
+    background-size: 13px 13px;
+    cursor: zoom-out;
+  }
+  #lightbox[hidden] { display: none; }
+  #lightbox img {
+    max-width: 100%; max-height: 92vh; width: auto; height: auto;
+    border: var(--bw-lg) solid var(--ink); border-radius: var(--r-lg); box-shadow: var(--sh-lg);
+  }
+  #lb-close { position: absolute; top: 18px; right: 22px; min-height: 40px; padding: 0 16px; font-size: 14px; }
+
+  /* ---------- phone ---------- */
+  @media (max-width: 720px) {
+    .wrap { padding: 0 16px; }
+    .logo { font-size: 44px; -webkit-text-stroke-width: 4px; text-shadow: 4px 4px 0 var(--ink); }
+    .masthead { padding: 14px 0 10px; }
+    .hero { padding-top: 20px; }
+    .hero-card { padding: 24px 20px 26px; }
+    .hero h1 { -webkit-text-stroke-width: 4px; text-shadow: 4px 4px 0 var(--ink); }
+    .hero-card .burst { width: 110px; height: 110px; right: -30px; top: -30px; }
+    .hero-card .burst text { font-size: 26px; }
+    .hero-cta .btn { flex: 1 1 auto; }
+    .cta-note { flex-basis: 100%; }
+    .panel { padding: 22px 18px 24px; }
+    .feature-copy { padding: 22px 18px; }
+    .section { padding-top: 44px; }
+    .spec-table th, .spec-table td { display: block; width: auto; padding: 0; border: 0; }
+    .spec-table th { padding-top: 14px; }
+    .spec-table td { padding: 4px 0 14px; border-bottom: 2px solid rgba(18,7,38,.12); }
+    .spec-table tr:last-child td { border-bottom: 0; }
+    .final { margin-top: 52px; }
+    .stk.side { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="decor" aria-hidden="true">
+  <div class="halftone h1"></div><div class="halftone h2"></div><div class="halftone h3"></div>
+  <svg class="stk twinkle side" viewBox="0 0 24 24" style="left:10px;top:180px;width:30px;height:30px"><path d="M12 0C13 8 16 11 24 12C16 13 13 16 12 24C11 16 8 13 0 12C8 11 11 8 12 0Z" fill="#FFFFFF" stroke="#120726" stroke-width="1.6" stroke-linejoin="round"/></svg>
+  <svg class="stk bob side" viewBox="0 0 24 24" style="right:10px;top:220px;width:28px;height:28px;animation-delay:-2s"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FF3DA8" stroke="#120726" stroke-width="2" stroke-linejoin="round"/></svg>
+  <svg class="stk bob side" viewBox="0 0 24 24" style="left:8px;bottom:280px;width:28px;height:28px;animation-delay:-4s"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" fill="#FFE03A" stroke="#120726" stroke-width="2" stroke-linejoin="round"/></svg>
+  <svg class="stk bob side" viewBox="0 0 64 40" style="right:8px;bottom:46%;width:44px;height:28px;animation-delay:-1s"><ellipse cx="32" cy="20" rx="29" ry="8" fill="none" stroke="#120726" stroke-width="7"/><circle cx="32" cy="20" r="13" fill="#22C7FF" stroke="#120726" stroke-width="3"/><ellipse cx="32" cy="20" rx="29" ry="8" fill="none" stroke="#FF3DA8" stroke-width="3" stroke-dasharray="40 200" stroke-dashoffset="-60"/></svg>
+</div>
+
+<header class="topbar" id="bar">
+  <div class="wrap masthead">
+    <a class="brand" href="./" aria-label="CR8">
+      <div class="logo" aria-hidden="true"><span class="c">C</span><span class="r">R</span><span class="e">8</span></div>
+      <svg class="bolt" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" fill="#FFE03A" stroke="#120726" stroke-width="2" stroke-linejoin="round"/></svg>
+    </a>
+    <nav class="topnav" aria-label="Site">
+      <a class="btn" href="../"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>GGG Shop</a>
+      <a class="btn" href="mailto:info@gggaudio.store?subject=CR8">Support</a>
+      <a class="btn cyan" href="download/"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Download</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div class="card hero-card">
+      <svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,2 59,22 79,10 75,33 98,34 81,50 98,66 75,67 79,90 59,78 50,98 41,78 21,90 25,67 2,66 19,50 2,34 25,33 21,10 41,22"/><text x="50" y="58">FREE</text></svg>
+      <div class="eyebrow">
+        <span class="tag"><span class="dot" aria-hidden="true"></span>CR-05 · v0.2.0</span>
+        <span class="tag">Mac app</span>
+      </div>
+      <h1>Sounds you forgot you had.</h1>
+      <p class="hero-sub">CR8 reads every sample folder and drive you point it at, works out each sound's tempo, key and job, and rolls you a song starter: a few loops that already fit together. Lock what you like, reroll the rest, drag it into your DAW.</p>
+      <div class="hero-cta" id="download">
+        <a class="btn primary" href="download/"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Download for macOS</a>
+        <span class="cta-note">Free · macOS 14+ · Apple silicon</span>
+      </div>
+    </div>
+
+    <div>
+      <figure class="screen">
+        <button class="zoom" type="button" data-full="img/01-build.png" aria-label="Enlarge screenshot: CR8's Build screen">
+          <img src="img/01-build.png" width="1440" height="920" sizes="(max-width: 1168px) 100vw, 1072px" alt="CR8's Build screen: a cream transport card with a pink play button, 135 BPM and G sharp minor, above a grid of sticker-style sound cards with yellow and pink waveforms, Lock, M and S buttons and a Reroll strip on each. A yellow starburst Reroll button floats at the bottom." fetchpriority="high">
+        </button>
+      </figure>
+      <div class="caption" aria-hidden="true">
+        <span>Fig. 01 — Build</span>
+        <span>one key · one tempo · reroll until it clicks</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="card panel">
+      <div class="section-head">
+        <h2>How it works</h2>
+        <span class="mono">3 steps · no setup</span>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <h3><span class="kcap">01</span> Dig</h3>
+          <p>Add a folder or a whole drive. CR8 listens to every file in the background, on all your cores: tens of thousands of sounds are ready in minutes, and it keeps going while you work.</p>
+        </div>
+        <div class="step">
+          <h3><span class="kcap">02</span> Roll</h3>
+          <p>Pick a key and tempo, or take the ones it suggests. Each slot gets a sound that fits: drums, bass, tonal, vocal, texture. Reroll a slot as any role, or type what you want, like “synth” or “vinyl”.</p>
+        </div>
+        <div class="step">
+          <h3><span class="kcap">03</span> Drag</h3>
+          <p>Drag a loop, a beat, or the whole set into Ableton, Logic or FL Studio. Everything lands stretched and tuned to the session. Your original files are never touched.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="feature">
+      <div class="card feature-copy">
+        <h2>Your whole library, sorted.</h2>
+        <p>Dig shows what you own by role, how many sounds you've pulled back into a set after years untouched, and a few quick confirms: one-tap questions where the analyser isn't sure. Each answer makes the next reroll better.</p>
+        <div class="roles" aria-hidden="true">
+          <span class="pill" style="background:var(--pink)">Drums</span>
+          <span class="pill" style="background:var(--cyan)">Bass</span>
+          <span class="pill" style="background:var(--yellow)">Tonal</span>
+          <span class="pill" style="background:var(--orange)">Vocal</span>
+          <span class="pill" style="background:var(--mint)">Texture</span>
+          <span class="pill" style="background:var(--lilac)">FX</span>
+        </div>
+      </div>
+      <div class="feature-media">
+        <figure class="screen">
+          <button class="zoom" type="button" data-full="img/02-dig.png" aria-label="Enlarge screenshot: CR8's Dig screen">
+            <img src="img/02-dig.png" width="1440" height="920" sizes="(max-width: 820px) 100vw, 60vw" alt="CR8's Dig screen: a pink card reading 614,274 sounds you forgot you had with an analysis progress bar, tiles for rediscovered sounds and a dig streak, a library-by-role bar with coloured pills, the folders list, and quick-confirm cards asking whether a sound is 129.2 BPM, 64.6 or a one-shot." loading="lazy">
+          </button>
+        </figure>
+        <div class="caption" aria-hidden="true">
+          <span>Fig. 02 — Dig</span>
+          <span>668,711 files on one drive</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="feature flip">
+      <div class="feature-media">
+        <figure class="screen">
+          <button class="zoom" type="button" data-full="img/03-cards.png" aria-label="Enlarge screenshot: three sound cards, one locked, one muted">
+            <img src="img/03-cards.png" width="1440" height="380" sizes="(max-width: 820px) 100vw, 60vw" alt="Three CR8 sound cards. The first is locked, with yellow tape on its corners and a hatched Locked strip. The second has a yellow Reroll button set to roll as “lead”. The third, a Drums card, is muted and faded, with its M button lit." loading="lazy">
+          </button>
+        </figure>
+        <div class="caption" aria-hidden="true">
+          <span>Fig. 03 — Slots</span>
+          <span>lock · mute · solo · reroll as…</span>
+        </div>
+      </div>
+      <div class="card feature-copy">
+        <h2>Lock what works. Reroll the rest.</h2>
+        <p>Every card is a slot with its own gain, pan, mute and solo. Lock a card and it stays through every reroll; press R and the others change around it. Set where a loop starts, fix a wrong tempo or key, or mark a sound as a one-shot and drop it into the step sequencer for a beat underneath.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="card panel">
+      <div class="section-head">
+        <h2>Spec sheet</h2>
+        <span class="mono">CR-05 · v0.2.0</span>
+      </div>
+      <table class="spec-table">
+        <tbody>
+          <tr><th scope="row">Runs on</th><td>macOS 14+ on Apple silicon (M1 or later). Signed and notarized. <span class="dim">Intel Macs aren't supported.</span></td></tr>
+          <tr><th scope="row">Install</th><td>Unzip, drag CR8 to Applications. <span class="dim">New versions are offered inside the app.</span></td></tr>
+          <tr><th scope="row">Reads</th><td>WAV, AIFF, CAF, FLAC, MP3, M4A and AAC, from any folder or drive, including external drives that come and go.</td></tr>
+          <tr><th scope="row">Analysis</th><td>Tempo, key, loop or one-shot, and role, worked out on your Mac. <span class="dim">Uses every core while you dig and drops to one while you're playing, so playback never stutters. Tested on a 668,711-file library.</span></td></tr>
+          <tr><th scope="row">Plays with</th><td>Any DAW, by drag and drop or exported stems. <span class="dim">Reads your Splice tags for typed-word rerolls if Splice is installed, and can import an Upcycle catalog.</span></td></tr>
+          <tr><th scope="row">Output</th><td>Loops and beats rendered at the session tempo and key, dragged straight into a track or exported to <code>~/Music/CR8</code>. <span class="dim">Originals are never changed.</span></td></tr>
+          <tr><th scope="row">Privacy</th><td>No account, no analytics. One request for the update file. <span class="dim">Nothing from your library leaves your Mac.</span></td></tr>
+          <tr><th scope="row">License</th><td>Free.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="final wrap">
+    <h2>Your drives are full of records. Go dig.</h2>
+    <div class="hero-cta">
+      <a class="btn primary" href="download/"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Download for macOS</a>
+      <span class="cta-note">Free · macOS 14+ · Apple silicon</span>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>© 2026 GGG</span>
+    <a href="../">GGG Shop</a>
+    <a href="mailto:info@gggaudio.store">info@gggaudio.store</a>
+  </div>
+</footer>
+
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged screenshot" hidden>
+  <button id="lb-close" class="btn" type="button">Close</button>
+  <img id="lb-img" src="" alt="">
+</div>
+<script>
+(function () {
+  var bar = document.getElementById('bar');
+  function onScroll() { bar.classList.toggle('scrolled', window.scrollY > 8); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  var lightbox = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lb-img');
+  var lbClose = document.getElementById('lb-close');
+  var lastTrigger = null;
+  function openLightbox(trigger) {
+    var img = trigger.querySelector('img');
+    lbImg.src = trigger.dataset.full || img.src;
+    lbImg.alt = img.alt;
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+    lastTrigger = trigger;
+    lbClose.focus();
+  }
+  function closeLightbox() {
+    lightbox.hidden = true;
+    lbImg.src = '';
+    document.body.style.overflow = '';
+    if (lastTrigger) lastTrigger.focus();
+  }
+  document.querySelectorAll('.zoom').forEach(function (z) {
+    z.addEventListener('click', function () { openLightbox(z); });
+  });
+  lightbox.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', function (e) {
+    if (lightbox.hidden) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'Tab') { e.preventDefault(); lbClose.focus(); }
+  });
+})();
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "850a6758077f404180dcd5e8a61bfe90"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

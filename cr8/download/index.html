@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Download CR8 for macOS — free. The download starts automatically.">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#7A2BF0">
+<link rel="canonical" href="https://gggaudio.store/cr8/download/">
+<link rel="icon" href="../img/icon-512.png" type="image/png">
+<title>Download CR8 · GGG</title>
+<meta http-equiv="refresh" content="1;url=https://github.com/gleyzeddonut/sample-dj-releases/releases/download/v0.2.0/CR8-0.2.0.zip">
+<style>
+  @font-face { font-family: "Titan One"; font-weight: 400; font-display: swap; src: url(../fonts/titan-one-latin-400-normal.woff2) format("woff2"); }
+  @font-face { font-family: Fredoka; font-weight: 300 700; font-display: swap; src: url(../fonts/fredoka-latin-variable.woff2) format("woff2"); }
+  @font-face { font-family: "Space Mono"; font-weight: 700; font-display: swap; src: url(../fonts/space-mono-latin-700-normal.woff2) format("woff2"); }
+  :root {
+    --bg: #7A2BF0; --bg-deep: #4B12A8; --ink: #120726; --paper: #FFF8EC; --white: #FFFFFF; --text-2: #3A2A5C;
+    --pink: #FF3DA8; --cyan: #22C7FF; --yellow: #FFE03A; --mint: #5FE0B5;
+    --font-display: "Titan One", system-ui, sans-serif;
+    --font-ui: Fredoka, -apple-system, system-ui, sans-serif;
+    --font-mono: "Space Mono", ui-monospace, "SF Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 500 16px/1.5 var(--font-ui); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: inherit; }
+  .wrap { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  ::selection { background: var(--yellow); color: var(--ink); }
+  :focus-visible { outline: 3px solid var(--pink); outline-offset: 3px; }
+  svg.i { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+  .decor { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+  .halftone { position: absolute; background-image: radial-gradient(var(--ink) 1.7px, transparent 2px); background-size: 13px 13px; opacity: .28;
+    -webkit-mask-image: radial-gradient(closest-side, #000 30%, transparent); mask-image: radial-gradient(closest-side, #000 30%, transparent); }
+  .halftone.h1 { left: -120px; top: -140px; width: 620px; height: 520px; }
+  .halftone.h2 { right: -160px; bottom: -200px; width: 640px; height: 640px; }
+
+  .card { background: var(--paper); border: 3px solid var(--ink); border-radius: 24px; box-shadow: 6px 6px 0 var(--ink); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border: 3px solid var(--ink); border-radius: 999px;
+    background: var(--white); color: var(--ink); text-decoration: none; font: 600 16px var(--font-ui); box-shadow: 3px 3px 0 var(--ink); transition: transform .08s, box-shadow .08s; }
+  .btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
+  .btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--ink); }
+  .btn.primary { background: var(--yellow); font-size: 17px; min-height: 52px; padding: 0 26px; }
+  .tag { display: inline-flex; align-items: center; gap: 10px; padding: 6px 12px; border: 2.5px solid var(--ink); border-radius: 999px; background: var(--white);
+    font: 700 11px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; box-shadow: 2px 2px 0 var(--ink); }
+  .tag .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--mint); border: 2px solid var(--ink); }
+
+  .masthead { display: flex; align-items: center; justify-content: space-between; gap: 16px 24px; padding: 18px 0 14px; flex-wrap: wrap; }
+  .brand { position: relative; display: flex; align-items: center; padding-right: 18px; text-decoration: none; }
+  .logo { font: 400 56px/1 var(--font-display); letter-spacing: -.01em; display: flex; align-items: center; gap: 2px; -webkit-text-stroke: 5px var(--ink); paint-order: stroke fill; text-shadow: 5px 5px 0 var(--ink); }
+  .logo .c { color: var(--pink); } .logo .r { color: var(--cyan); } .logo .e { color: var(--yellow); font-size: 1.15em; }
+  .brand .bolt { position: absolute; right: -4px; top: -10px; width: 24px; height: 24px; transform: rotate(14deg); }
+  .topnav { display: flex; gap: 10px; flex-wrap: wrap; }
+  .topnav .btn { min-height: 44px; padding: 0 16px; font-size: 15px; }
+
+  .hero { padding: 36px 0 72px; }
+  .hero-card { padding: 36px 40px 40px; display: grid; gap: 18px; }
+  h1 { margin: 4px 0 0; font: 400 clamp(36px, 6vw, 64px)/1.05 var(--font-display); text-wrap: balance; }
+  .hero-sub { margin: 0; color: var(--text-2); max-width: 56ch; text-wrap: pretty; }
+  .hero-cta { display: flex; align-items: center; gap: 16px 20px; flex-wrap: wrap; margin-top: 10px; }
+  .cta-note { font: 700 11px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--bg-deep); }
+  .steps { margin: 6px 0 0; padding: 0 0 0 20px; color: var(--text-2); display: grid; gap: 4px; }
+
+  footer { padding: 0 0 40px; }
+  .foot-row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 18px; border-top: 3px solid rgba(255,255,255,.35);
+    font: 700 11px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--white); }
+  .foot-row a { text-decoration: none; }
+  .foot-row a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+  @media (max-width: 720px) {
+    .wrap { padding: 0 16px; }
+    .logo { font-size: 44px; -webkit-text-stroke-width: 4px; text-shadow: 4px 4px 0 var(--ink); }
+    .hero { padding: 20px 0 56px; }
+    .hero-card { padding: 24px 20px 26px; }
+    .hero-cta .btn { flex: 1 1 auto; }
+    .cta-note { flex-basis: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="decor" aria-hidden="true"><div class="halftone h1"></div><div class="halftone h2"></div></div>
+
+<header>
+  <div class="wrap masthead">
+    <a class="brand" href="../" aria-label="CR8">
+      <div class="logo" aria-hidden="true"><span class="c">C</span><span class="r">R</span><span class="e">8</span></div>
+      <svg class="bolt" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" fill="#FFE03A" stroke="#120726" stroke-width="2" stroke-linejoin="round"/></svg>
+    </a>
+    <nav class="topnav" aria-label="Site">
+      <a class="btn" href="../"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>CR8</a>
+      <a class="btn" href="../../">GGG Shop</a>
+      <a class="btn" href="mailto:info@gggaudio.store?subject=CR8">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div class="card hero-card">
+      <div><span class="tag"><span class="dot" aria-hidden="true"></span>CR-05 · v0.2.0 · Free</span></div>
+      <h1>Downloading CR8…</h1>
+      <p class="hero-sub">Your download starts automatically. It's a zip, signed and notarized for macOS 14 and later on Apple silicon.</p>
+      <ol class="steps">
+        <li>Unzip it and drag <strong>CR8</strong> into Applications.</li>
+        <li>Open it. It starts on Dig: add a folder or a drive.</li>
+        <li>Switch to Build once a few sounds are analysed, and press Reroll.</li>
+      </ol>
+      <div class="hero-cta">
+        <a class="btn primary" href="https://github.com/gleyzeddonut/sample-dj-releases/releases/download/v0.2.0/CR8-0.2.0.zip"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Download didn't start? Click here</a>
+        <a class="btn" href="https://github.com/gleyzeddonut/sample-dj-releases/releases/latest">All releases</a>
+        <span class="cta-note">CR8-0.2.0.zip · 98 MB</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>© 2026 GGG</span>
+    <a href="../">CR8</a>
+    <a href="mailto:info@gggaudio.store">info@gggaudio.store</a>
+  </div>
+</footer>
+
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "850a6758077f404180dcd5e8a61bfe90"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
