@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Thanks for buying CR8. Your license key is on this page and in your email.">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#7A2BF0">
+<link rel="canonical" href="https://gggaudio.store/cr8/thanks/">
+<link rel="icon" href="../img/icon-512.png" type="image/png">
+<title>Thanks · CR8 · GGG</title>
+<link rel="stylesheet" href="../pages.css">
+</head>
+<body>
+
+<div class="decor" aria-hidden="true"><div class="halftone h1"></div><div class="halftone h2"></div></div>
+
+<header>
+  <div class="wrap masthead">
+    <a class="brand" href="../" aria-label="CR8">
+      <div class="logo" aria-hidden="true"><span class="c">C</span><span class="r">R</span><span class="e">8</span></div>
+      <svg class="bolt" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" fill="#FFE03A" stroke="#120726" stroke-width="2" stroke-linejoin="round"/></svg>
+    </a>
+    <nav class="topnav" aria-label="Site">
+      <a class="btn" href="../"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>CR8</a>
+      <a class="btn" href="mailto:info@gggaudio.store?subject=CR8%20key">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div class="card hero-card">
+      <div><span class="tag"><span class="dot" aria-hidden="true"></span>CR-08 · Thank you</span></div>
+      <h1 id="title">Finding your key…</h1>
+      <p class="hero-sub" id="lead">One moment. The key is being written up; it's also on its way to your email.</p>
+
+      <div class="keybox" id="keybox" hidden>
+        <code class="key" id="key"></code>
+        <button class="btn" type="button" id="copy"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>Copy</button>
+      </div>
+
+      <ol class="steps" id="steps" hidden>
+        <li>Open CR8. If you don't have it yet, <a href="../download/">download it</a> (free, macOS 14+, Apple silicon).</li>
+        <li>Press <strong>⌘,</strong> for Settings, paste the key under <strong>License</strong>, and click <strong>Activate</strong>.</li>
+        <li>That's it. Export and Drag to DAW are yours for good.</li>
+      </ol>
+
+      <div class="hero-cta" id="fallback" hidden>
+        <a class="btn" href="../key/">Send my key again</a>
+        <span class="cta-note">or email info@gggaudio.store with your receipt</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>© 2026 GGG</span>
+    <a href="../">CR8</a>
+    <a href="../../terms/">Terms</a>
+    <a href="../../refund/">Refunds</a>
+    <a href="../../privacy/">Privacy</a>
+    <a href="mailto:info@gggaudio.store">info@gggaudio.store</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var API = "https://cr8-licenses.dangleyzer.workers.dev";
+  var txn = new URLSearchParams(location.search).get("_ptxn");
+  var title = document.getElementById("title"), lead = document.getElementById("lead");
+  var keybox = document.getElementById("keybox"), keyEl = document.getElementById("key");
+  var steps = document.getElementById("steps"), fallback = document.getElementById("fallback");
+
+  function show(key) {
+    title.textContent = "You're in.";
+    lead.textContent = "Your CR8 license key. A copy is in your email too.";
+    keyEl.textContent = key; keybox.hidden = false; steps.hidden = false;
+  }
+  function giveUp() {
+    title.textContent = "Your key is on its way.";
+    lead.textContent = "It can take a minute to arrive. Check your email, or ask for it again below.";
+    fallback.hidden = false;
+  }
+  document.getElementById("copy").addEventListener("click", function () {
+    navigator.clipboard.writeText(keyEl.textContent).then(function () {
+      var b = document.getElementById("copy"); var t = b.lastChild.textContent; b.lastChild.textContent = "Copied";
+      setTimeout(function () { b.lastChild.textContent = t; }, 1500);
+    });
+  });
+
+  if (!txn) { giveUp(); return; }
+  var tries = 0;
+  (function poll() {
+    fetch(API + "/key?txn=" + encodeURIComponent(txn)).then(function (r) { return r.json(); }).then(function (d) {
+      if (d && d.ready) return show(d.key);
+      if (++tries < 20) setTimeout(poll, 1500); else giveUp();
+    }).catch(function () { if (++tries < 20) setTimeout(poll, 2500); else giveUp(); });
+  })();
+})();
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "850a6758077f404180dcd5e8a61bfe90"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

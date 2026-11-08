@@ -1,0 +1,46 @@
+/* The GGG shop's legal pages (terms, refunds, privacy): the same tokens as the shop itself. */
+:root {
+  --paper: #F4F2ED; --ink: #20221F; --ink-soft: #5A5C55; --rule: #D8D5CB; --rule-strong: #20221F;
+  --accent: #D8402B; --accent-ink: #FFFFFF;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #191A17; --ink: #EAE7DE; --ink-soft: #9B988D; --rule: #35342E; --rule-strong: #EAE7DE;
+    --accent: #FF5B44; --accent-ink: #1B120F;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #191A17; --ink: #EAE7DE; --ink-soft: #9B988D; --rule: #35342E; --rule-strong: #EAE7DE;
+  --accent: #FF5B44; --accent-ink: #1B120F;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Avenir Next", "Avenir", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6; }
+a { color: inherit; }
+.display { font-family: "Futura", "Century Gothic", "Trebuchet MS", "Avenir Next", sans-serif; }
+.mono { font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+header { border-bottom: 1px solid var(--rule-strong); }
+.masthead { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 18px 0; }
+.back, nav a { text-decoration: none; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+.back:hover, nav a:hover { color: var(--ink); }
+nav { display: flex; gap: 22px; }
+nav a[aria-current="page"] { color: var(--ink); border-bottom: 2px solid var(--accent); }
+
+main { padding: 48px 24px 72px; }
+.eyebrow { margin: 0 0 14px; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-soft); }
+h1 { margin: 0 0 20px; font-weight: 600; font-size: clamp(40px, 7vw, 72px); line-height: 1; text-transform: uppercase; letter-spacing: .01em; }
+.lead { font-size: 18px; margin: 0 0 36px; }
+h2 { margin: 36px 0 10px; font-size: 14px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; border-top: 1px solid var(--rule-strong); padding-top: 16px; }
+p, li { margin: 0 0 12px; max-width: 70ch; }
+ul { padding-left: 20px; }
+a:not(.back):not(nav a) { text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+footer { border-top: 1px solid var(--rule-strong); padding: 24px 0 40px; }
+.foot-row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+.foot-row a { text-decoration: none; }
+.foot-row a:hover { color: var(--ink); }
+@media (max-width: 720px) { nav { gap: 14px; } main { padding: 36px 16px 56px; } .wrap { padding: 0 16px; } }

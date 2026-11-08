@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lost your CR8 license key? Enter the email you bought with and we'll send it again.">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#7A2BF0">
+<link rel="canonical" href="https://gggaudio.store/cr8/key/">
+<link rel="icon" href="../img/icon-512.png" type="image/png">
+<title>Lost your key · CR8 · GGG</title>
+<link rel="stylesheet" href="../pages.css">
+</head>
+<body>
+
+<div class="decor" aria-hidden="true"><div class="halftone h1"></div><div class="halftone h2"></div></div>
+
+<header>
+  <div class="wrap masthead">
+    <a class="brand" href="../" aria-label="CR8">
+      <div class="logo" aria-hidden="true"><span class="c">C</span><span class="r">R</span><span class="e">8</span></div>
+      <svg class="bolt" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" fill="#FFE03A" stroke="#120726" stroke-width="2" stroke-linejoin="round"/></svg>
+    </a>
+    <nav class="topnav" aria-label="Site">
+      <a class="btn" href="../"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>CR8</a>
+      <a class="btn" href="mailto:info@gggaudio.store?subject=CR8%20key">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <form class="card hero-card" id="form">
+      <div><span class="tag">CR-08 · License</span></div>
+      <h1>Lost your key?</h1>
+      <p class="hero-sub">Enter the email you bought with. If there's a key filed under it, it'll be in your inbox in a minute.</p>
+      <div class="hero-cta">
+        <input class="field" type="email" id="email" placeholder="you@example.com" required autocomplete="email">
+        <button class="btn primary" type="submit" id="send">Send my key</button>
+      </div>
+      <p class="hero-sub" id="done" hidden>Sent, if we have it. No email in a few minutes? Check spam, then write to <a href="mailto:info@gggaudio.store?subject=CR8%20key">info@gggaudio.store</a> with your Paddle receipt.</p>
+    </form>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>© 2026 GGG</span>
+    <a href="../">CR8</a>
+    <a href="../../terms/">Terms</a>
+    <a href="../../refund/">Refunds</a>
+    <a href="../../privacy/">Privacy</a>
+    <a href="mailto:info@gggaudio.store">info@gggaudio.store</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var API = "https://cr8-licenses.dangleyzer.workers.dev";
+  var form = document.getElementById("form"), email = document.getElementById("email");
+  var send = document.getElementById("send"), done = document.getElementById("done");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    send.disabled = true;
+    fetch(API + "/resend", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: email.value.trim() }) })
+      .catch(function () {})
+      .then(function () { done.hidden = false; send.disabled = false; });
+  });
+})();
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "850a6758077f404180dcd5e8a61bfe90"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
