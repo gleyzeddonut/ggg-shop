@@ -131,6 +131,8 @@
   .btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--ink); }
   .btn.primary { background: var(--yellow); font-size: 17px; padding: 0 26px; min-height: 52px; }
   .btn.cyan { background: var(--cyan); }
+  .btn.big { font-size: 20px; padding: 0 30px; min-height: 58px; }
+  .btn.big .i { width: 22px; height: 22px; }
   .tag {
     display: inline-flex;
     align-items: center;
@@ -373,7 +375,7 @@
       <p class="hero-sub">CR8 reads every sample folder and drive you point it at, works out each sound's tempo, key and job, and rolls you a song starter: a few loops that already fit together. Lock what you like, reroll the rest, drag it into your DAW.</p>
       <div class="hero-cta" id="download">
         <a class="btn primary" href="download/"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Try it free</a>
-        <button class="btn cyan" type="button" id="buy" data-buy><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Buy · $10</button>
+        <button class="btn cyan big" type="button" id="buy" data-buy><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Buy · $10</button>
         <span class="cta-note">14-day trial · macOS 14+ · Apple silicon</span>
       </div>
     </div>
@@ -471,14 +473,10 @@
       <table class="spec-table">
         <tbody>
           <tr><th scope="row">Runs on</th><td>macOS 14+ on Apple silicon (M1 or later). Signed and notarized. <span class="dim">Intel Macs aren't supported.</span></td></tr>
-          <tr><th scope="row">Install</th><td>Unzip, drag CR8 to Applications. <span class="dim">New versions are offered inside the app.</span></td></tr>
           <tr><th scope="row">Reads</th><td>WAV, AIFF, CAF, FLAC, MP3, M4A and AAC, from any folder or drive, including external drives that come and go.</td></tr>
           <tr><th scope="row">Analysis</th><td>Tempo, key, loop or one-shot, and role, worked out on your Mac. <span class="dim">Uses every core while you dig and drops to one while you're playing, so playback never stutters. Tested on a 668,711-file library.</span></td></tr>
-          <tr><th scope="row">Plays with</th><td>Any DAW, by drag and drop or exported stems. <span class="dim">Reads your Splice tags for typed-word rerolls if Splice is installed.</span></td></tr>
           <tr><th scope="row">Output</th><td>Loops and beats rendered at the session tempo and key, dragged straight into a track or exported to <code>~/Music/CR8</code>. <span class="dim">Originals are never changed.</span></td></tr>
           <tr><th scope="row">Privacy</th><td>No account, no analytics. One request for the update file. <span class="dim">Nothing from your library leaves your Mac.</span></td></tr>
-          <tr><th scope="row">Price</th><td>$10, once, for the Macs you own. <span class="dim">Free for 14 days with everything on; after that, Export and Drag to DAW need a key. Dig, rerolling and playback never do.</span></td></tr>
-          <tr><th scope="row">Buying</th><td>Checkout by <a href="https://www.paddle.com/">Paddle</a>, our reseller and merchant of record: cards, Apple Pay and PayPal, tax included. Your key arrives on the next page and by email. <span class="dim">Changed your mind? <a href="../refund/">14-day refunds</a>, no questions.</span></td></tr>
         </tbody>
       </table>
     </div>
