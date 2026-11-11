@@ -496,6 +496,7 @@
   <div class="wrap foot-row">
     <span>© 2026 GGG · Tangosol LLC</span>
     <a href="../">GGG Shop</a>
+    <a href="../pricing/">Pricing</a>
     <a href="../terms/">Terms</a>
     <a href="../refund/">Refunds</a>
     <a href="../privacy/">Privacy</a>
@@ -551,14 +552,23 @@
   function initPaddle() {
     if (paddleReady || !window.Paddle) return;
     if (PADDLE.environment === 'sandbox') Paddle.Environment.set('sandbox');
-    Paddle.Initialize({ token: PADDLE.token });
+    Paddle.Initialize({
+      token: PADDLE.token,
+      // Paddle doesn't add the transaction id to successUrl, so redirect ourselves: the thanks page
+      // needs ?_ptxn= to fetch and show the key straight away.
+      eventCallback: function (e) {
+        if (e && e.name === 'checkout.completed' && e.data && e.data.transaction_id) {
+          location.href = new URL('thanks/?_ptxn=' + encodeURIComponent(e.data.transaction_id), location.href).href;
+        }
+      }
+    });
     paddleReady = true;
   }
   document.querySelectorAll('[data-buy]').forEach(function (b) {
     b.addEventListener('click', function () {
       initPaddle();
       if (!paddleReady) { location.href = 'mailto:info@gggaudio.store?subject=Buy%20CR8'; return; }
-      Paddle.Checkout.open({ items: [{ priceId: PADDLE.priceId, quantity: 1 }], settings: { successUrl: 'https://gggaudio.store/cr8/thanks/', theme: 'light' } });
+      Paddle.Checkout.open({ items: [{ priceId: PADDLE.priceId, quantity: 1 }], settings: { theme: 'light' } });
     });
   });
   var s = document.createElement('script'); s.src = 'https://cdn.paddle.com/paddle/v2/paddle.js'; s.async = true; s.onload = initPaddle; document.head.appendChild(s);

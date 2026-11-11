@@ -92,12 +92,14 @@
   });
 
   if (!txn) { giveUp(); return; }
-  var tries = 0;
+  // Keep asking for up to ~2 minutes: Paddle's webhook lands 10-20 s after payment, and Workers KV
+  // can keep answering "not found" for up to 60 s after an early miss at this edge location.
+  var tries = 0, MAX = 48;
   (function poll() {
-    fetch(API + "/key?txn=" + encodeURIComponent(txn)).then(function (r) { return r.json(); }).then(function (d) {
+    fetch(API + "/key?txn=" + encodeURIComponent(txn), { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (d) {
       if (d && d.ready) return show(d.key);
-      if (++tries < 20) setTimeout(poll, 1500); else giveUp();
-    }).catch(function () { if (++tries < 20) setTimeout(poll, 2500); else giveUp(); });
+      if (++tries < MAX) setTimeout(poll, 2500); else giveUp();
+    }).catch(function () { if (++tries < MAX) setTimeout(poll, 2500); else giveUp(); });
   })();
 })();
 </script>
