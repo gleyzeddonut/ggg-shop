@@ -22,7 +22,7 @@
   "url": "https://gggaudio.store/vocal-lock/",
   "image": "https://gggaudio.store/img/vocal-lock-icon@2x.png",
   "description": "Mac app that aligns vocal doubles and harmonies to a lead vocal's timing, optionally follows its pitch, and makes artificial doubles.",
-  "softwareVersion": "0.9.0",
+  "softwareVersion": "0.10.0",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "url": "https://gggaudio.store/vocal-lock/" }
 }
 </script>
@@ -406,7 +406,7 @@
 
 <main>
   <section class="hero wrap">
-    <p class="eyebrow mono"><span class="live-dot" aria-hidden="true"></span> VL-05 · v0.9.0 · Free</p>
+    <p class="eyebrow mono"><span class="live-dot" aria-hidden="true"></span> VL-05 · v0.10.0 · Free</p>
     <h1 class="display">Vocal Lock</h1>
     <p class="hero-tag display">Tight doubles, no editing.</p>
     <p class="hero-sub">Drop in your lead vocal and the takes that go with it. Vocal Lock moves every double and
@@ -417,11 +417,11 @@
     </div>
     <figure class="screen" style="margin:0;">
       <button class="zoom" type="button" data-full="img/01-app.png" aria-label="Enlarge screenshot: the Vocal Lock app">
-        <img src="img/01-app.png" sizes="(max-width: 1128px) 100vw, 1032px" alt="The Vocal Lock app: the lead vocal's waveform as the guide at the top, global tightness, pitch and mode controls in the middle, and the takes below, each with its own mode, status and waveform." width="2320" height="1600">
+        <img src="img/01-app.png" sizes="(max-width: 1128px) 100vw, 1032px" alt="The Vocal Lock app: one timeline with the lead vocal's lane as the guide at the top and a lane for each take under it, a settings column on the right with Global and Individual cards, and a transport bar along the bottom." width="2560" height="1660">
       </button>
     </figure>
     <div class="screen-caption mono" aria-hidden="true">
-      <span>Fig. 01 — Guide, controls, takes</span>
+      <span>Fig. 01 — Guide, takes, settings</span>
       <span>one window</span>
     </div>
   </section>
@@ -443,7 +443,7 @@
       </div>
       <div class="step">
         <h3 class="display"><span class="n mono">03</span> Drag them back</h3>
-        <p>Drag rows straight into your DAW or the Finder, or Export all. Aligned takes come out at the guide's
+        <p>Drag lanes straight into your DAW or the Finder, or Export all. Aligned takes come out at the guide's
            length, so they line up with the lead.</p>
       </div>
     </div>
@@ -454,13 +454,14 @@
       <div class="feature-copy">
         <h2 class="display">Align, or align and follow pitch</h2>
         <p>Align moves each take onto the guide's timing and leaves its notes alone. Align + Pitch also bends it
-           onto the guide's pitch. Set every take at once with Global mode, or pick per take on its row. One
-           tightness knob and one pitch knob for all of them, with a nudge up or down for any take that needs it.</p>
+           onto the guide's pitch. Set every take at once in the Global card, or click a take and pick its
+           own mode. One tightness knob and one pitch knob for all of them, with a nudge up or down for any take
+           that needs it.</p>
       </div>
       <div class="feature-media">
         <figure class="screen" style="margin:0;">
           <button class="zoom" type="button" data-full="img/02-global.png" aria-label="Enlarge screenshot: the global and per-take controls">
-            <img src="img/02-global.png" sizes="(max-width: 800px) 100vw, 55vw" alt="The controls panel: Global tightness at 60%, Global pitch at 100%, Global mode, and the selected Align + Pitch take at 85% tightness and 100% pitch, with its Individual tightness at +25% and Individual pitch at 0." width="2260" height="360" loading="lazy">
+            <img src="img/02-global.png" sizes="(max-width: 800px) 100vw, 55vw" alt="The settings column beside the lanes: the Global card with the mode switch, Tightness at 60 and Pitch at 100, and the Individual card for the selected Align + Pitch take, its Tightness at +25 (85%) and Pitch at 0 (100%)." width="1280" height="1000" loading="lazy">
           </button>
         </figure>
         <div class="screen-caption mono" aria-hidden="true">
@@ -476,7 +477,7 @@
       <div class="feature-media">
         <figure class="screen" style="margin:0;">
           <button class="zoom" type="button" data-full="img/03-double.png" aria-label="Enlarge screenshot: the Double controls">
-            <img src="img/03-double.png" sizes="(max-width: 800px) 100vw, 55vw" alt="The Double controls: Style set to Stereo Mild, a Take knob with a dice button for a new random double, and Output set to Lead + Double." width="2260" height="360" loading="lazy">
+            <img src="img/03-double.png" sizes="(max-width: 800px) 100vw, 55vw" alt="The Individual card for a Double take: Style set to Stereo Mild, a Take number with New take for a different random double, and Output set to Lead + Double." width="1280" height="1000" loading="lazy">
           </button>
         </figure>
         <div class="screen-caption mono" aria-hidden="true">
@@ -487,7 +488,7 @@
       <div class="feature-copy">
         <h2 class="display">No double? Make one</h2>
         <p>Set a take to Double and Vocal Lock sings it again, with the small timing and pitch drift of a real
-           second pass. Mono or a stereo pair, the double alone or mixed with the lead. Roll the dice for a
+           second pass. Mono or a stereo pair, the double alone or mixed with the lead. Press New take for a
            different performance.</p>
       </div>
     </div>
@@ -497,18 +498,18 @@
     <div class="feature">
       <div class="feature-copy">
         <h2 class="display">Hear it before you commit</h2>
-        <p>Play the guide alone, one take, or everything together, with mute, solo and pan on every row. Flip
-           Hear original to compare with the takes as they were sung.</p>
+        <p>Play everything together, solo any take against the guide, or hear the guide alone, with mute, solo
+           and pan on every lane. Flip Hear original to compare with the takes as they were sung.</p>
       </div>
       <div class="feature-media">
         <figure class="screen" style="margin:0;">
-          <button class="zoom" type="button" data-full="img/04-takes.png" aria-label="Enlarge screenshot: the takes list">
-            <img src="img/04-takes.png" sizes="(max-width: 800px) 100vw, 55vw" alt="The takes list: rows named db 1 to db 4, each Ready at 60% tight, with play, mute, solo, a pan dial, a waveform, export and remove buttons." width="1900" height="608" loading="lazy">
+          <button class="zoom" type="button" data-full="img/04-takes.png" aria-label="Enlarge screenshot: the take lanes">
+            <img src="img/04-takes.png" sizes="(max-width: 800px) 100vw, 55vw" alt="The lanes: the guide on top and takes named db 1 to db 5 under it on the same timeline, each with its light, mute, solo, a pan pot and its waveform." width="1888" height="1000" loading="lazy">
           </button>
         </figure>
         <div class="screen-caption mono" aria-hidden="true">
           <span>Fig. 04 — The takes</span>
-          <span>play · M · S · pan · drag out</span>
+          <span>M · S · pan · drag out</span>
         </div>
       </div>
     </div>
@@ -540,15 +541,39 @@
 
   <section class="section wrap">
     <div class="section-head">
+      <h2 class="display">And inside Logic Pro</h2>
+      <span class="mono">no script · same two shortcuts</span>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3 class="display"><span class="n mono">01</span> Pick the guide</h3>
+        <p>Select the lead's region and press Ctrl&#8209;Opt&#8209;G. It becomes the guide, right where it sits in the
+           song.</p>
+      </div>
+      <div class="step">
+        <h3 class="display"><span class="n mono">02</span> Swap a take in place</h3>
+        <p>Select a double and press Ctrl&#8209;Opt&#8209;R. It's aligned and put back on the same track at the same
+           position. Cmd&#8209;Z twice brings the original back.</p>
+      </div>
+      <div class="step">
+        <h3 class="display"><span class="n mono">03</span> Or bring regions in</h3>
+        <p>Select a region and click From DAW in the app to add it as the guide or a take, and leave the project
+           as it is. macOS asks once to allow Vocal Lock under Accessibility.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="section-head">
       <h2 class="display">Spec sheet</h2>
-      <span class="mono">VL-05 · v0.9.0</span>
+      <span class="mono">VL-05 · v0.10.0</span>
     </div>
     <div class="table-scroll">
       <table class="spec-table">
         <tbody>
           <tr><th scope="row">Install</th><td>Open the disk image and drag Vocal Lock to Applications.</td></tr>
           <tr><th scope="row">Runs on</th><td>macOS 12+ · Apple silicon and Intel · Signed and notarized</td></tr>
-          <tr><th scope="row">Works with</th><td>Any DAW. Drop files in from the Finder or your DAW, drag the results back. <span class="dim">Ableton Live users can also pick clips straight from the Arrangement, and swap takes for their aligned versions in place, with the Vocal Lock Live script, which comes with the <a href="https://github.com/gleyzeddonut/vocal-lock-releases/releases/latest">full installer</a>.</span></td></tr>
+          <tr><th scope="row">Works with</th><td>Any DAW. Drop files in from the Finder or your DAW, drag the results back. <span class="dim">Ableton Live users can also pick clips straight from the Arrangement, and swap takes for their aligned versions in place, with the Vocal Lock Live script, which comes with the <a href="https://github.com/gleyzeddonut/vocal-lock-releases/releases/latest">full installer</a>. Logic Pro users can do both with no script: select a region and press the shortcut.</span></td></tr>
           <tr><th scope="row">Sessions</th><td>Save and open .vlsession files. <span class="dim">The guide, the takes and every setting; the audio stays where it is and is processed again on opening.</span></td></tr>
           <tr><th scope="row">Modes</th><td>Align · Align + Pitch · Double <span class="dim">Global mode sets every aligned take at once; each take can still have its own.</span></td></tr>
           <tr><th scope="row">Reads</th><td>WAV, AIFF, FLAC, MP3, M4A. Any sample rate. <span class="dim">Takes at a different rate from the guide are converted.</span></td></tr>
