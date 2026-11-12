@@ -22,7 +22,7 @@
   "url": "https://gggaudio.store/vocal-lock/",
   "image": "https://gggaudio.store/img/vocal-lock-icon@2x.png",
   "description": "Mac app that aligns vocal doubles and harmonies to a lead vocal's timing, optionally follows its pitch, and makes artificial doubles.",
-  "softwareVersion": "0.8.3",
+  "softwareVersion": "0.8.4",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "url": "https://gggaudio.store/vocal-lock/" }
 }
 </script>
@@ -406,7 +406,7 @@
 
 <main>
   <section class="hero wrap">
-    <p class="eyebrow mono"><span class="live-dot" aria-hidden="true"></span> VL-05 · v0.8.3 · Free</p>
+    <p class="eyebrow mono"><span class="live-dot" aria-hidden="true"></span> VL-05 · v0.8.4 · Free</p>
     <h1 class="display">Vocal Lock</h1>
     <p class="hero-tag display">Tight doubles, no editing.</p>
     <p class="hero-sub">Drop in your lead vocal and the takes that go with it. Vocal Lock moves every double and
@@ -497,18 +497,18 @@
     <div class="feature">
       <div class="feature-copy">
         <h2 class="display">Hear it before you commit</h2>
-        <p>Play the guide alone, one take, or everything together, with mute and solo on every row. Flip Hear
-           original to compare with the takes as they were sung.</p>
+        <p>Play the guide alone, one take, or everything together, with mute, solo and pan on every row. Flip
+           Hear original to compare with the takes as they were sung.</p>
       </div>
       <div class="feature-media">
         <figure class="screen" style="margin:0;">
           <button class="zoom" type="button" data-full="img/04-takes.png" aria-label="Enlarge screenshot: the takes list">
-            <img src="img/04-takes.png" sizes="(max-width: 800px) 100vw, 55vw" alt="The takes list: rows named db 1 to db 4, each Ready at 60% tight, with play, mute, solo, a waveform, export and remove buttons." width="1900" height="690" loading="lazy">
+            <img src="img/04-takes.png" sizes="(max-width: 800px) 100vw, 55vw" alt="The takes list: rows named db 1 to db 4, each Ready at 60% tight, with play, mute, solo, a pan dial, a waveform, export and remove buttons." width="1900" height="608" loading="lazy">
           </button>
         </figure>
         <div class="screen-caption mono" aria-hidden="true">
           <span>Fig. 04 — The takes</span>
-          <span>play · M · S · drag out</span>
+          <span>play · M · S · pan · drag out</span>
         </div>
       </div>
     </div>
@@ -516,15 +516,40 @@
 
   <section class="section wrap">
     <div class="section-head">
+      <h2 class="display">Right inside Ableton Live</h2>
+      <span class="mono">with the Live script · full installer</span>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3 class="display"><span class="n mono">01</span> Pick the guide</h3>
+        <p>Click the lead in the Arrangement and press Ctrl&#8209;Opt&#8209;G. It becomes the guide, right where it sits in the
+           song.</p>
+      </div>
+      <div class="step">
+        <h3 class="display"><span class="n mono">02</span> Swap a take in place</h3>
+        <p>Click a double and press Ctrl&#8209;Opt&#8209;R. It's aligned and put back exactly where it was, with the original
+           kept on a take lane. One Cmd&#8209;Z undoes it.</p>
+      </div>
+      <div class="step">
+        <h3 class="display"><span class="n mono">03</span> Pick up where you left off</h3>
+        <p>Save the guide, the takes and every setting as a session, and open it again later. Change both
+           shortcuts in Settings.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="section-head">
       <h2 class="display">Spec sheet</h2>
-      <span class="mono">VL-05 · v0.8.3</span>
+      <span class="mono">VL-05 · v0.8.4</span>
     </div>
     <div class="table-scroll">
       <table class="spec-table">
         <tbody>
           <tr><th scope="row">Install</th><td>Open the disk image and drag Vocal Lock to Applications.</td></tr>
           <tr><th scope="row">Runs on</th><td>macOS 12+ · Apple silicon and Intel · Signed and notarized</td></tr>
-          <tr><th scope="row">Works with</th><td>Any DAW. Drop files in from the Finder or your DAW, drag the results back. <span class="dim">Ableton Live users can also pick clips straight from the Arrangement with the Vocal Lock Live script, which comes with the <a href="https://github.com/gleyzeddonut/vocal-lock-releases/releases/latest">full installer</a>.</span></td></tr>
+          <tr><th scope="row">Works with</th><td>Any DAW. Drop files in from the Finder or your DAW, drag the results back. <span class="dim">Ableton Live users can also pick clips straight from the Arrangement, and swap takes for their aligned versions in place, with the Vocal Lock Live script, which comes with the <a href="https://github.com/gleyzeddonut/vocal-lock-releases/releases/latest">full installer</a>.</span></td></tr>
+          <tr><th scope="row">Sessions</th><td>Save and open .vlsession files. <span class="dim">The guide, the takes and every setting; the audio stays where it is and is processed again on opening.</span></td></tr>
           <tr><th scope="row">Modes</th><td>Align · Align + Pitch · Double <span class="dim">Global mode sets every aligned take at once; each take can still have its own.</span></td></tr>
           <tr><th scope="row">Reads</th><td>WAV, AIFF, FLAC, MP3, M4A. Any sample rate. <span class="dim">Takes at a different rate from the guide are converted.</span></td></tr>
           <tr><th scope="row">Writes</th><td>32-bit float WAV. <span class="dim">Aligned takes at the guide's sample rate and length; doubles at the take's.</span></td></tr>
