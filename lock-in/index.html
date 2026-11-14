@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lock In (formerly Vocal Lock) — a free Mac app that locks takes to a guide: vocal doubles and harmonies, drum loops and instruments. Align the timing, follow the pitch, or make a double. Drop files in, drag the results back into your DAW.">
+<link rel="canonical" href="https://gggaudio.store/lock-in/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GGG Shop">
+<meta property="og:title" content="Lock In — Tight takes, no editing">
+<meta property="og:description" content="Free Mac app: lock vocal doubles, drum loops and instruments to a guide's timing, follow its pitch, or make a double. Drop files in, drag the results back into your DAW.">
+<meta property="og:url" content="https://gggaudio.store/lock-in/">
+<meta property="og:image" content="https://gggaudio.store/lock-in/img/01-app.png">
+<title>Lock In — Tight takes, no editing · GGG</title>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Lock In",
+  "alternateName": "Vocal Lock",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "macOS 12 or later",
+  "url": "https://gggaudio.store/lock-in/",
+  "image": "https://gggaudio.store/img/vocal-lock-icon@2x.png",
+  "description": "Mac app that aligns vocal doubles and harmonies, drum loops and instruments to a guide's timing, optionally follows its pitch, and makes artificial doubles.",
+  "softwareVersion": "0.11.0",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "url": "https://gggaudio.store/lock-in/" }
+}
+</script>
+<style>
+  /* ---------- tokens (shared with the GGG shop) ---------- */
+  :root {
+    --paper: #F4F2ED;
+    --paper-raised: #FBFAF7;
+    --ink: #20221F;
+    --ink-soft: #5A5C55;
+    --rule: #D8D5CB;
+    --rule-strong: #20221F;
+    --accent: #D8402B;
+    --accent-ink: #FFFFFF;
+    --chip-bg: #E9E6DE;
+    --ok: #3E8E5A;
+    --screen-frame: #20221F;
+    --shadow: 0 1px 0 rgba(32,34,31,.08), 0 12px 32px -18px rgba(32,34,31,.35);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #191A17;
+      --paper-raised: #211F1C;
+      --ink: #EAE7DE;
+      --ink-soft: #9B988D;
+      --rule: #35342E;
+      --rule-strong: #EAE7DE;
+      --accent: #FF5B44;
+      --accent-ink: #1B120F;
+      --chip-bg: #2B2A25;
+      --ok: #6FBF8B;
+      --screen-frame: #35342E;
+      --shadow: 0 1px 0 rgba(0,0,0,.4), 0 12px 32px -18px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #191A17;
+    --paper-raised: #211F1C;
+    --ink: #EAE7DE;
+    --ink-soft: #9B988D;
+    --rule: #35342E;
+    --rule-strong: #EAE7DE;
+    --accent: #FF5B44;
+    --accent-ink: #1B120F;
+    --chip-bg: #2B2A25;
+    --ok: #6FBF8B;
+    --screen-frame: #35342E;
+    --shadow: 0 1px 0 rgba(0,0,0,.4), 0 12px 32px -18px rgba(0,0,0,.7);
+  }
+
+  /* ---------- base ---------- */
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Avenir Next", "Avenir", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  a { color: inherit; }
+  .display { font-family: "Futura", "Century Gothic", "Trebuchet MS", "Avenir Next", sans-serif; }
+  .mono {
+    font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* ---------- header ---------- */
+  header { border-bottom: 1px solid var(--rule-strong); background: var(--paper); }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 18px 0;
+  }
+  .back {
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .back:hover { color: var(--ink); }
+  nav { display: flex; gap: 28px; }
+  nav a {
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  nav a:hover { color: var(--ink); }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 56px 0 0; }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 18px;
+  }
+  .eyebrow .live-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--ok);
+    flex: none;
+  }
+  .hero h1 {
+    margin: 0;
+    font-weight: 600;
+    font-size: clamp(52px, 10.5vw, 128px);
+    line-height: .96;
+    text-transform: uppercase;
+    letter-spacing: .01em;
+  }
+  .hero-tag {
+    margin: 20px 0 0;
+    font-size: clamp(18px, 2.6vw, 26px);
+    max-width: 30ch;
+    text-wrap: balance;
+  }
+  .hero-sub {
+    margin: 12px 0 0;
+    color: var(--ink-soft);
+    max-width: 54ch;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin: 30px 0 48px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 24px;
+    border: 1px solid var(--rule-strong);
+    background: transparent;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background .15s ease, color .15s ease;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .btn.primary:hover { filter: brightness(.94); }
+  .cta-note { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+
+  /* ---------- screenshot panels ---------- */
+  .screen {
+    border: 1px solid var(--screen-frame);
+    background: #101114; /* the shots are dark; a fixed dark bezel suits both themes */
+    box-shadow: var(--shadow);
+    /* rounded like the app window itself */
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .screen img { width: 100%; }
+  .zoom {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+  }
+
+  /* ---------- lightbox ---------- */
+  #lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4vmin;
+    background: rgba(13, 14, 17, .93);
+    cursor: zoom-out;
+  }
+  #lightbox[hidden] { display: none; }
+  #lightbox img {
+    max-width: 100%;
+    max-height: 92vh;
+    width: auto;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 24px 80px -20px rgba(0,0,0,.8);
+  }
+  #lb-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    border: 1px solid rgba(255,255,255,.4);
+    background: none;
+    color: #EAE7DE;
+    font: 13px/1 "Avenir Next", "Helvetica Neue", sans-serif;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    padding: 9px 16px;
+    cursor: pointer;
+  }
+  #lb-close:hover { background: rgba(255,255,255,.12); }
+  #lb-close:focus-visible { outline: 2px solid #FF5B44; outline-offset: 3px; }
+  .screen-caption {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 2px 0;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- sections ---------- */
+  .section { padding: 64px 0 0; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    border-top: 1px solid var(--rule-strong);
+    padding-top: 18px;
+    margin-bottom: 28px;
+  }
+  .section-head h2 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+  }
+  .section-head span { font-size: 12px; color: var(--ink-soft); }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 28px;
+  }
+  .step h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .step h3 .n { color: var(--accent); font-size: 13px; letter-spacing: .1em; }
+  .step p { margin: 0; color: var(--ink-soft); font-size: 15px; }
+
+  .feature {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 40px;
+    align-items: center;
+  }
+  .feature.flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  .feature.flip .feature-copy { order: 2; }
+  .feature.flip .feature-media { order: 1; }
+  .feature h2 {
+    margin: 0 0 12px;
+    font-size: clamp(24px, 3.4vw, 34px);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+  .feature p { margin: 0; color: var(--ink-soft); max-width: 44ch; }
+  @media (max-width: 800px) {
+    .feature, .feature.flip { grid-template-columns: 1fr; gap: 20px; }
+    .feature.flip .feature-copy { order: 1; }
+    .feature.flip .feature-media { order: 2; }
+  }
+
+  /* ---------- spec sheet ---------- */
+  .spec-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .spec-table th, .spec-table td {
+    text-align: left;
+    padding: 10px 16px 10px 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .spec-table th {
+    width: 220px;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .spec-table td { color: var(--ink); }
+  .spec-table .dim { color: var(--ink-soft); }
+  .table-scroll { overflow-x: auto; }
+
+  /* ---------- final cta ---------- */
+  .final {
+    margin-top: 72px;
+    border-top: 1px solid var(--rule-strong);
+    padding: 56px 0 64px;
+    text-align: center;
+  }
+  .final h2 {
+    margin: 0 0 24px;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    text-wrap: balance;
+  }
+  .final .hero-cta { justify-content: center; margin: 0; }
+
+  /* ---------- footer ---------- */
+  footer { border-top: 1px solid var(--rule-strong); padding: 24px 0 40px; }
+  .foot-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .foot-row a { text-decoration: none; }
+  .foot-row a:hover { color: var(--ink); }
+
+  /* ---------- phone layout ---------- */
+  @media (max-width: 720px) {
+    .masthead { padding: 14px 0; }
+    nav { gap: 18px; }
+    .hero { padding: 40px 0 0; }
+    .hero-cta { margin: 26px 0 36px; gap: 12px; }
+    .hero-cta .btn { flex: 1 1 auto; justify-content: center; }
+    .cta-note { flex-basis: 100%; }
+    .section { padding: 48px 0 0; }
+    .steps { gap: 22px; }
+    .final { margin-top: 56px; padding: 44px 0 52px; }
+    .final .hero-cta { margin: 0; }
+    #lb-close { top: 12px; right: 14px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap masthead">
+    <a class="back display" href="../">&larr; GGG Shop</a>
+    <nav aria-label="Site">
+      <a href="#download">Download</a>
+      <a href="mailto:info@gggaudio.store?subject=Lock%20In">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <p class="eyebrow mono"><span class="live-dot" aria-hidden="true"></span> LI-05 · v0.11.0 · Free</p>
+    <h1 class="display">Lock In</h1>
+    <p class="hero-tag display">Tight takes, no editing.</p>
+    <p class="hero-sub">Drop in a guide and the takes that go with it. Lock In moves every double, harmony, drum
+       loop and instrument onto the guide's timing, follows its pitch if you want, and hands back files ready to drop
+       into your DAW. <span class="dim">Formerly Vocal Lock.</span></p>
+    <div class="hero-cta" id="download">
+      <a class="btn primary display" href="download/">Download — Free</a>
+      <span class="cta-note mono">Mac app · macOS 12+ · Apple silicon &amp; Intel</span>
+    </div>
+    <figure class="screen" style="margin:0;">
+      <button class="zoom" type="button" data-full="img/01-app.png" aria-label="Enlarge screenshot: the Lock In app">
+        <img src="img/01-app.png" sizes="(max-width: 1128px) 100vw, 1032px" alt="The Lock In app: one timeline with the lead vocal's lane as the guide at the top and a lane for each take under it, a settings column on the right with Global and Individual cards, and a transport bar along the bottom." width="2560" height="1660">
+      </button>
+    </figure>
+    <div class="screen-caption mono" aria-hidden="true">
+      <span>Fig. 01 — Guide, takes, settings</span>
+      <span>one window</span>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="section-head">
+      <h2 class="display">How it works</h2>
+      <span class="mono">3 steps · processes as you go</span>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3 class="display"><span class="n mono">01</span> Drop the guide</h3>
+        <p>The lead vocal, the main drum loop, or whichever performance the others should follow. WAV, AIFF, FLAC,
+           MP3 or M4A.</p>
+      </div>
+      <div class="step">
+        <h3 class="display"><span class="n mono">02</span> Drop the takes</h3>
+        <p>Doubles, harmonies, ad-libs, loops. Each one is processed as soon as it loads, and turning a knob
+           updates it in about a second.</p>
+      </div>
+      <div class="step">
+        <h3 class="display"><span class="n mono">03</span> Drag them back</h3>
+        <p>Drag lanes straight into your DAW or the Finder, or Export all. Aligned takes come out at the guide's
+           length, so they line up with the lead.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="feature">
+      <div class="feature-copy">
+        <h2 class="display">Align, or align and follow pitch</h2>
+        <p>Align moves each take onto the guide's timing and leaves its notes alone. Align + Pitch also bends it
+           onto the guide's pitch. Set every take at once in the Global card, or click a take and pick its
+           own mode. One tightness knob and one pitch knob for all of them, with a nudge up or down for any take
+           that needs it.</p>
+      </div>
+      <div class="feature-media">
+        <figure class="screen" style="margin:0;">
+          <button class="zoom" type="button" data-full="img/02-global.png" aria-label="Enlarge screenshot: the global and per-take controls">
+            <img src="img/02-global.png" sizes="(max-width: 800px) 100vw, 55vw" alt="The settings column beside the lanes: the Global card with the mode switch, Tightness at 60 and Pitch at 100, and the Individual card for the selected Align + Pitch take, with its five modes (Align, + Pitch, Double, Drums, Instrument), Tightness at +25 (85%) and Pitch at 0 (100%)." width="1280" height="1000" loading="lazy">
+          </button>
+        </figure>
+        <div class="screen-caption mono" aria-hidden="true">
+          <span>Fig. 02 — Global and per take</span>
+          <span>tightness · mode · pitch</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="feature flip">
+      <div class="feature-media">
+        <figure class="screen" style="margin:0;">
+          <button class="zoom" type="button" data-full="img/05-drums.png" aria-label="Enlarge screenshot: a take in Drums mode">
+            <img src="img/05-drums.png" sizes="(max-width: 800px) 100vw, 55vw" alt="The settings column with a drum take selected: the Individual card's mode switch set to Drums, beside Align, + Pitch, Double and Instrument, and one Tightness knob." width="1280" height="1000" loading="lazy">
+          </button>
+        </figure>
+        <div class="screen-caption mono" aria-hidden="true">
+          <span>Fig. 03 — Drums and instruments</span>
+          <span>hits moved whole · stereo kept</span>
+        </div>
+      </div>
+      <div class="feature-copy">
+        <h2 class="display">Drums and instruments too</h2>
+        <p>Drop in a drum loop and Lock In recognises it: each hit is paired with the guide's closest hit and moved
+           onto it whole, so nothing is stretched and the hits sound as they did. For guitars, keys and anything
+           that plays chords, pick Instrument: the take follows the guide's timing and its chords stay whole.
+           Stereo takes stay stereo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="feature">
+      <div class="feature-copy">
+        <h2 class="display">No double? Make one</h2>
+        <p>Set a take to Double and Lock In sings it again, with the small timing and pitch drift of a real
+           second pass. Mono or a stereo pair, the double alone or mixed with the lead. Press New take for a
+           different performance.</p>
+      </div>
+      <div class="feature-media">
+        <figure class="screen" style="margin:0;">
+          <button class="zoom" type="button" data-full="img/03-double.png" aria-label="Enlarge screenshot: the Double controls">
+            <img src="img/03-double.png" sizes="(max-width: 800px) 100vw, 55vw" alt="The Individual card for a Double take: Style set to Stereo Mild, a Take number with New take for a different random double, and Output set to Lead + Double." width="1280" height="1000" loading="lazy">
+          </button>
+        </figure>
+        <div class="screen-caption mono" aria-hidden="true">
+          <span>Fig. 04 — Double</span>
+          <span>mono · stereo mild</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="feature flip">
+      <div class="feature-media">
+        <figure class="screen" style="margin:0;">
+          <button class="zoom" type="button" data-full="img/04-takes.png" aria-label="Enlarge screenshot: the take lanes">
+            <img src="img/04-takes.png" sizes="(max-width: 800px) 100vw, 55vw" alt="The lanes: the guide on top and takes named db 1 to db 5 under it on the same timeline, each with its light, mute, solo, a pan pot and its waveform." width="1888" height="1000" loading="lazy">
+          </button>
+        </figure>
+        <div class="screen-caption mono" aria-hidden="true">
+          <span>Fig. 05 — The takes</span>
+          <span>M · S · pan · drag out</span>
+        </div>
+      </div>
+      <div class="feature-copy">
+        <h2 class="display">Hear it before you commit</h2>
+        <p>Play everything together, solo any take against the guide, or hear the guide alone, with mute, solo
+           and pan on every lane. Flip Hear original to compare with the takes as they were recorded.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="section-head">
+      <h2 class="display">Right inside Ableton Live</h2>
+      <span class="mono">with the Live script · full installer</span>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3 class="display"><span class="n mono">01</span> Pick the guide</h3>
+        <p>Click the lead in the Arrangement and press Ctrl&#8209;Opt&#8209;G. It becomes the guide, right where it sits in the
+           song.</p>
+      </div>
+      <div class="step">
+        <h3 class="display"><span class="n mono">02</span> Swap a take in place</h3>
+        <p>Click a double and press Ctrl&#8209;Opt&#8209;R. It's aligned and put back exactly where it was, with the original
+           kept on a take lane. One Cmd&#8209;Z undoes it. Want it tighter? Turn the knob and press it again.</p>
+      </div>
+      <div class="step">
+        <h3 class="display"><span class="n mono">03</span> Pick up where you left off</h3>
+        <p>Save the guide, the takes and every setting as a session, and open it again later. Change both
+           shortcuts in Settings.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="section-head">
+      <h2 class="display">And inside Logic Pro</h2>
+      <span class="mono">no script · same two shortcuts</span>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3 class="display"><span class="n mono">01</span> Pick the guide</h3>
+        <p>Select the lead's region and press Ctrl&#8209;Opt&#8209;G. It becomes the guide, right where it sits in the
+           song.</p>
+      </div>
+      <div class="step">
+        <h3 class="display"><span class="n mono">02</span> Swap a take in place</h3>
+        <p>Select a double and press Ctrl&#8209;Opt&#8209;R. It's aligned and put back on the same track at the same
+           position. Cmd&#8209;Z twice brings the original back.</p>
+      </div>
+      <div class="step">
+        <h3 class="display"><span class="n mono">03</span> Or bring regions in</h3>
+        <p>Select a region and click From DAW in the app to add it as the guide or a take, and leave the project
+           as it is. macOS asks once to allow Lock In under Accessibility.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="section-head">
+      <h2 class="display">Spec sheet</h2>
+      <span class="mono">LI-05 · v0.11.0</span>
+    </div>
+    <div class="table-scroll">
+      <table class="spec-table">
+        <tbody>
+          <tr><th scope="row">Install</th><td>Open the disk image and drag Lock In to Applications.</td></tr>
+          <tr><th scope="row">Runs on</th><td>macOS 12+ · Apple silicon and Intel · Signed and notarized</td></tr>
+          <tr><th scope="row">Works with</th><td>Any DAW. Drop files in from the Finder or your DAW, drag the results back. <span class="dim">Ableton Live users can also pick clips straight from the Arrangement, and swap takes for their aligned versions in place, with the Live script, which comes with the <a href="https://github.com/gleyzeddonut/vocal-lock-releases/releases/latest">full installer</a>. Logic Pro users can do both with no script: select a region and press the shortcut.</span></td></tr>
+          <tr><th scope="row">Sessions</th><td>Save and open .vlsession files. <span class="dim">The guide, the takes and every setting; the audio stays where it is and is processed again on opening.</span></td></tr>
+          <tr><th scope="row">Modes</th><td>Align · Align + Pitch · Double · Drums · Instrument <span class="dim">Global mode sets every aligned vocal take at once; each take can still have its own. Drum takes are recognised when you add them.</span></td></tr>
+          <tr><th scope="row">Reads</th><td>WAV, AIFF, FLAC, MP3, M4A. Any sample rate. <span class="dim">Takes at a different rate from the guide are converted.</span></td></tr>
+          <tr><th scope="row">Writes</th><td>32-bit float WAV. <span class="dim">Aligned takes at the guide's sample rate and length; doubles at the take's. Drums and Instrument takes keep their stereo.</span></td></tr>
+          <tr><th scope="row">Privacy</th><td>No account, no analytics. Your audio never leaves your Mac. <span class="dim">It checks a version file for updates at most every six hours.</span></td></tr>
+          <tr><th scope="row">License</th><td>Free.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="final">
+    <div class="wrap">
+      <h2 class="display">Every take on the guide's timing, in one drop.</h2>
+      <div class="hero-cta">
+        <a class="btn primary display" href="download/">Download for macOS — Free</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-row mono">
+    <span>© 2026 GGG · Tangosol LLC</span>
+    <a href="../">GGG Shop</a>
+    <a href="mailto:info@gggaudio.store">info@gggaudio.store</a>
+  </div>
+</footer>
+
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged screenshot" hidden>
+  <button id="lb-close" type="button">Close &times;</button>
+  <img id="lb-img" src="" alt="">
+</div>
+<script>
+  var lightbox = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lb-img');
+  var lbClose = document.getElementById('lb-close');
+  var lastTrigger = null;
+
+  function openLightbox(trigger) {
+    var img = trigger.querySelector('img');
+    lbImg.src = trigger.dataset.full || img.src;
+    lbImg.alt = img.alt;
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+    lastTrigger = trigger;
+    lbClose.focus();
+  }
+  function closeLightbox() {
+    lightbox.hidden = true;
+    lbImg.src = '';
+    document.body.style.overflow = '';
+    if (lastTrigger) lastTrigger.focus();
+  }
+
+  document.querySelectorAll('.zoom').forEach(function (z) {
+    z.addEventListener('click', function () { openLightbox(z); });
+  });
+  lightbox.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', function (e) {
+    if (lightbox.hidden) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'Tab') { e.preventDefault(); lbClose.focus(); } /* only focusable element in the dialog */
+  });
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "850a6758077f404180dcd5e8a61bfe90"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
