@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://gggaudio.store/cr8/">
 <link rel="icon" href="img/icon-512.png" type="image/png">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="GGG Shop">
+<meta property="og:site_name" content="GGG Audio">
 <meta property="og:title" content="CR8 — Sounds you forgot you had">
 <meta property="og:description" content="Mac app, $10 once with a 14-day free trial: it learns your whole sample library, rolls song starters in one key and tempo, and drags them into your DAW.">
 <meta property="og:url" content="https://gggaudio.store/cr8/">
@@ -29,6 +29,9 @@
   "offers": { "@type": "Offer", "price": "10", "priceCurrency": "USD", "url": "https://gggaudio.store/cr8/download/" }
 }
 </script>
+<link rel="apple-touch-icon" href="../img/ggg-icon-180.png">
+<link rel="preload" href="../fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../chrome.css">
 <style>
   /* ---------- fonts (bundled, OFL; the same files the app ships) ---------- */
   @font-face { font-family: "Titan One"; font-weight: 400; font-display: swap; src: url(fonts/titan-one-latin-400-normal.woff2) format("woff2"); }
@@ -338,8 +341,13 @@
     .btn { transition: none; }
   }
 </style>
+<style>
+  /* The GGG frame sits above CR8's own masthead, which no longer needs to stick. */
+  .topbar { position: relative; }
+  .topbar::before, .topbar::after { display: none; }
+</style>
 </head>
-<body>
+<body class="gx-cr8" data-p="cr8">
 
 <div class="decor" aria-hidden="true">
   <div class="halftone h1"></div><div class="halftone h2"></div><div class="halftone h3"></div>
@@ -349,6 +357,28 @@
   <svg class="stk bob side" viewBox="0 0 64 40" style="right:8px;bottom:46%;width:44px;height:28px;animation-delay:-1s"><ellipse cx="32" cy="20" rx="29" ry="8" fill="none" stroke="#120726" stroke-width="7"/><circle cx="32" cy="20" r="13" fill="#22C7FF" stroke="#120726" stroke-width="3"/><ellipse cx="32" cy="20" rx="29" ry="8" fill="none" stroke="#FF3DA8" stroke-width="3" stroke-dasharray="40 200" stroke-dashoffset="-60"/></svg>
 </div>
 
+<header class="gx-bar">
+  <div class="gx-wrap gx-bar-inner">
+    <a class="gx-brand" href="../"><img src="../img/ggg-logo.png" srcset="../img/ggg-logo.png 1x, ../img/ggg-logo@2x.png 2x" width="297" height="112" alt="GGG"><span>Audio</span></a>
+    <nav class="gx-tabs" aria-label="Products">
+      <a class="gx-tab" href="../listenlink/"><img src="../img/listenlink-icon.png" srcset="../img/listenlink-icon@2x.png 2x" width="20" height="20" alt="">ListenLink</a>
+      <a class="gx-tab" href="../blossom/"><img src="../img/blossom-icon.png" srcset="../img/blossom-icon@2x.png 2x" width="20" height="20" alt="">Blossom</a>
+      <a class="gx-tab" href="../lock-in/"><img src="../img/vocal-lock-icon.png" srcset="../img/vocal-lock-icon@2x.png 2x" width="20" height="20" alt="">Lock In</a>
+      <a class="gx-tab" href="../cr8/" aria-current="page"><img src="../img/cr8-icon.png" srcset="../img/cr8-icon@2x.png 2x" width="20" height="20" alt="">CR8</a>
+      <a class="gx-tab" href="../uad-doctor/"><img src="../img/uad-doctor-icon-dark.png" srcset="../img/uad-doctor-icon-dark@2x.png 2x" width="20" height="20" alt="">UAD Doctor</a>
+    </nav>
+    <nav class="gx-links" aria-label="Site">
+      <a href="../pricing/">Pricing</a>
+      <a href="mailto:info@gggaudio.store?subject=CR8">Support</a>
+    </nav>
+  </div>
+</header>
+<div class="gx-crumb">
+  <div class="gx-wrap">
+    <ol aria-label="Breadcrumb"><li><a href="../">GGG Audio</a></li><li aria-current="page">CR8</li></ol>
+  </div>
+</div>
+
 <header class="topbar" id="bar">
   <div class="wrap masthead">
     <a class="brand" href="./" aria-label="CR8">
@@ -356,7 +386,7 @@
       <svg class="bolt" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" fill="#FFE03A" stroke="#120726" stroke-width="2" stroke-linejoin="round"/></svg>
     </a>
     <nav class="topnav" aria-label="Site">
-      <a class="btn" href="../"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>GGG Shop</a>
+      <a class="btn" href="../"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>GGG Audio</a>
       <a class="btn" href="mailto:info@gggaudio.store?subject=CR8">Support</a>
       <a class="btn cyan" href="download/"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Download</a>
     </nav>
@@ -519,16 +549,16 @@
   </div>
 </main>
 
-<footer>
-  <div class="wrap foot-row">
-    <span>© 2026 GGG · Tangosol LLC</span>
-    <a href="../">GGG Shop</a>
-    <a href="../pricing/">Pricing</a>
-    <a href="../terms/">Terms</a>
-    <a href="../refund/">Refunds</a>
-    <a href="../privacy/">Privacy</a>
-    <a href="key/">Lost key</a>
-    <a href="mailto:info@gggaudio.store">info@gggaudio.store</a>
+<footer class="gx-foot" id="support">
+  <div class="gx-wrap">
+    <div class="gx-contact">
+      <span>Support, bugs, feature requests</span>
+      <a href="mailto:info@gggaudio.store?subject=CR8">info@gggaudio.store</a>
+    </div>
+    <div class="gx-foot-row">
+      <span>&copy; 2026 GGG · Tangosol LLC</span>
+      <nav aria-label="Footer"><a href="../">All products</a><a href="../pricing/">Pricing</a><a href="../terms/">Terms</a><a href="../refund/">Refunds</a><a href="../privacy/">Privacy</a><a href="key/">Lost key</a></nav>
+    </div>
   </div>
 </footer>
 
@@ -601,6 +631,7 @@
   var s = document.createElement('script'); s.src = 'https://cdn.paddle.com/paddle/v2/paddle.js'; s.async = true; s.onload = initPaddle; document.head.appendChild(s);
 })();
 </script>
+<script src="../site.js" defer></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "850a6758077f404180dcd5e8a61bfe90"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>

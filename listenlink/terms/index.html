@@ -2,189 +2,41 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="theme-color" content="#0D0F1E">
+<meta name="color-scheme" content="dark">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Terms for the free ListenLink plugin and its link service.">
 <link rel="canonical" href="https://gggaudio.store/listenlink/terms/">
 <title>Terms of Service · ListenLink · GGG</title>
-<style>
-  /* ---------- tokens (shared with the GGG shop) ---------- */
-  :root {
-    --paper: #F4F2ED;
-    --paper-raised: #FBFAF7;
-    --ink: #20221F;
-    --ink-soft: #5A5C55;
-    --rule: #D8D5CB;
-    --rule-strong: #20221F;
-    --accent: #D8402B;
-    --accent-ink: #FFFFFF;
-    --chip-bg: #E9E6DE;
-    --ok: #3E8E5A;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --paper: #191A17;
-      --paper-raised: #211F1C;
-      --ink: #EAE7DE;
-      --ink-soft: #9B988D;
-      --rule: #35342E;
-      --rule-strong: #EAE7DE;
-      --accent: #FF5B44;
-      --accent-ink: #1B120F;
-      --chip-bg: #2B2A25;
-      --ok: #6FBF8B;
-    }
-  }
-  :root[data-theme="dark"] {
-    --paper: #191A17;
-    --paper-raised: #211F1C;
-    --ink: #EAE7DE;
-    --ink-soft: #9B988D;
-    --rule: #35342E;
-    --rule-strong: #EAE7DE;
-    --accent: #FF5B44;
-    --accent-ink: #1B120F;
-    --chip-bg: #2B2A25;
-    --ok: #6FBF8B;
-  }
-
-  /* ---------- base ---------- */
-  * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
-  body {
-    margin: 0;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: "Avenir Next", "Avenir", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.55;
-  }
-  a { color: inherit; }
-  .display { font-family: "Futura", "Century Gothic", "Trebuchet MS", "Avenir Next", sans-serif; }
-  .mono {
-    font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
-    font-variant-numeric: tabular-nums;
-  }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-  ::selection { background: var(--accent); color: var(--accent-ink); }
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-
-  /* ---------- header ---------- */
-  header { border-bottom: 1px solid var(--rule-strong); background: var(--paper); }
-  .masthead {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    padding: 18px 0;
-  }
-  .back {
-    text-decoration: none;
-    font-size: 13px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-  }
-  .back:hover { color: var(--ink); }
-  nav { display: flex; gap: 28px; }
-  nav a {
-    text-decoration: none;
-    font-size: 13px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-  }
-  nav a:hover { color: var(--ink); }
-
-  /* ---------- page ---------- */
-  .hero { padding: 56px 0 72px; }
-  .eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 12px;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    margin: 0 0 18px;
-  }
-  .eyebrow .live-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--ok);
-    flex: none;
-  }
-  h1 {
-    margin: 0;
-    font-weight: 600;
-    font-size: clamp(36px, 6.5vw, 72px);
-    line-height: 1.02;
-    text-transform: uppercase;
-    letter-spacing: .01em;
-  }
-  .hero-sub { margin: 16px 0 0; color: var(--ink-soft); max-width: 54ch; }
-  .hero-cta { display: flex; gap: 16px; align-items: center; margin: 30px 0 0; flex-wrap: wrap; }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 13px 24px;
-    border: 1px solid var(--rule-strong);
-    background: transparent;
-    color: var(--ink);
-    text-decoration: none;
-    font-size: 13px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    cursor: pointer;
-    font-family: inherit;
-    transition: background .15s ease, color .15s ease;
-  }
-  .btn:hover { background: var(--ink); color: var(--paper); }
-  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-  .btn.primary:hover { filter: brightness(.94); }
-  .cta-note { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
-
-  /* ---------- footer ---------- */
-  footer { border-top: 1px solid var(--rule-strong); padding: 24px 0 40px; }
-  .foot-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-    font-size: 12px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-  }
-  .foot-row a { text-decoration: none; }
-  .foot-row a:hover { color: var(--ink); }
-
-  @media (prefers-reduced-motion: reduce) {
-    .btn { transition: none; }
-  }
-
-  /* ---------- prose ---------- */
-  .prose { max-width: 72ch; padding: 48px 0 80px; }
-  .prose h1 { font-size: clamp(30px, 5vw, 52px); margin-bottom: 8px; }
-  .prose .updated { color: var(--ink-soft); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 36px; }
-  .prose h2 { font-size: 15px; letter-spacing: .12em; text-transform: uppercase; margin: 40px 0 10px; padding-top: 18px; border-top: 1px solid var(--rule); }
-  .prose p, .prose li { color: var(--ink); }
-  .prose ul { padding-left: 20px; }
-  .prose li { margin: 6px 0; }
-  .prose code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 14px; background: var(--chip-bg); padding: 1px 6px; border-radius: 4px; }
-</style>
+<link rel="icon" type="image/png" href="../../img/ggg-favicon-64.png">
+<link rel="apple-touch-icon" href="../../img/ggg-icon-180.png">
+<link rel="preload" href="../../fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../chrome.css">
+<link rel="stylesheet" href="../../site.css">
 </head>
-<body>
+<body class="gx-prose" data-p="listenlink">
 
-<header>
-  <div class="wrap masthead">
-    <a class="back display" href="../">&larr; ListenLink</a>
-    <nav aria-label="Site">
-      <a href="../../">GGG Shop</a>
+<header class="gx-bar">
+  <div class="gx-wrap gx-bar-inner">
+    <a class="gx-brand" href="../../"><img src="../../img/ggg-logo.png" srcset="../../img/ggg-logo.png 1x, ../../img/ggg-logo@2x.png 2x" width="297" height="112" alt="GGG"><span>Audio</span></a>
+    <nav class="gx-tabs" aria-label="Products">
+      <a class="gx-tab" href="../../listenlink/" aria-current="page"><img src="../../img/listenlink-icon.png" srcset="../../img/listenlink-icon@2x.png 2x" width="20" height="20" alt="">ListenLink</a>
+      <a class="gx-tab" href="../../blossom/"><img src="../../img/blossom-icon.png" srcset="../../img/blossom-icon@2x.png 2x" width="20" height="20" alt="">Blossom</a>
+      <a class="gx-tab" href="../../lock-in/"><img src="../../img/vocal-lock-icon.png" srcset="../../img/vocal-lock-icon@2x.png 2x" width="20" height="20" alt="">Lock In</a>
+      <a class="gx-tab" href="../../cr8/"><img src="../../img/cr8-icon.png" srcset="../../img/cr8-icon@2x.png 2x" width="20" height="20" alt="">CR8</a>
+      <a class="gx-tab" href="../../uad-doctor/"><img src="../../img/uad-doctor-icon-dark.png" srcset="../../img/uad-doctor-icon-dark@2x.png 2x" width="20" height="20" alt="">UAD Doctor</a>
+    </nav>
+    <nav class="gx-links" aria-label="Site">
+      <a href="../../pricing/">Pricing</a>
       <a href="mailto:info@gggaudio.store?subject=ListenLink">Support</a>
     </nav>
   </div>
 </header>
+<div class="gx-crumb">
+  <div class="gx-wrap">
+    <ol aria-label="Breadcrumb"><li><a href="../../">GGG Audio</a></li><li><a href="../../listenlink/">ListenLink</a></li><li aria-current="page">Terms</li></ol>
+  </div>
+</div>
 
 <main>
   <article class="prose wrap">
@@ -230,17 +82,20 @@
   </article>
 </main>
 
-<footer>
-  <div class="wrap foot-row mono">
-    <span>&copy; 2026 GGG · Tangosol LLC</span>
-    <a href="../">ListenLink</a>
-    <a href="../privacy/">Privacy</a>
-    <a href="../terms/">Terms</a>
-    <a href="https://github.com/gleyzeddonut/listenlink">Source (AGPL-3.0)</a>
-    <a href="mailto:info@gggaudio.store">info@gggaudio.store</a>
+<footer class="gx-foot" id="support">
+  <div class="gx-wrap">
+    <div class="gx-contact">
+      <span>Support, bugs, feature requests</span>
+      <a href="mailto:info@gggaudio.store?subject=ListenLink">info@gggaudio.store</a>
+    </div>
+    <div class="gx-foot-row">
+      <span>&copy; 2026 GGG · Tangosol LLC</span>
+      <nav aria-label="Footer"><a href="../">ListenLink</a><a href="../privacy/">Privacy</a><a href="../terms/">Terms</a><a href="https://github.com/gleyzeddonut/listenlink">Source (AGPL-3.0)</a><a href="../../pricing/">Pricing</a><a href="../../refund/">Refunds</a></nav>
+    </div>
   </div>
 </footer>
 
+<script src="../../site.js" defer></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "850a6758077f404180dcd5e8a61bfe90"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>

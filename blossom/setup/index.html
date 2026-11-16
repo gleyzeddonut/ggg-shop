@@ -1,7 +1,17 @@
-<title>Blossom Setup</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#1B1820">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="How to install and set up Blossom on your Mac: the standalone app, the AU/VST3 plugin in Logic Pro and Ableton Live, and MIDI routing.">
 <link rel="canonical" href="https://gggaudio.store/blossom/setup/">
+<title>Blossom Setup</title>
+<link rel="icon" type="image/png" href="../../img/ggg-favicon-64.png">
+<link rel="apple-touch-icon" href="../../img/ggg-icon-180.png">
+<link rel="preload" href="../../fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../chrome.css">
 <style>
   :root {
     --panel-top: #232028;
@@ -21,7 +31,7 @@
     --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  .page, .page * { margin: 0; padding: 0; box-sizing: border-box; }
   html { background: var(--panel-bottom); }
   body {
     font-family: var(--sans);
@@ -29,23 +39,23 @@
     color: var(--text);
     line-height: 1.65;
     font-size: 15.5px;
-    padding: 0 20px 80px;
+    margin: 0;
   }
-  .page { max-width: 680px; margin: 0 auto; }
+  .page { max-width: 720px; margin: 0 auto; padding: 0 20px 80px; }
 
   /* -- header ---------------------------------------------------------- */
-  .back {
+  .page .back {
     position: absolute; top: 22px; left: 20px;
     font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em;
     text-transform: uppercase; color: var(--faint);
   }
   .back:hover, .back:focus-visible { color: var(--glow); text-decoration: none; }
-  header { text-align: center; padding: 64px 0 8px; }
+  .page > header { text-align: center; padding: 64px 0 8px; }
   .wordmark {
     font-size: 13px; font-weight: 700; letter-spacing: 0.38em;
     color: var(--brand); text-indent: 0.38em;
   }
-  h1 {
+  .page h1 {
     font-size: 30px; font-weight: 700; letter-spacing: -0.01em;
     margin-top: 18px; text-wrap: balance;
   }
@@ -84,7 +94,7 @@
   .piano-caption .s { color: var(--glow); }
 
   /* -- cards & sections ------------------------------------------------ */
-  section {
+  .page section {
     background: var(--card); border: 0.5px solid var(--line);
     border-radius: 12px; padding: 26px 28px 28px; margin-top: 28px;
   }
@@ -97,16 +107,16 @@
     letter-spacing: -0.01em;
   }
   .sub { color: var(--faint); font-size: 14px; }
-  h3 {
+  .page h3 {
     font-size: 16px; font-weight: 650; margin: 26px 0 8px;
     color: var(--text);
   }
-  p { margin-top: 10px; }
-  p, li { color: var(--hint); }
-  p strong, li strong { color: var(--text); font-weight: 600; }
-  a { color: var(--glow); text-decoration: none; }
-  a:hover, a:focus-visible { text-decoration: underline; }
-  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+  .page p { margin-top: 10px; }
+  .page p, .page li { color: var(--hint); }
+  .page p strong, .page li strong { color: var(--text); font-weight: 600; }
+  .page a { color: var(--glow); text-decoration: none; }
+  .page a:hover, .page a:focus-visible { text-decoration: underline; }
+  .page a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
 
   kbd, .v {
     font-family: var(--mono); font-size: 0.86em; color: var(--glow);
@@ -180,7 +190,7 @@
   .fix .q { color: var(--text); font-weight: 600; }
   .fix .a { color: var(--hint); font-size: 14.5px; margin-top: 3px; }
 
-  footer {
+  .page > footer {
     text-align: center; margin-top: 44px; font-family: var(--mono);
     font-size: 11px; color: var(--faint);
   }
@@ -188,8 +198,30 @@
     .piano .k.sounding { transition: box-shadow 0.3s; }
   }
 </style>
-
-<a class="back" href="../">&larr; Blossom</a>
+</head>
+<body class="gx-setup" data-p="blossom">
+<header class="gx-bar">
+  <div class="gx-wrap gx-bar-inner">
+    <a class="gx-brand" href="../../"><img src="../../img/ggg-logo.png" srcset="../../img/ggg-logo.png 1x, ../../img/ggg-logo@2x.png 2x" width="297" height="112" alt="GGG"><span>Audio</span></a>
+    <nav class="gx-tabs" aria-label="Products">
+      <a class="gx-tab" href="../../listenlink/"><img src="../../img/listenlink-icon.png" srcset="../../img/listenlink-icon@2x.png 2x" width="20" height="20" alt="">ListenLink</a>
+      <a class="gx-tab" href="../../blossom/" aria-current="page"><img src="../../img/blossom-icon.png" srcset="../../img/blossom-icon@2x.png 2x" width="20" height="20" alt="">Blossom</a>
+      <a class="gx-tab" href="../../lock-in/"><img src="../../img/vocal-lock-icon.png" srcset="../../img/vocal-lock-icon@2x.png 2x" width="20" height="20" alt="">Lock In</a>
+      <a class="gx-tab" href="../../cr8/"><img src="../../img/cr8-icon.png" srcset="../../img/cr8-icon@2x.png 2x" width="20" height="20" alt="">CR8</a>
+      <a class="gx-tab" href="../../uad-doctor/"><img src="../../img/uad-doctor-icon-dark.png" srcset="../../img/uad-doctor-icon-dark@2x.png 2x" width="20" height="20" alt="">UAD Doctor</a>
+    </nav>
+    <nav class="gx-links" aria-label="Site">
+      <a href="../../pricing/">Pricing</a>
+      <a href="mailto:info@gggaudio.store?subject=Blossom">Support</a>
+    </nav>
+  </div>
+</header>
+<div class="gx-crumb">
+  <div class="gx-wrap">
+    <ol aria-label="Breadcrumb"><li><a href="../../">GGG Audio</a></li><li><a href="../../blossom/">Blossom</a></li><li aria-current="page">Setup guide</li></ol>
+    <nav aria-label="Guide"><a href="#install">Install</a><a href="#app">App</a><a href="#plugin">Plugin</a><a href="#troubleshooting">Troubleshooting</a></nav>
+  </div>
+</div>
 <div class="page">
 <header>
   <div class="wordmark">BLOSSOM</div>
@@ -402,4 +434,19 @@
 
 <footer>BLOSSOM &middot; chords from single keys &middot; macOS</footer>
 </div>
+<footer class="gx-foot" id="support">
+  <div class="gx-wrap">
+    <div class="gx-contact">
+      <span>Support, bugs, feature requests</span>
+      <a href="mailto:info@gggaudio.store?subject=Blossom">info@gggaudio.store</a>
+    </div>
+    <div class="gx-foot-row">
+      <span>&copy; 2026 GGG · Tangosol LLC</span>
+      <nav aria-label="Footer"><a href="../">Blossom</a><a href="../../pricing/">Pricing</a><a href="../../terms/">Terms</a><a href="../../refund/">Refunds</a><a href="../../privacy/">Privacy</a></nav>
+    </div>
+  </div>
+</footer>
+<script src="../../site.js" defer></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "850a6758077f404180dcd5e8a61bfe90"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

@@ -1,0 +1,180 @@
+/* GGG Audio — the shared frame on every page: header with product tabs, crumb bar, footer.
+   Everything here is prefixed gx- so it never collides with a page's own styles
+   (CR8 and the Blossom setup guide keep their own product-matched designs). */
+
+@font-face {
+  font-family: "Archivo";
+  src: url("fonts/archivo-var.woff2") format("woff2");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+}
+
+/* Colours are registered so a page can cross-fade them. */
+@property --gx-bg { syntax: "<color>"; inherits: true; initial-value: #0D0F1E; }
+@property --gx-g1 { syntax: "<color>"; inherits: true; initial-value: #3448D8; }
+@property --gx-g2 { syntax: "<color>"; inherits: true; initial-value: #8A5CFF; }
+@property --gx-a  { syntax: "<color>"; inherits: true; initial-value: #7088FF; }
+
+:root {
+  --gx-i: #F1EEE6;
+  --gx-s: rgba(241,238,230,.62);
+  --gx-r: rgba(241,238,230,.12);
+  --gx-tint: rgba(241,238,230,.06);
+  --gx-ai: #0C0C10;
+  --gx-ok: #6FBF8B;
+  --gx-brand: linear-gradient(90deg, #12E4F6, #6F8BFF 50%, #8E4DFF);
+  --gx-ease: cubic-bezier(.23,1,.32,1);
+  --gx-sans: "Archivo", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --gx-mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+/* Each product's palette, taken from its own interface. */
+body[data-p="ggg"]        { --gx-bg: #0E0F14; --gx-g1: #1BB8D6; --gx-g2: #7C4DFF; --gx-a: #7C9BFF; }
+body[data-p="listenlink"] { --gx-bg: #0D0F1E; --gx-g1: #3448D8; --gx-g2: #8A5CFF; --gx-a: #7088FF; }
+body[data-p="blossom"]    { --gx-bg: #110D1D; --gx-g1: #6A47E6; --gx-g2: #D3A8FF; --gx-a: #B394FF; }
+body[data-p="lock-in"]    { --gx-bg: #0F1016; --gx-g1: #E8507A; --gx-g2: #4C8DF0; --gx-a: #FF6B91; }
+body[data-p="cr8"]        { --gx-bg: #2B0C6E; --gx-g1: #EC2F92; --gx-g2: #FFC400; --gx-a: #FFC400; }
+body[data-p="uad-doctor"] { --gx-bg: #0B130E; --gx-g1: #23A94C; --gx-g2: #E8C33A; --gx-a: #45D06E; }
+
+/* ---------- header ---------- */
+.gx-bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  font-family: var(--gx-sans);
+  color: var(--gx-i);
+  background: color-mix(in srgb, var(--gx-bg) 76%, transparent);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+  border-bottom: 1px solid var(--gx-r);
+  -webkit-font-smoothing: antialiased;
+}
+@media (prefers-reduced-transparency: reduce) {
+  .gx-bar { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--gx-bg); }
+}
+.gx-wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; box-sizing: border-box; }
+.gx-bar-inner { display: flex; align-items: center; gap: 24px; min-height: 64px; }
+.gx-brand { flex: none; display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+.gx-brand img { display: block; height: 26px; width: auto; max-width: none; }
+.gx-brand span { font-stretch: 125%; font-weight: 600; font-size: 14px; letter-spacing: .16em; text-transform: uppercase; color: var(--gx-s); }
+.gx-tabs { flex: 1; display: flex; justify-content: center; gap: 2px; margin: 0; padding: 0; }
+.gx-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 21px 12px;
+  margin: 0;
+  border: 0;
+  background: none;
+  font: 600 14px/1.2 var(--gx-sans);
+  color: var(--gx-s);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 150ms ease;
+}
+.gx-tab img { display: block; width: 20px; height: 20px; border-radius: 22.5%; opacity: .7; transition: opacity 150ms ease; max-width: none; }
+.gx-tab::after {
+  content: "";
+  position: absolute;
+  left: 12px; right: 12px; bottom: -1px;
+  height: 2px;
+  background: var(--gx-a);
+  transform: scaleX(0);
+  transition: transform 300ms var(--gx-ease);
+}
+.gx-tab[aria-current="page"], .gx-tab[aria-selected="true"] { color: var(--gx-i); }
+.gx-tab[aria-current="page"] img, .gx-tab[aria-selected="true"] img { opacity: 1; }
+.gx-tab[aria-current="page"]::after, .gx-tab[aria-selected="true"]::after { transform: scaleX(1); }
+.gx-links { flex: none; display: flex; gap: 2px; }
+.gx-links a { font: 500 14px/1.2 var(--gx-sans); color: var(--gx-s); padding: 8px 10px; border-radius: 6px; text-decoration: none; transition: color 150ms ease, background 150ms ease; }
+.gx-links a[aria-current="page"] { color: var(--gx-i); }
+
+@media (max-width: 1080px) {
+  .gx-bar-inner { flex-wrap: wrap; gap: 0 16px; padding-top: 12px; }
+  .gx-brand { flex: 1; }
+  .gx-tabs {
+    order: 3;
+    flex: 1 0 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin: 4px -24px 0;
+    padding: 0 12px;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 16px, #000 calc(100% - 24px), transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 16px, #000 calc(100% - 24px), transparent);
+  }
+  .gx-tabs::-webkit-scrollbar { display: none; }
+  .gx-tab { padding: 14px 12px; }
+}
+@media (max-width: 420px) { .gx-brand span { display: none; } }
+
+/* ---------- crumb bar (every page but the home page) ---------- */
+.gx-crumb {
+  font-family: var(--gx-sans);
+  border-bottom: 1px solid var(--gx-r);
+  background: color-mix(in srgb, var(--gx-bg) 92%, transparent);
+  color: var(--gx-s);
+  -webkit-font-smoothing: antialiased;
+}
+.gx-crumb .gx-wrap { display: flex; align-items: center; justify-content: space-between; gap: 8px 24px; flex-wrap: wrap; min-height: 46px; padding-top: 6px; padding-bottom: 6px; }
+.gx-crumb ol { list-style: none; display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 0; padding: 0; font: 500 11.5px/1.4 var(--gx-mono); letter-spacing: .12em; text-transform: uppercase; }
+.gx-crumb li { margin: 0; padding: 0; display: flex; align-items: center; gap: 10px; color: var(--gx-s); }
+.gx-crumb li + li::before { content: "/"; opacity: .5; }
+.gx-crumb li:last-child { color: var(--gx-i); }
+.gx-crumb a { color: inherit; text-decoration: none; }
+.gx-crumb nav { display: flex; flex-wrap: wrap; gap: 4px; }
+.gx-crumb nav a {
+  font: 600 13px/1.2 var(--gx-sans);
+  color: var(--gx-s);
+  padding: 7px 12px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: color 150ms ease, background 150ms ease, box-shadow 150ms ease;
+}
+.gx-crumb nav a[aria-current="page"] { color: var(--gx-i); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gx-a) 60%, transparent); }
+
+/* ---------- footer ---------- */
+.gx-foot {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--gx-r);
+  font-family: var(--gx-sans);
+  color: var(--gx-i);
+  background: var(--gx-bg);
+  -webkit-font-smoothing: antialiased;
+}
+.gx-foot .gx-wrap { padding-top: 72px; padding-bottom: 40px; display: flex; flex-direction: column; gap: 56px; }
+.gx-contact { display: flex; flex-direction: column; gap: 12px; }
+.gx-contact span { font: 500 11.5px/1.4 var(--gx-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--gx-s); }
+.gx-contact a {
+  align-self: flex-start;
+  font: 700 clamp(26px, 4vw, 44px)/1.1 var(--gx-sans);
+  letter-spacing: -.025em;
+  color: var(--gx-i);
+  text-decoration: none;
+  padding-bottom: 4px;
+  background: var(--gx-brand) no-repeat 0 100% / 100% 3px;
+  transition: color 150ms ease;
+}
+.gx-foot-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px 16px; flex-wrap: wrap; padding-top: 16px; border-top: 1px solid var(--gx-r); font: 400 13px/1.5 var(--gx-sans); color: var(--gx-s); }
+.gx-foot-row nav { display: flex; gap: 8px 22px; flex-wrap: wrap; }
+.gx-foot-row a { color: inherit; text-decoration: none; transition: color 150ms ease; }
+
+@media (hover: hover) and (pointer: fine) {
+  .gx-tab:hover { color: var(--gx-i); }
+  .gx-tab:hover img { opacity: 1; }
+  .gx-links a:hover { color: var(--gx-i); background: var(--gx-tint); }
+  .gx-crumb a:hover { color: var(--gx-i); }
+  .gx-crumb nav a:hover { background: var(--gx-tint); }
+  .gx-contact a:hover { color: var(--gx-a); }
+  .gx-foot-row a:hover { color: var(--gx-i); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gx-tab, .gx-tab::after, .gx-tab img { transition: none; }
+}
