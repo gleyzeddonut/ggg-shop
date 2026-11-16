@@ -542,7 +542,7 @@
         <p>CR8 learns your whole library's tempo, key and role, rolls loops that fit together, and drags them into your DAW. Lock what works, reroll the rest.</p>
         <div class="actions">
           <a class="btn" href="cr8/"><span>Try it free</span><span>14 days</span></a>
-          <a class="btn ghostbtn" href="cr8/">Buy · $10</a>
+          <a class="btn ghostbtn" href="cr8/" data-buy-cr8>Buy · $10</a>
         </div>
       </div>
       <div class="stage wrap">
@@ -791,6 +791,36 @@
     document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
   }
   window.addEventListener('resize', function () { size(); draw(); });
+})();
+</script>
+<script>
+// CR8's Buy on this page opens the same Paddle checkout as /cr8/ (same live token and price), and a
+// finished order lands on /cr8/thanks/ with the key. Until Paddle has loaded, the button is a plain
+// link to the CR8 page, which has its own Buy.
+(function () {
+  var PADDLE = { token: 'live_e58e27fe3cf2ebaab9e9d487962', priceId: 'pri_01m753araedh9vaxt75yhsz39j' };
+  var ready = false;
+  function init() {
+    if (ready || !window.Paddle) return;
+    Paddle.Initialize({
+      token: PADDLE.token,
+      eventCallback: function (e) {
+        if (e && e.name === 'checkout.completed' && e.data && e.data.transaction_id) {
+          location.href = new URL('/cr8/thanks/?_ptxn=' + encodeURIComponent(e.data.transaction_id), location.href).href;
+        }
+      }
+    });
+    ready = true;
+  }
+  document.querySelectorAll('[data-buy-cr8]').forEach(function (b) {
+    b.addEventListener('click', function (e) {
+      init();
+      if (!ready) return;
+      e.preventDefault();
+      Paddle.Checkout.open({ items: [{ priceId: PADDLE.priceId, quantity: 1 }], settings: { theme: 'light' } });
+    });
+  });
+  var s = document.createElement('script'); s.src = 'https://cdn.paddle.com/paddle/v2/paddle.js'; s.async = true; s.onload = init; document.head.appendChild(s);
 })();
 </script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "850a6758077f404180dcd5e8a61bfe90"}'></script><!-- End Cloudflare Web Analytics -->
