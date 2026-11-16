@@ -156,7 +156,7 @@
     position: relative;
     overflow: hidden;
     padding-top: 64px;
-    height: clamp(680px, calc(100svh - 65px), 1040px);
+    padding-bottom: 72px;
     display: flex;
     flex-direction: column;
     isolation: isolate;
@@ -225,11 +225,11 @@
   .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
 
   /* The product, tilted onto the floor. */
-  .stage { position: relative; flex: 1 1 0; min-height: 0; overflow: hidden; display: flex; align-items: flex-start; justify-content: center; margin-top: 48px; padding-top: 4px; perspective: 2200px; }
+  .stage { position: relative; flex: none; display: flex; align-items: flex-start; justify-content: center; margin-top: 48px; padding-top: 4px; perspective: 2200px; }
   .shot {
     position: relative;
     display: block;
-    width: min(100%, 980px);
+    width: min(100%, 900px);
     line-height: 0;
     border-radius: 14px;
     overflow: hidden;
@@ -242,45 +242,13 @@
   .shot.mid  { width: min(100%, 860px); }
   .shot.icon { width: min(46%, 240px); border-radius: 22.5%; transform: rotateX(8deg); }
   @media (max-width: 1080px) {
-    .hero { height: clamp(700px, calc(100svh - 104px), 1040px); padding-top: 44px; }
+    .hero { padding-top: 44px; }
   }
   @media (max-width: 700px) {
     .stage { margin-top: 32px; }
     .hero-copy p { font-size: 16.5px; }
     .shot { transform: rotateX(8deg); }
   }
-
-  /* Counter, progress and arrows along the bottom of the hero. */
-  .hero-foot {
-    position: relative;
-    z-index: 2;
-    flex: none;
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 24px;
-    padding-top: 22px;
-    padding-bottom: 22px;
-    border-top: 1px solid var(--r);
-    background: color-mix(in srgb, var(--bg) 55%, transparent);
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-  }
-  .count { font-family: var(--mono); font-size: 13px; letter-spacing: .08em; color: var(--s); font-variant-numeric: tabular-nums; }
-  .count b { font-size: 22px; font-weight: 500; color: var(--i); margin-right: 6px; }
-  .progress { position: relative; height: 2px; background: var(--r); }
-  .progress i { position: absolute; inset: 0 auto 0 0; background: var(--a); transition: width 500ms var(--ease), left 500ms var(--ease); }
-  .arrows { display: flex; align-items: center; gap: 8px; }
-  .arrows .next-name { margin-right: 8px; font-size: 13px; color: var(--s); white-space: nowrap; }
-  .arrows button {
-    width: 44px; height: 44px;
-    display: grid; place-items: center;
-    border: 1px solid var(--r);
-    border-radius: 50%;
-    transition: background 150ms ease, border-color 150ms ease, transform 160ms var(--ease);
-  }
-  .arrows button:active { transform: scale(.94); }
-  @media (max-width: 560px) { .arrows .next-name { display: none; } }
 
   /* ---------- per-product detail ---------- */
   .detail { padding-top: 96px; padding-bottom: 24px; }
@@ -394,17 +362,16 @@
     .links a:hover { color: var(--i); background: var(--tint); }
     .btn:hover { filter: brightness(1.08); box-shadow: 0 14px 36px -10px var(--a); }
     .btn.ghostbtn:hover { background: var(--tint); filter: none; }
-    .arrows button:hover { background: var(--tint); border-color: color-mix(in srgb, var(--a) 60%, var(--r)); }
     .tile:hover { background: rgba(255,255,255,.05); }
     .buy a.more:hover { color: var(--i); border-color: var(--a); }
     .contact a:hover { color: var(--a); }
     .foot-row a:hover { color: var(--i); }
   }
   @media (prefers-reduced-motion: reduce) {
-    body, .tab::after, .progress i, .btn, .tile { transition: none !important; }
+    body, .tab::after, .btn, .tile { transition: none !important; }
   }
 </style>
-<noscript><style>.prod[hidden] { display: block !important; } .hero-foot { display: none; }</style></noscript>
+<noscript><style>.prod[hidden] { display: block !important; }</style></noscript>
 </head>
 <body data-p="listenlink">
 
@@ -656,16 +623,6 @@
     </section>
   </article>
 
-  <!-- Counter, progress and arrows; JS moves this into the active product's hero. -->
-  <div class="hero-foot wrap" id="heroFoot">
-    <div class="count" aria-live="polite"><b id="cur">01</b>/ <span id="tot">05</span></div>
-    <div class="progress" aria-hidden="true"><i id="prog"></i></div>
-    <div class="arrows">
-      <span class="next-name" id="nextName">Next: Blossom</span>
-      <button type="button" id="prev" aria-label="Previous product"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg></button>
-      <button type="button" id="next" aria-label="Next product"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button>
-    </div>
-  </div>
   <canvas id="wave" aria-hidden="true"></canvas>
 
   <!-- ================= Lineup ================= -->
@@ -722,14 +679,8 @@
   var keys = prods.map(function (p) { return p.dataset.p; });
   var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
   var tiles = Array.prototype.slice.call(document.querySelectorAll('.tile'));
-  var foot = document.getElementById('heroFoot');
   var wave = document.getElementById('wave');
-  var cur = document.getElementById('cur'), tot = document.getElementById('tot');
-  var prog = document.getElementById('prog'), nextName = document.getElementById('nextName');
   var idx = -1;
-
-  function pad(n) { return (n < 10 ? '0' : '') + n; }
-  tot.textContent = pad(prods.length);
 
   function show(key, opts) {
     opts = opts || {};
@@ -743,7 +694,6 @@
 
     document.body.dataset.p = keys[i];
     var hero = p.querySelector('.hero');
-    hero.appendChild(foot);
     hero.insertBefore(wave, hero.firstChild);
 
     tabs.forEach(function (t) {
@@ -756,10 +706,6 @@
     });
     tiles.forEach(function (t) { t.setAttribute('aria-current', t.dataset.go === keys[i]); });
 
-    cur.textContent = pad(i + 1);
-    prog.style.width = (100 / prods.length) + '%';
-    prog.style.left = (100 * i / prods.length) + '%';
-    nextName.textContent = 'Next: ' + prods[(i + 1) % prods.length].dataset.name;
     document.title = p.dataset.name + ' · GGG Audio';
     if (opts.hash !== false && history.replaceState) history.replaceState(null, '', '#' + keys[i]);
     setTimeout(readColors, reduced ? 0 : 520);
@@ -783,8 +729,6 @@
       window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
     });
   });
-  document.getElementById('prev').addEventListener('click', function () { step(-1); });
-  document.getElementById('next').addEventListener('click', function () { step(1); });
   window.addEventListener('hashchange', function () { show(location.hash.slice(1), { hash: false }); });
 
   // ---------- waveform behind the product ----------
@@ -842,7 +786,7 @@
   draw();
   if (!reduced) {
     if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (en) { en[0].isIntersecting ? start() : stop(); }).observe(foot);
+      new IntersectionObserver(function (en) { en[0].isIntersecting ? start() : stop(); }).observe(wave);
     } else { start(); }
     document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
   }
