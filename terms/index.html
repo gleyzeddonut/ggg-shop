@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<!-- Opt in to animated page changes right here, not only in chrome.css: if the browser checks before
+     that stylesheet arrives, the transition is skipped. -->
+<style>@view-transition { navigation: auto; } @media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }</style>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Terms of sale and use for GGG software: licenses, trials, purchases through Paddle, updates and warranty.">
 <meta name="theme-color" content="#0E0F14">

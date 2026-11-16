@@ -58,36 +58,44 @@ body[data-p="uad-doctor"] { --gx-bg: #0B130E; --gx-g1: #23A94C; --gx-g2: #E8C33A
 .gx-brand { flex: none; display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
 .gx-brand img { display: block; height: 26px; width: auto; max-width: none; }
 .gx-brand span { font-stretch: 125%; font-weight: 600; font-size: 14px; letter-spacing: .16em; text-transform: uppercase; color: var(--gx-s); }
-.gx-tabs { flex: 1; display: flex; justify-content: center; gap: 2px; margin: 0; padding: 0; }
+/* The product tabs are a switch: a rounded track, with the current product lit as a pill in its colour.
+   Moving between products, the pill glides to the new tab (see "page transitions" below). */
+.gx-tabs {
+  flex: none;
+  display: flex;
+  gap: 2px;
+  margin: 0 auto;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(0,0,0,.32);
+  box-shadow: inset 0 0 0 1px var(--gx-r), inset 0 1px 2px rgba(0,0,0,.4);
+}
 .gx-tab {
   position: relative;
+  flex: none;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 21px 12px;
+  padding: 9px 15px;
   margin: 0;
   border: 0;
+  border-radius: 999px;
   background: none;
   font: 600 14px/1.2 var(--gx-sans);
   color: var(--gx-s);
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  transition: color 150ms ease;
+  transition: color 150ms ease, background 150ms ease;
 }
 .gx-tab img { display: block; width: 20px; height: 20px; border-radius: 22.5%; opacity: .7; transition: opacity 150ms ease; max-width: none; }
-.gx-tab::after {
-  content: "";
-  position: absolute;
-  left: 12px; right: 12px; bottom: -1px;
-  height: 2px;
+.gx-tab[aria-current="page"] {
+  color: var(--gx-ai);
   background: var(--gx-a);
-  transform: scaleX(0);
-  transition: transform 300ms var(--gx-ease);
+  box-shadow: 0 0 18px -2px color-mix(in srgb, var(--gx-a) 70%, transparent), inset 0 1px 0 rgba(255,255,255,.25);
+  view-transition-name: gx-pill;
 }
-.gx-tab[aria-current="page"], .gx-tab[aria-selected="true"] { color: var(--gx-i); }
-.gx-tab[aria-current="page"] img, .gx-tab[aria-selected="true"] img { opacity: 1; }
-.gx-tab[aria-current="page"]::after, .gx-tab[aria-selected="true"]::after { transform: scaleX(1); }
+.gx-tab[aria-current="page"] img { opacity: 1; box-shadow: 0 0 0 1px rgba(0,0,0,.18); }
 .gx-links { flex: none; display: flex; gap: 2px; }
 .gx-links a { font: 500 14px/1.2 var(--gx-sans); color: var(--gx-s); padding: 8px 10px; border-radius: 6px; text-decoration: none; transition: color 150ms ease, background 150ms ease; }
 .gx-links a[aria-current="page"] { color: var(--gx-i); }
@@ -98,16 +106,13 @@ body[data-p="uad-doctor"] { --gx-bg: #0B130E; --gx-g1: #23A94C; --gx-g2: #E8C33A
   .gx-tabs {
     order: 3;
     flex: 1 0 100%;
-    justify-content: flex-start;
+    margin: 10px 0 12px;
     overflow-x: auto;
     scrollbar-width: none;
-    margin: 4px -24px 0;
-    padding: 0 12px;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 16px, #000 calc(100% - 24px), transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 16px, #000 calc(100% - 24px), transparent);
   }
   .gx-tabs::-webkit-scrollbar { display: none; }
-  .gx-tab { padding: 14px 12px; }
+  .gx-tabs::after { content: ""; flex: 0 0 4px; }   /* keeps the end padding when the track scrolls */
+  .gx-tab { padding: 9px 13px; }
 }
 @media (max-width: 420px) { .gx-brand span { display: none; } }
 
@@ -167,7 +172,7 @@ body[data-p="uad-doctor"] { --gx-bg: #0B130E; --gx-g1: #23A94C; --gx-g2: #E8C33A
 .gx-foot-row a { color: inherit; text-decoration: none; transition: color 150ms ease; }
 
 @media (hover: hover) and (pointer: fine) {
-  .gx-tab:hover { color: var(--gx-i); }
+  .gx-tab:not([aria-current="page"]):hover { color: var(--gx-i); background: rgba(255,255,255,.05); }
   .gx-tab:hover img { opacity: 1; }
   .gx-links a:hover { color: var(--gx-i); background: var(--gx-tint); }
   .gx-crumb a:hover { color: var(--gx-i); }
@@ -176,5 +181,21 @@ body[data-p="uad-doctor"] { --gx-bg: #0B130E; --gx-g1: #23A94C; --gx-g2: #E8C33A
   .gx-foot-row a:hover { color: var(--gx-i); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .gx-tab, .gx-tab::after, .gx-tab img { transition: none; }
+  .gx-tab, .gx-tab img { transition: none; }
+}
+
+/* ---------- page transitions ----------
+   Moving between pages animates in place, so switching products feels like flipping a tab:
+   the header holds still, the lit pill glides to the new tab, the colours cross-fade and the
+   new page rises in. Browsers without cross-page view transitions just load the page. */
+@view-transition { navigation: auto; }
+.gx-bar { view-transition-name: gx-bar; }
+::view-transition-group(gx-pill) { animation-duration: 480ms; animation-timing-function: var(--gx-ease); }
+::view-transition-group(gx-bar) { animation-duration: 480ms; }
+::view-transition-old(root) { animation: 200ms ease both gx-page-out; }
+::view-transition-new(root) { animation: 540ms var(--gx-ease) 90ms both gx-page-in; }
+@keyframes gx-page-out { to { opacity: 0; } }
+@keyframes gx-page-in { from { opacity: 0; transform: translateY(18px); } }
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
 }

@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<!-- Opt in to animated page changes right here, not only in chrome.css: if the browser checks before
+     that stylesheet arrives, the transition is skipped. -->
+<style>@view-transition { navigation: auto; } @media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }</style>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="CR8 — a Mac app that digs through every sample folder and drive you own, learns each sound's tempo, key and role, and rolls you song starters that fit together. Lock what works, reroll the rest, drag it into your DAW. $10 once, with a 14-day free trial.">
 <meta name="color-scheme" content="light">

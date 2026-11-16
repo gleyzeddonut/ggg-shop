@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<!-- Opt in to animated page changes right here, not only in chrome.css: if the browser checks before
+     that stylesheet arrives, the transition is skipped. -->
+<style>@view-transition { navigation: auto; } @media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }</style>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="GGG Audio — independent audio software for music makers, by a music maker. ListenLink, Blossom, Lock In, CR8 and UAD Doctor.">
 <meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#0E1020">
+<meta name="theme-color" content="#0E0F14">
 <link rel="canonical" href="https://gggaudio.store/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GGG Audio">
@@ -18,569 +21,212 @@
 <meta property="og:image:alt" content="GGG Audio: Independent audio software for music makers, by a music maker. ListenLink, Blossom, Lock In, CR8 and UAD Doctor.">
 <meta name="twitter:card" content="summary_large_image">
 <title>GGG Audio — Independent audio software for music makers, by a music maker</title>
-<link rel="icon" type="image/png" href="img/ggg-favicon-64.png">
 <link rel="apple-touch-icon" href="img/ggg-icon-180.png">
+<link rel="icon" type="image/png" href="img/ggg-favicon-64.png">
 <link rel="preload" href="fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="chrome.css">
+<link rel="stylesheet" href="site.css">
 <script type="application/ld+json">
 { "@context": "https://schema.org", "@type": "WebSite", "name": "GGG Audio", "url": "https://gggaudio.store/" }
 </script>
 <style>
-  @font-face {
-    font-family: "Archivo";
-    src: url("fonts/archivo-var.woff2") format("woff2");
-    font-weight: 100 900;
-    font-stretch: 62% 125%;
-    font-display: swap;
-  }
-
-  /* Theme colours are registered so they can cross-fade when the product changes. */
-  @property --bg { syntax: "<color>"; inherits: true; initial-value: #0E1020; }
-  @property --g1 { syntax: "<color>"; inherits: true; initial-value: #3B4FE0; }
-  @property --g2 { syntax: "<color>"; inherits: true; initial-value: #8A5CFF; }
-  @property --a  { syntax: "<color>"; inherits: true; initial-value: #6F86FF; }
-
-  /* ---------- tokens ---------- */
-  :root {
-    --i: #F1EEE6;                    /* ink */
-    --s: rgba(241,238,230,.62);      /* secondary text */
-    --r: rgba(241,238,230,.12);      /* rule */
-    --tint: rgba(241,238,230,.06);
-    --ai: #0C0C10;                   /* text on accent */
-    --brand: linear-gradient(90deg, #12E4F6, #6F8BFF 50%, #8E4DFF);   /* the logo gradient */
-    --ok: #6FBF8B;
-    --ease: cubic-bezier(.23,1,.32,1);
-    --sans: "Archivo", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
-    --mono: ui-monospace, "SF Mono", Menlo, monospace;
-  }
-
-  /* Each product's palette, taken from its own interface. */
-  body[data-p="listenlink"] { --bg: #0D0F1E; --g1: #3448D8; --g2: #8A5CFF; --a: #7088FF; }
-  body[data-p="blossom"]    { --bg: #110D1D; --g1: #6A47E6; --g2: #D3A8FF; --a: #B394FF; }
-  body[data-p="lock-in"]    { --bg: #0F1016; --g1: #E8507A; --g2: #4C8DF0; --a: #FF6B91; }
-  body[data-p="cr8"]        { --bg: #2B0C6E; --g1: #EC2F92; --g2: #FFC400; --a: #FFC400; }
-  body[data-p="uad-doctor"] { --bg: #0B130E; --g1: #23A94C; --g2: #E8C33A; --a: #45D06E; }
-
-  /* ---------- base ---------- */
-  * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; background: #0D0F1E; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--i);
-    font-family: var(--sans);
-    font-size: 17px;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-    transition: --bg 700ms ease, --g1 700ms ease, --g2 700ms ease, --a 500ms ease;
-  }
-  body::after {   /* film grain */
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    pointer-events: none;
-    opacity: .06;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-  a { color: inherit; text-decoration: none; }
-  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
-  img { max-width: 100%; }
-  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
-  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  ::selection { background: var(--a); color: var(--ai); }
-  :focus-visible { outline: 2px solid var(--a); outline-offset: 3px; }
-
-  .plate { font-stretch: 125%; font-weight: 800; text-transform: uppercase; letter-spacing: -.01em; line-height: .92; }
-  .label { font-family: var(--mono); font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--s); }
-
-  /* ---------- header ---------- */
-  .bar {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    background: color-mix(in srgb, var(--bg) 72%, transparent);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    backdrop-filter: blur(20px) saturate(160%);
-    border-bottom: 1px solid var(--r);
-  }
-  .bar-inner { display: flex; align-items: center; gap: 24px; min-height: 64px; }
-  .brand { flex: none; display: flex; align-items: center; gap: 12px; }
-  .brand img { display: block; height: 26px; width: auto; }
-  .brand span { font-stretch: 125%; font-weight: 600; font-size: 14px; letter-spacing: .16em; text-transform: uppercase; color: var(--s); }
-  /* On the homepage the product tabs are a switch, not links: a rounded track with a lit pill,
-     in the current product's colour, that slides to the selected product. */
-  .tabs {
+  /* ---------- front page ---------- */
+  .gx-home main { position: relative; isolation: isolate; }
+  .front {
     position: relative;
-    flex: none;
-    margin: 0 auto;
-    display: flex;
-    gap: 2px;
-    padding: 4px;
-    border-radius: 999px;
-    background: rgba(0,0,0,.32);
-    box-shadow: inset 0 0 0 1px var(--r), inset 0 1px 2px rgba(0,0,0,.4);
-  }
-  .tab-ind {
-    position: absolute;
-    top: 4px; left: 0;
-    height: calc(100% - 8px);
-    width: 0;
-    border-radius: 999px;
-    background: var(--a);
-    box-shadow: 0 0 18px -2px color-mix(in srgb, var(--a) 70%, transparent), inset 0 1px 0 rgba(255,255,255,.25);
-    transition: transform 420ms var(--ease), width 420ms var(--ease);
-    pointer-events: none;
-  }
-  .tab {
-    position: relative;
-    z-index: 1;
-    flex: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 15px;
-    border-radius: 999px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--s);
-    white-space: nowrap;
-    transition: color 250ms ease;
-  }
-  .tab img { width: 20px; height: 20px; border-radius: 22.5%; opacity: .7; transition: opacity 150ms ease; }
-  .tab[aria-selected="true"] { color: var(--ai); }
-  .tab[aria-selected="true"] img { opacity: 1; box-shadow: 0 0 0 1px rgba(0,0,0,.18); }
-  .links { flex: none; display: flex; gap: 2px; }
-  .links a { font-size: 14px; font-weight: 500; color: var(--s); padding: 7px 10px; border-radius: 6px; transition: color 150ms ease, background 150ms ease; }
-
-  @media (max-width: 1080px) {
-    .bar-inner { flex-wrap: wrap; gap: 0 16px; padding-top: 12px; }
-    .brand { flex: 1; }
-    .tabs {
-      order: 3;
-      flex: 1 0 100%;
-      margin: 10px 0 12px;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-    .tabs::-webkit-scrollbar { display: none; }
-    .tabs::after { content: ""; flex: 0 0 4px; }   /* keeps the end padding when the track scrolls */
-    .tab { padding: 9px 13px; }
-  }
-  @media (max-width: 420px) { .brand span { display: none; } }
-
-  /* ---------- hero ---------- */
-  .hero {
-    position: relative;
-    overflow: hidden;
-    padding-top: 64px;
+    padding-top: clamp(64px, 9vw, 120px);
     padding-bottom: 72px;
+  }
+  /* The logo's own gradient, rising behind the headline. */
+  .front::before {
+    content: "";
+    position: absolute;
+    left: 50%; top: -80px;
+    z-index: -1;
+    width: 100vw; height: 760px;
+    transform: translateX(-50%);
+    background:
+      radial-gradient(40% 55% at 22% 70%, rgba(18,228,246,.20), transparent 70%),
+      radial-gradient(42% 60% at 80% 60%, rgba(142,77,255,.30), transparent 70%),
+      radial-gradient(35% 45% at 52% 85%, rgba(111,139,255,.20), transparent 70%);
+    -webkit-mask-image: linear-gradient(#000 60%, transparent);
+    mask-image: linear-gradient(#000 60%, transparent);
+    pointer-events: none;
+  }
+  .front .eyebrow { margin-bottom: 26px; }
+  .front h1 {
+    margin: 0;
+    max-width: 17ch;
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: clamp(38px, 6.4vw, 92px);
+    line-height: .95;
+    letter-spacing: -.01em;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+  .front h1 em { font-style: normal; background: var(--gx-brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .front .lede { margin: 26px 0 0; max-width: 52ch; font-size: clamp(17px, 1.6vw, 20px); color: var(--gx-s); text-wrap: pretty; }
+
+  /* ---------- product highlights ---------- */
+  .cards { list-style: none; margin: 0; padding: 0 0 120px; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 18px; }
+  .card { grid-column: span 2; }
+  .card:nth-child(4), .card:nth-child(5) { grid-column: span 3; }
+  @media (max-width: 1000px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } .card, .card:nth-child(4), .card:nth-child(5) { grid-column: auto; } .card:nth-child(5) { grid-column: 1 / -1; } }
+  @media (max-width: 640px) { .cards { grid-template-columns: minmax(0, 1fr); } .card:nth-child(5) { grid-column: auto; } }
+  .card a {
+    position: relative;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    isolation: isolate;
-  }
-  /* The sunset floor: product colours rising from the bottom edge. */
-  .hero::before {
-    content: "";
-    position: absolute;
-    inset: auto 0 0 0;
-    height: 62%;
-    z-index: -2;
-    background:
-      radial-gradient(70% 90% at 50% 100%, color-mix(in srgb, var(--g2) 70%, transparent), transparent 70%),
-      radial-gradient(90% 100% at 50% 100%, color-mix(in srgb, var(--g1) 80%, transparent), transparent 75%);
-    opacity: .75;
-  }
-  .ghost {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    z-index: -3;
-    transform: translateX(-50%);
-    font-stretch: 125%;
-    font-weight: 900;
-    font-size: clamp(110px, 19vw, 300px);
-    line-height: 1;
-    text-transform: uppercase;
-    letter-spacing: -.03em;
-    white-space: nowrap;
-    color: transparent;
-    -webkit-text-stroke: 1px color-mix(in srgb, var(--i) 13%, transparent);
-    pointer-events: none;
-    user-select: none;
-  }
-  #wave {
-    position: absolute;
-    left: 0; right: 0;
-    bottom: 22%;
-    z-index: -1;
-    width: 100%;
-    height: 200px;
-    pointer-events: none;
-  }
-
-  .hero > .wrap { width: 100%; }
-  .hero-copy { flex: none; position: relative; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px; }
-  .hero-copy h2 { margin: 0; font-size: clamp(34px, 6.6vw, 96px); max-width: 15ch; text-wrap: balance; }
-  .hero-copy p { margin: 0; font-size: 18px; color: var(--s); max-width: 46ch; text-wrap: pretty; }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 14px;
-    padding: 13px 22px;
-    border-radius: 999px;
-    background: var(--a);
-    color: var(--ai);
-    font-size: 15px;
-    font-weight: 700;
-    transition: transform 160ms var(--ease), box-shadow 200ms ease, filter 150ms ease;
-    box-shadow: 0 10px 30px -10px var(--a);
-  }
-  .btn span:last-child { font-weight: 500; opacity: .75; }
-  .btn:active { transform: scale(.97); }
-  .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-
-  /* The product, tilted onto the floor. */
-  .stage { position: relative; flex: none; display: flex; align-items: flex-start; justify-content: center; margin-top: 48px; padding-top: 4px; perspective: 2200px; }
-  .shot {
-    position: relative;
-    display: block;
-    width: min(100%, 900px);
-    line-height: 0;
-    border-radius: 14px;
+    padding: 22px 22px 0;
+    border-radius: 20px;
     overflow: hidden;
-    transform: rotateX(16deg);
-    transform-origin: 50% 0%;
-    box-shadow: 0 0 0 1px rgba(255,255,255,.1), 0 50px 100px -30px rgba(0,0,0,.9), 0 30px 80px -40px var(--g1);
+    color: var(--gx-i);
+    text-decoration: none;
+    background:
+      radial-gradient(90% 60% at 50% 100%, color-mix(in srgb, var(--t) 30%, transparent), transparent 75%),
+      rgba(255,255,255,.025);
+    box-shadow: inset 0 0 0 1px var(--gx-r);
+    transition: box-shadow 220ms ease, transform 220ms var(--gx-ease), background 220ms ease;
   }
-  .shot img { display: block; width: 100%; height: auto; }
-  .shot.tall { width: min(80%, 360px); transform: rotateX(10deg); }
-  .shot.mid  { width: min(100%, 860px); }
-  .shot.icon { width: min(46%, 240px); border-radius: 22.5%; transform: rotateX(8deg); }
-  @media (max-width: 1080px) {
-    .hero { padding-top: 44px; }
-  }
-  @media (max-width: 700px) {
-    .stage { margin-top: 32px; }
-    .hero-copy p { font-size: 16.5px; }
-    .shot { transform: rotateX(8deg); }
-  }
-
-  /* Switching: the incoming product rises in. */
-  @keyframes in-copy { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-  @keyframes in-shot { from { opacity: 0; transform: translateY(40px) rotateX(24deg); } }
-  @keyframes in-ghost { from { opacity: 0; transform: translateX(-46%); } to { opacity: 1; transform: translateX(-50%); } }
-  @media (prefers-reduced-motion: no-preference) {
-    .prod.enter .hero-copy > * { animation: in-copy 560ms var(--ease) both; }
-    .prod.enter .hero-copy > :nth-child(2) { animation-delay: 50ms; }
-    .prod.enter .hero-copy > :nth-child(3) { animation-delay: 100ms; }
-    .prod.enter .hero-copy > :nth-child(4) { animation-delay: 150ms; }
-    .prod.enter .shot { animation: in-shot 800ms var(--ease) 120ms both; }
-    .prod.enter .ghost { animation: in-ghost 900ms var(--ease) both; }
-  }
-
-  /* ---------- footer ---------- */
-  footer { overflow: hidden; scroll-margin-top: 72px; }
-  .foot { padding-top: 72px; padding-bottom: 40px; display: flex; flex-direction: column; gap: 56px; }
-  .contact { display: flex; flex-direction: column; gap: 12px; }
-  .contact a { align-self: flex-start; font-size: clamp(26px, 4vw, 44px); font-weight: 700; letter-spacing: -.025em; line-height: 1.1; padding-bottom: 4px; background: var(--brand) no-repeat 0 100% / 100% 3px; transition: color 150ms ease; }
-  .foot-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; padding-top: 16px; border-top: 1px solid var(--r); font-size: 13px; color: var(--s); }
-  .foot-row nav { display: flex; gap: 22px; flex-wrap: wrap; }
-  .foot-row a { transition: color 150ms ease; }
-
-  /* ---------- hover (fine pointers only) ---------- */
+  .card a:active { transform: scale(.985); }
+  .card-top { display: flex; align-items: flex-start; justify-content: space-between; }
+  .card-icon { width: 56px; height: 56px; border-radius: 22.5%; box-shadow: 0 0 0 1px rgba(255,255,255,.08), 0 10px 22px -10px #000; }
+  .card-price { padding: 6px 12px; border-radius: 999px; font: 600 13px/1 var(--gx-sans); color: var(--gx-ai); background: var(--t); }
+  .card-label { margin-top: 22px; font: 500 11px/1.4 var(--gx-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--gx-s); }
+  .card-name { margin-top: 8px; font-stretch: 125%; font-weight: 800; font-size: clamp(26px, 2.4vw, 34px); line-height: 1; text-transform: uppercase; letter-spacing: -.01em; }
+  .card-tag { margin-top: 10px; font-size: 18px; font-weight: 600; line-height: 1.25; }
+  .card-shot { margin-top: 24px; height: 190px; display: block; overflow: hidden; perspective: 1400px; }
+  .card-shot img { display: block; width: 100%; height: auto; border-radius: 12px 12px 0 0; box-shadow: 0 0 0 1px rgba(255,255,255,.1), 0 -10px 40px -16px var(--t); transform: rotateX(8deg) translateY(6px); transform-origin: 50% 100%; transition: transform 420ms var(--gx-ease); }
+  .card-shot.tall img { width: 62%; margin: 0 auto; }
+  .card-go { position: absolute; left: 22px; bottom: 18px; padding: 9px 16px; border-radius: 999px; font: 700 14px/1 var(--gx-sans); color: var(--gx-ai); background: var(--t); opacity: 0; transform: translateY(8px); transition: opacity 200ms ease, transform 260ms var(--gx-ease); }
+  .p-listenlink { --t: #7088FF; } .p-blossom { --t: #B394FF; } .p-lock-in { --t: #FF6B91; } .p-cr8 { --t: #FFC400; } .p-uad-doctor { --t: #45D06E; }
   @media (hover: hover) and (pointer: fine) {
-    .tab:not([aria-selected="true"]):hover { color: var(--i); background: rgba(255,255,255,.05); }
-    .tab:hover img { opacity: 1; }
-    .links a:hover { color: var(--i); background: var(--tint); }
-    .btn:hover { filter: brightness(1.08); box-shadow: 0 14px 36px -10px var(--a); }
-    .contact a:hover { color: var(--a); }
-    .foot-row a:hover { color: var(--i); }
+    .card a:hover { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t) 60%, transparent), 0 24px 60px -30px var(--t); transform: translateY(-3px); }
+    .card a:hover .card-shot img { transform: rotateX(2deg) translateY(0); }
+    .card a:hover .card-go { opacity: 1; transform: none; }
   }
-  @media (prefers-reduced-motion: reduce) {
-    body, .tab, .tab-ind, .btn { transition: none !important; }
+  @media (hover: none) { .card-go { display: none; } }
+  @media (prefers-reduced-motion: no-preference) {
+    .front > *, .card { animation: gx-rise 640ms var(--gx-ease) both; }
+    .front > :nth-child(2) { animation-delay: 60ms; } .front > :nth-child(3) { animation-delay: 120ms; }
+    .card:nth-child(1) { animation-delay: 140ms; } .card:nth-child(2) { animation-delay: 190ms; } .card:nth-child(3) { animation-delay: 240ms; }
+    .card:nth-child(4) { animation-delay: 290ms; } .card:nth-child(5) { animation-delay: 340ms; }
   }
+  @keyframes gx-rise { from { opacity: 0; transform: translateY(16px); } }
+  @media (prefers-reduced-motion: reduce) { .card a, .card-shot img, .card-go { transition: none; } }
 </style>
-<noscript><style>.prod[hidden] { display: block !important; }</style></noscript>
+<script>(function(){var k=location.hash.slice(1);if(/^(listenlink|blossom|lock-in|cr8|uad-doctor)$/.test(k))location.replace(k+"/");})();</script>
 </head>
-<body data-p="listenlink">
-
-<header class="bar">
-  <div class="wrap bar-inner">
-    <a class="brand" href="#top"><img src="img/ggg-logo.png" srcset="img/ggg-logo.png 1x, img/ggg-logo@2x.png 2x" width="297" height="112" alt="GGG"><span>Audio</span></a>
-    <div class="tabs" role="tablist" aria-label="Products">
-      <span class="tab-ind" aria-hidden="true"></span>
-      <button class="tab" role="tab" id="t-listenlink" aria-controls="p-listenlink" aria-selected="true"  data-go="listenlink"><img src="img/listenlink-icon.png" srcset="img/listenlink-icon@2x.png 2x" alt="">ListenLink</button>
-      <button class="tab" role="tab" id="t-blossom"    aria-controls="p-blossom"    aria-selected="false" data-go="blossom" tabindex="-1"><img src="img/blossom-icon.png" srcset="img/blossom-icon@2x.png 2x" alt="">Blossom</button>
-      <button class="tab" role="tab" id="t-lock-in"    aria-controls="p-lock-in"    aria-selected="false" data-go="lock-in" tabindex="-1"><img src="img/vocal-lock-icon.png" srcset="img/vocal-lock-icon@2x.png 2x" alt="">Lock In</button>
-      <button class="tab" role="tab" id="t-cr8"        aria-controls="p-cr8"        aria-selected="false" data-go="cr8" tabindex="-1"><img src="img/cr8-icon.png" srcset="img/cr8-icon@2x.png 2x" alt="">CR8</button>
-      <button class="tab" role="tab" id="t-uad-doctor" aria-controls="p-uad-doctor" aria-selected="false" data-go="uad-doctor" tabindex="-1"><img src="img/uad-doctor-icon-dark.png" srcset="img/uad-doctor-icon-dark@2x.png 2x" alt="">UAD Doctor</button>
-    </div>
-    <nav class="links" aria-label="Site">
+<body class="gx-home" data-p="ggg">
+<header class="gx-bar">
+  <div class="gx-wrap gx-bar-inner">
+    <a class="gx-brand" href=""><img src="img/ggg-logo.png" srcset="img/ggg-logo.png 1x, img/ggg-logo@2x.png 2x" width="297" height="112" alt="GGG"><span>Audio</span></a>
+    <nav class="gx-tabs" aria-label="Products">
+      <a class="gx-tab" href="listenlink/"><img src="img/listenlink-icon.png" srcset="img/listenlink-icon@2x.png 2x" width="20" height="20" alt="">ListenLink</a>
+      <a class="gx-tab" href="blossom/"><img src="img/blossom-icon.png" srcset="img/blossom-icon@2x.png 2x" width="20" height="20" alt="">Blossom</a>
+      <a class="gx-tab" href="lock-in/"><img src="img/vocal-lock-icon.png" srcset="img/vocal-lock-icon@2x.png 2x" width="20" height="20" alt="">Lock In</a>
+      <a class="gx-tab" href="cr8/"><img src="img/cr8-icon.png" srcset="img/cr8-icon@2x.png 2x" width="20" height="20" alt="">CR8</a>
+      <a class="gx-tab" href="uad-doctor/"><img src="img/uad-doctor-icon-dark.png" srcset="img/uad-doctor-icon-dark@2x.png 2x" width="20" height="20" alt="">UAD Doctor</a>
+    </nav>
+    <nav class="gx-links" aria-label="Site">
       <a href="pricing/">Pricing</a>
-      <a href="#support">Support</a>
+      <a href="mailto:info@gggaudio.store">Support</a>
     </nav>
   </div>
 </header>
 
 <main id="top">
-  <h1 class="sr">GGG Audio — independent audio software for music makers, by a music maker.</h1>
-
-  <!-- ================= ListenLink ================= -->
-  <article class="prod" id="p-listenlink" role="tabpanel" aria-labelledby="t-listenlink" data-p="listenlink" data-name="ListenLink">
-    <section class="hero">
-      <div class="ghost" aria-hidden="true">ListenLink</div>
-      <div class="wrap hero-copy">
-        <span class="label">LL-01 · Master bus plugin · VST3 / AU</span>
-        <h2 class="plate">Stream your master bus to anyone.</h2>
-        <p>Drop it on your master and create a link. Your listener opens it in a browser and presses play — no account, no app, no setup on their end.</p>
-        <div class="actions">
-          <a class="btn" href="listenlink/"><span>See ListenLink</span><span aria-hidden="true">→</span></a>
-        </div>
-      </div>
-      <div class="stage wrap">
-        <a class="shot" href="listenlink/" tabindex="-1">
-          <img src="listenlink/img/01-live.webp" srcset="listenlink/img/01-live.webp 1x, listenlink/img/01-live@2x.webp 2x" width="1200" height="628"
-               alt="The ListenLink plugin streaming lossless PCM to three listeners, with stereo meters and a Create public link button">
+  <section class="front wrap">
+    <p class="eyebrow mono">GGG Audio · Plugins &amp; apps · macOS</p>
+    <h1>Independent audio software for music makers, <em>by a music maker.</em></h1>
+    <p class="lede">Plugins and apps for the session you're in: stream the mix, play the chords, tighten the takes, dig the crates, keep the rig alive.</p>
+  </section>
+  <section class="wrap" aria-label="Products">
+    <ul class="cards">
+      <li class="card p-listenlink">
+        <a href="listenlink/">
+          <span class="card-top">
+            <img class="card-icon" src="img/listenlink-icon.png" srcset="img/listenlink-icon@2x.png 2x" width="56" height="56" alt="">
+            <span class="card-price">Free</span>
+          </span>
+          <span class="card-label">LL-01 · Master bus plugin</span>
+          <span class="card-name">ListenLink</span>
+          <span class="card-tag">Stream your master bus to anyone.</span>
+          <span class="card-shot wide"><img src="listenlink/img/01-live.webp" srcset="listenlink/img/01-live.webp 1x, listenlink/img/01-live@2x.webp 2x" width="1200" height="628" loading="lazy" alt="ListenLink streaming to three listeners"></span>
+          <span class="card-go">See ListenLink <span aria-hidden="true">→</span></span>
         </a>
-      </div>
-    </section>
-  </article>
-
-  <!-- ================= Blossom ================= -->
-  <article class="prod" id="p-blossom" role="tabpanel" aria-labelledby="t-blossom" data-p="blossom" data-name="Blossom" hidden>
-    <section class="hero">
-      <div class="ghost" aria-hidden="true">Blossom</div>
-      <div class="wrap hero-copy">
-        <span class="label">BL-03 · MIDI chord instrument · AU / VST3 / App</span>
-        <h2 class="plate">One finger. Full chords.</h2>
-        <p>Hold a chord key in your keyboard's bottom octave, play a note, and Blossom voices the chord and sends it straight to your synth or DAW.</p>
-        <div class="actions">
-          <a class="btn" href="blossom/"><span>See Blossom</span><span aria-hidden="true">→</span></a>
-        </div>
-      </div>
-      <div class="stage wrap">
-        <a class="shot tall" href="blossom/" tabindex="-1">
-          <img src="img/blossom-ui.webp" width="503" height="843" loading="lazy"
-               alt="Blossom showing a C maj7 chord over a keyboard, its twelve chord keys, arp and harmony settings">
+      </li>
+      <li class="card p-blossom">
+        <a href="blossom/">
+          <span class="card-top">
+            <img class="card-icon" src="img/blossom-icon.png" srcset="img/blossom-icon@2x.png 2x" width="56" height="56" alt="">
+            <span class="card-price">$0+</span>
+          </span>
+          <span class="card-label">BL-03 · MIDI chord instrument</span>
+          <span class="card-name">Blossom</span>
+          <span class="card-tag">One finger. Full chords.</span>
+          <span class="card-shot tall"><img src="img/blossom-ui.webp" srcset="img/blossom-ui.webp 1x, img/blossom-ui@2x.webp 2x" width="503" height="843" loading="lazy" alt="Blossom showing a C maj7 chord"></span>
+          <span class="card-go">See Blossom <span aria-hidden="true">→</span></span>
         </a>
-      </div>
-    </section>
-  </article>
-
-  <!-- ================= Lock In ================= -->
-  <article class="prod" id="p-lock-in" role="tabpanel" aria-labelledby="t-lock-in" data-p="lock-in" data-name="Lock In" hidden>
-    <section class="hero">
-      <div class="ghost" aria-hidden="true">Lock In</div>
-      <div class="wrap hero-copy">
-        <span class="label">LI-05 · Take alignment · Mac app</span>
-        <h2 class="plate">Tight takes, no editing.</h2>
-        <p>Drop in a guide and its takes — vocal doubles, drum loops, instruments. Lock In locks every take to the guide's timing and hands the files back to your DAW. Formerly Vocal Lock.</p>
-        <div class="actions">
-          <a class="btn" href="lock-in/"><span>See Lock In</span><span aria-hidden="true">→</span></a>
-        </div>
-      </div>
-      <div class="stage wrap">
-        <a class="shot" href="lock-in/" tabindex="-1">
-          <img src="lock-in/img/01-app.webp" width="2560" height="1660" loading="lazy"
-               alt="Lock In: a guide vocal and two takes as waveform lanes, with tightness and pitch knobs">
+      </li>
+      <li class="card p-lock-in">
+        <a href="lock-in/">
+          <span class="card-top">
+            <img class="card-icon" src="img/vocal-lock-icon.png" srcset="img/vocal-lock-icon@2x.png 2x" width="56" height="56" alt="">
+            <span class="card-price">Free</span>
+          </span>
+          <span class="card-label">LI-05 · Take alignment</span>
+          <span class="card-name">Lock In</span>
+          <span class="card-tag">Tight takes, no editing.</span>
+          <span class="card-shot wide"><img src="lock-in/img/01-app.webp" width="2560" height="1660" loading="lazy" alt="Lock In with a guide vocal and two takes"></span>
+          <span class="card-go">See Lock In <span aria-hidden="true">→</span></span>
         </a>
-      </div>
-    </section>
-  </article>
-
-  <!-- ================= CR8 ================= -->
-  <article class="prod" id="p-cr8" role="tabpanel" aria-labelledby="t-cr8" data-p="cr8" data-name="CR8" hidden>
-    <section class="hero">
-      <div class="ghost" aria-hidden="true">CR8</div>
-      <div class="wrap hero-copy">
-        <span class="label">CR-08 · Sample digger · Mac app</span>
-        <h2 class="plate">Sounds you forgot you had.</h2>
-        <p>CR8 learns your whole library's tempo, key and role, rolls loops that fit together, and drags them into your DAW. Lock what works, reroll the rest.</p>
-        <div class="actions">
-          <a class="btn" href="cr8/"><span>See CR8</span><span aria-hidden="true">→</span></a>
-        </div>
-      </div>
-      <div class="stage wrap">
-        <a class="shot" href="cr8/" tabindex="-1">
-          <img src="cr8/img/build.webp" width="2880" height="2700" loading="lazy"
-               alt="CR8: a song starter at 88 BPM in C minor, with loop cards to lock or reroll">
+      </li>
+      <li class="card p-cr8">
+        <a href="cr8/">
+          <span class="card-top">
+            <img class="card-icon" src="img/cr8-icon.png" srcset="img/cr8-icon@2x.png 2x" width="56" height="56" alt="">
+            <span class="card-price">$10</span>
+          </span>
+          <span class="card-label">CR-08 · Sample digger</span>
+          <span class="card-name">CR8</span>
+          <span class="card-tag">Sounds you forgot you had.</span>
+          <span class="card-shot wide"><img src="cr8/img/build.webp" width="2880" height="2700" loading="lazy" alt="CR8 rolling a song starter"></span>
+          <span class="card-go">See CR8 <span aria-hidden="true">→</span></span>
         </a>
-      </div>
-    </section>
-  </article>
-
-  <!-- ================= UAD Doctor ================= -->
-  <article class="prod" id="p-uad-doctor" role="tabpanel" aria-labelledby="t-uad-doctor" data-p="uad-doctor" data-name="UAD Doctor" hidden>
-    <section class="hero">
-      <div class="ghost" aria-hidden="true">UAD Doctor</div>
-      <div class="wrap hero-copy">
-        <span class="label">UD-04 · Menu bar utility · UAD-2 / Apollo</span>
-        <h2 class="plate">See the −38 coming.</h2>
-        <p>Your UAD DSP load as a dot in the menu bar, a warning before the −38 error hits, and one-click recovery when your DAW freezes.</p>
-        <div class="actions">
-          <a class="btn" href="uad-doctor/"><span>See UAD Doctor</span><span aria-hidden="true">→</span></a>
-        </div>
-      </div>
-      <div class="stage wrap">
-        <a class="shot mid" href="uad-doctor/" tabindex="-1">
-          <img src="uad-doctor/img/01-states-v5.webp" width="1320" height="650" loading="lazy"
-               alt="UAD Doctor's menu in three states: DSP OK at 34%, watch at 78%, and problem at 92%">
+      </li>
+      <li class="card p-uad-doctor">
+        <a href="uad-doctor/">
+          <span class="card-top">
+            <img class="card-icon" src="img/uad-doctor-icon-dark.png" srcset="img/uad-doctor-icon-dark@2x.png 2x" width="56" height="56" alt="">
+            <span class="card-price">Free</span>
+          </span>
+          <span class="card-label">UD-04 · Menu bar utility</span>
+          <span class="card-name">UAD Doctor</span>
+          <span class="card-tag">See the −38 coming.</span>
+          <span class="card-shot wide"><img src="uad-doctor/img/01-states-v5.webp" width="1320" height="650" loading="lazy" alt="UAD Doctor's menu bar readout"></span>
+          <span class="card-go">See UAD Doctor <span aria-hidden="true">→</span></span>
         </a>
-      </div>
-    </section>
-  </article>
-
-  <canvas id="wave" aria-hidden="true"></canvas>
-
+      </li>
+    </ul>
+  </section>
 </main>
 
-<footer id="support">
-  <div class="wrap foot">
-    <div class="contact">
-      <span class="label">Support, bugs, feature requests</span>
+<footer class="gx-foot" id="support">
+  <div class="gx-wrap">
+    <div class="gx-contact">
+      <span>Support, bugs, feature requests</span>
       <a href="mailto:info@gggaudio.store">info@gggaudio.store</a>
     </div>
-    <div class="foot-row">
-      <span>© 2026 GGG · Tangosol LLC · Est. 2025</span>
-      <nav aria-label="Footer">
-        <a href="pricing/">Pricing</a>
-        <a href="terms/">Terms</a>
-        <a href="refund/">Refunds</a>
-        <a href="privacy/">Privacy</a>
-        <a href="#top">Back to top</a>
-      </nav>
+    <div class="gx-foot-row">
+      <span>&copy; 2026 GGG · Tangosol LLC</span>
+      <nav aria-label="Footer"><a href="./">All products</a><a href="pricing/">Pricing</a><a href="terms/">Terms</a><a href="refund/">Refunds</a><a href="privacy/">Privacy</a></nav>
     </div>
   </div>
 </footer>
-
-<script>
-(function () {
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var prods = Array.prototype.slice.call(document.querySelectorAll('.prod'));
-  var keys = prods.map(function (p) { return p.dataset.p; });
-  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
-  var wave = document.getElementById('wave');
-  var ind = document.querySelector('.tab-ind');
-  var idx = -1;
-
-  function moveInd(animate) {
-    var t = tabs[idx];
-    if (!t || !ind) return;
-    if (!animate) ind.style.transition = 'none';
-    ind.style.width = t.offsetWidth + 'px';
-    ind.style.transform = 'translateX(' + t.offsetLeft + 'px)';
-    if (!animate) { void ind.offsetWidth; ind.style.transition = ''; }
-  }
-
-  function show(key, opts) {
-    opts = opts || {};
-    var i = keys.indexOf(key);
-    if (i < 0) i = 0;
-    if (i === idx) return;
-    var p = prods[i];
-    prods.forEach(function (q) { q.hidden = q !== p; q.classList.remove('enter'); });
-    if (idx !== -1) { void p.offsetWidth; p.classList.add('enter'); }
-    idx = i;
-
-    document.body.dataset.p = keys[i];
-    var hero = p.querySelector('.hero');
-    hero.insertBefore(wave, hero.firstChild);
-
-    tabs.forEach(function (t) {
-      var on = t.dataset.go === keys[i];
-      t.setAttribute('aria-selected', on);
-      t.tabIndex = on ? 0 : -1;
-      if (on && opts.scrollTab !== false && t.scrollIntoView && t.parentNode.scrollWidth > t.parentNode.clientWidth) {
-        t.parentNode.scrollTo({ left: t.offsetLeft - t.parentNode.clientWidth / 2 + t.offsetWidth / 2, behavior: (reduced || opts.first) ? 'auto' : 'smooth' });
-      }
-    });
-
-    moveInd(!opts.first);
-    document.title = p.dataset.name + ' · GGG Audio';
-    if (opts.hash !== false && history.replaceState) history.replaceState(null, '', '#' + keys[i]);
-    setTimeout(readColors, reduced ? 0 : 520);
-  }
-
-  function step(d) { show(keys[(idx + d + keys.length) % keys.length]); }
-
-  tabs.forEach(function (t) {
-    t.addEventListener('click', function () { show(t.dataset.go); });
-    t.addEventListener('keydown', function (e) {
-      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-      if (!d) return;
-      e.preventDefault();
-      step(d);
-      tabs[idx].focus();
-    });
-  });
-  window.addEventListener('hashchange', function () { show(location.hash.slice(1), { hash: false }); });
-
-  // ---------- waveform behind the product ----------
-  var ctx = wave.getContext('2d');
-  var H = 200, t = 0, last = 0, raf = 0, running = false, colors = {};
-  function readColors() {
-    var cs = getComputedStyle(document.body);
-    colors.a = cs.getPropertyValue('--a').trim();
-    colors.g2 = cs.getPropertyValue('--g2').trim();
-    if (!running) draw();
-  }
-  function sample(x, t) {
-    var env = 0.35 + 0.65 * Math.pow(Math.sin(x * 0.9 + t * 0.7) * 0.5 + 0.5, 2);
-    return env * (Math.sin(x * 7 + t * 2.1) * 0.55 + Math.sin(x * 17 - t * 3.3) * 0.28 + Math.sin(x * 41 + t * 5.2) * 0.12);
-  }
-  function size() {
-    var d = window.devicePixelRatio || 1;
-    wave.width = Math.round(wave.clientWidth * d);
-    wave.height = Math.round(H * d);
-    ctx.setTransform(d, 0, 0, d, 0, 0);
-  }
-  function line(off, alpha, width, color) {
-    var w = wave.clientWidth, mid = H / 2;
-    ctx.globalAlpha = alpha;
-    ctx.strokeStyle = color;
-    ctx.lineWidth = width;
-    ctx.beginPath();
-    for (var px = 0; px <= w; px += 3) {
-      var y = mid + sample(px / w * Math.PI * 2 + off, t + off) * (H * 0.44);
-      px === 0 ? ctx.moveTo(px, y) : ctx.lineTo(px, y);
-    }
-    ctx.stroke();
-  }
-  function draw() {
-    ctx.clearRect(0, 0, wave.clientWidth, H);
-    ctx.lineJoin = 'round';
-    line(1.3, 0.35, 1.2, colors.g2 || '#fff');
-    line(0, 0.75, 1.8, colors.a || '#fff');
-    ctx.globalAlpha = 1;
-  }
-  function loop(now) {
-    var dt = Math.min(0.05, last ? (now - last) / 1000 : 1 / 60);
-    last = now;
-    t += dt * 0.6;
-    draw();
-    raf = running ? requestAnimationFrame(loop) : 0;
-  }
-  function start() { if (running || reduced || document.hidden) return; running = true; last = 0; raf = requestAnimationFrame(loop); }
-  function stop() { running = false; cancelAnimationFrame(raf); }
-
-  show(location.hash.slice(1) || keys[0], { hash: !!location.hash, first: true });
-  window.addEventListener('resize', function () { moveInd(false); });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { moveInd(false); });
-  size();
-  readColors();
-  t = 1.8;
-  draw();
-  if (!reduced) {
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (en) { en[0].isIntersecting ? start() : stop(); }).observe(wave);
-    } else { start(); }
-    document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
-  }
-  window.addEventListener('resize', function () { size(); draw(); });
-})();
-</script>
+<script src="site.js" defer></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "850a6758077f404180dcd5e8a61bfe90"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
