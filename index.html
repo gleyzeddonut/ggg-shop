@@ -221,7 +221,6 @@
   }
   .btn span:last-child { font-weight: 500; opacity: .75; }
   .btn:active { transform: scale(.97); }
-  .btn.ghostbtn { background: transparent; color: var(--i); box-shadow: inset 0 0 0 1px var(--r); font-weight: 600; }
   .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
 
   /* The product, tilted onto the floor. */
@@ -250,54 +249,6 @@
     .shot { transform: rotateX(8deg); }
   }
 
-  /* ---------- per-product detail ---------- */
-  .detail { padding-top: 96px; padding-bottom: 24px; }
-  .detail-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px 32px; flex-wrap: wrap; padding-bottom: 20px; border-bottom: 1px solid var(--r); }
-  .detail-head h3 { margin: 0; font-size: clamp(28px, 3.6vw, 46px); }
-  .detail-head .tag { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .code {
-    padding: 4px 8px;
-    border-radius: 4px;
-    color: var(--i);
-    background: color-mix(in srgb, var(--a) 18%, transparent);
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--a) 45%, transparent);
-  }
-  .led { display: inline-flex; align-items: center; gap: 7px; }
-  .led::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 8px var(--ok); }
-
-  .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); border-bottom: 1px solid var(--r); }
-  .steps li { padding: 32px 28px 36px 0; display: flex; flex-direction: column; gap: 10px; }
-  .steps li + li { padding-left: 28px; border-left: 1px solid var(--r); }
-  @media (max-width: 860px) {
-    .steps li, .steps li + li { padding: 26px 0; border-left: 0; }
-    .steps li + li { border-top: 1px solid var(--r); }
-  }
-  .steps .n { font-family: var(--mono); font-size: 13px; color: var(--a); }
-  .steps h4 { margin: 0; font-size: 21px; font-weight: 700; letter-spacing: -.015em; }
-  .steps p { margin: 0; font-size: 15.5px; color: var(--s); text-wrap: pretty; }
-
-  .sheet { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px 64px; padding-top: 36px; align-items: start; }
-  @media (min-width: 900px) { .sheet { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); } }
-  .specs { margin: 0; font-size: 14px; font-variant-numeric: tabular-nums; }
-  .specs div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--r); }
-  .specs div:first-child { border-top: 1px solid var(--r); }
-  .specs dt { color: var(--s); }
-  .specs dd { margin: 0; font-weight: 500; }
-  .specs code { font-family: var(--mono); font-size: 12.5px; padding: 3px 7px; border-radius: 4px; background: var(--tint); overflow-wrap: anywhere; }
-  .buy {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    padding: 26px;
-    border-radius: 16px;
-    background: color-mix(in srgb, var(--a) 9%, rgba(255,255,255,.02));
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--a) 28%, transparent);
-  }
-  .buy .price { font-stretch: 125%; font-weight: 800; font-size: 38px; line-height: 1; letter-spacing: -.02em; }
-  .buy .price small { display: block; margin-top: 8px; font-stretch: 100%; font-weight: 500; font-size: 14px; letter-spacing: 0; color: var(--s); }
-  .buy .btn { justify-content: space-between; }
-  .buy a.more { font-size: 14px; color: var(--s); align-self: flex-start; border-bottom: 1px solid var(--r); transition: color 150ms ease, border-color 150ms ease; }
-
   /* Switching: the incoming product rises in. */
   @keyframes in-copy { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
   @keyframes in-shot { from { opacity: 0; transform: translateY(40px) rotateX(24deg); } }
@@ -309,42 +260,7 @@
     .prod.enter .hero-copy > :nth-child(4) { animation-delay: 150ms; }
     .prod.enter .shot { animation: in-shot 800ms var(--ease) 120ms both; }
     .prod.enter .ghost { animation: in-ghost 900ms var(--ease) both; }
-    .prod.enter .detail { animation: in-copy 600ms var(--ease) 200ms both; }
   }
-
-  /* ---------- lineup ---------- */
-  .lineup { padding-top: 120px; scroll-margin-top: 80px; }
-  .lineup h1 { margin: 0 0 40px; font-size: clamp(30px, 4.6vw, 62px); max-width: 20ch; text-wrap: balance; }
-  .lineup h1 em { font-style: normal; color: var(--a); transition: color 500ms ease; }
-  .grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 14px; }
-  .tile {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 56px minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 16px;
-    padding: 16px;
-    text-align: left;
-    border-radius: 14px;
-    background: rgba(255,255,255,.025);
-    box-shadow: inset 0 0 0 1px var(--r);
-    transition: background 200ms ease, box-shadow 200ms ease, transform 160ms var(--ease);
-  }
-  .tile:active { transform: scale(.985); }
-  .tile img { width: 56px; height: 56px; border-radius: 22.5%; box-shadow: 0 8px 18px -8px #000; }
-  .tile b { display: block; font-stretch: 115%; font-size: 18px; font-weight: 800; letter-spacing: -.01em; }
-  .tile span { font-size: 13.5px; color: var(--s); }
-  .tile .pr { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; color: var(--s); white-space: nowrap; }
-  .tile[aria-current="true"] { box-shadow: inset 0 0 0 1px var(--a); background: color-mix(in srgb, var(--a) 8%, transparent); }
-
-  /* ---------- terms band ---------- */
-  .terms { margin-top: 120px; border-top: 1px solid var(--r); border-bottom: 1px solid var(--r); background: radial-gradient(60% 140% at 85% 50%, color-mix(in srgb, var(--g1) 22%, transparent), transparent 70%); }
-  .terms-inner { padding-top: 72px; padding-bottom: 72px; display: grid; gap: 28px 64px; grid-template-columns: minmax(0, 1fr); align-items: end; }
-  @media (min-width: 900px) { .terms-inner { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } }
-  .terms h2 { margin: 0; font-size: clamp(34px, 5.4vw, 72px); }
-  .terms h2 em { font-style: normal; color: var(--a); }
-  .terms p { margin: 0 0 20px; color: var(--s); text-wrap: pretty; }
-  .terms .actions { justify-content: flex-start; }
 
   /* ---------- footer ---------- */
   footer { overflow: hidden; scroll-margin-top: 72px; }
@@ -361,14 +277,11 @@
     .tab:hover img { opacity: 1; }
     .links a:hover { color: var(--i); background: var(--tint); }
     .btn:hover { filter: brightness(1.08); box-shadow: 0 14px 36px -10px var(--a); }
-    .btn.ghostbtn:hover { background: var(--tint); filter: none; }
-    .tile:hover { background: rgba(255,255,255,.05); }
-    .buy a.more:hover { color: var(--i); border-color: var(--a); }
     .contact a:hover { color: var(--a); }
     .foot-row a:hover { color: var(--i); }
   }
   @media (prefers-reduced-motion: reduce) {
-    body, .tab::after, .btn, .tile { transition: none !important; }
+    body, .tab::after, .btn { transition: none !important; }
   }
 </style>
 <noscript><style>.prod[hidden] { display: block !important; }</style></noscript>
@@ -393,6 +306,7 @@
 </header>
 
 <main id="top">
+  <h1 class="sr">GGG Audio — independent audio software for music makers, by a music maker.</h1>
 
   <!-- ================= ListenLink ================= -->
   <article class="prod" id="p-listenlink" role="tabpanel" aria-labelledby="t-listenlink" data-p="listenlink" data-name="ListenLink">
@@ -403,8 +317,7 @@
         <h2 class="plate">Stream your master bus to anyone.</h2>
         <p>Drop it on your master and create a link. Your listener opens it in a browser and presses play — no account, no app, no setup on their end.</p>
         <div class="actions">
-          <a class="btn" href="listenlink/"><span>Download</span><span>Free</span></a>
-          <a class="btn ghostbtn" href="listenlink/">How it works</a>
+          <a class="btn" href="listenlink/"><span>See ListenLink</span><span aria-hidden="true">→</span></a>
         </div>
       </div>
       <div class="stage wrap">
@@ -412,30 +325,6 @@
           <img src="listenlink/img/01-live.png" srcset="listenlink/img/01-live.png 1x, listenlink/img/01-live@2x.png 2x" width="1200" height="628"
                alt="The ListenLink plugin streaming lossless PCM to three listeners, with stereo meters and a Create public link button">
         </a>
-      </div>
-    </section>
-    <section class="detail wrap">
-      <div class="detail-head">
-        <h3 class="plate">ListenLink</h3>
-        <div class="tag label"><span class="code">LL-01</span><span class="led">v0.9.1 · Live</span></div>
-      </div>
-      <ol class="steps">
-        <li><span class="n">01</span><h4>Drop it on your master</h4><p>Add ListenLink to your master bus. Audio passes through untouched — it just gets copied to the stream.</p></li>
-        <li><span class="n">02</span><h4>Create a link</h4><p>One click spins up a secure public link that works anywhere — no account, no port forwarding. Copy, send.</p></li>
-        <li><span class="n">03</span><h4>They press play</h4><p>The link opens a listener page in any browser, typically less than half a second behind you.</p></li>
-      </ol>
-      <div class="sheet">
-        <dl class="specs">
-          <div><dt>Formats</dt><dd>VST3 · Audio Units · macOS</dd></div>
-          <div><dt>Stream</dt><dd>Lossless PCM or Opus, switchable mid-stream</dd></div>
-          <div><dt>Listener</dt><dd>Any modern browser — nothing to install</dd></div>
-          <div><dt>License</dt><dd>Free · Open source (AGPL-3.0)</dd></div>
-        </dl>
-        <div class="buy">
-          <div class="price">Free<small>Download the installer and go.</small></div>
-          <a class="btn" href="listenlink/"><span>Download ListenLink</span><span>VST3 · AU</span></a>
-          <a class="more" href="listenlink/">Full details →</a>
-        </div>
       </div>
     </section>
   </article>
@@ -449,8 +338,7 @@
         <h2 class="plate">One finger. Full chords.</h2>
         <p>Hold a chord key in your keyboard's bottom octave, play a note, and Blossom voices the chord and sends it straight to your synth or DAW.</p>
         <div class="actions">
-          <a class="btn" href="https://dmgleyzer.gumroad.com/l/blossom"><span>Get it</span><span>$0+</span></a>
-          <a class="btn ghostbtn" href="blossom/">How it works</a>
+          <a class="btn" href="blossom/"><span>See Blossom</span><span aria-hidden="true">→</span></a>
         </div>
       </div>
       <div class="stage wrap">
@@ -458,30 +346,6 @@
           <img src="img/blossom-ui.png" width="503" height="843" loading="lazy"
                alt="Blossom showing a C maj7 chord over a keyboard, its twelve chord keys, arp and harmony settings">
         </a>
-      </div>
-    </section>
-    <section class="detail wrap">
-      <div class="detail-head">
-        <h3 class="plate">Blossom</h3>
-        <div class="tag label"><span class="code">BL-03</span><span class="led">v2.1.1 · Live</span></div>
-      </div>
-      <ol class="steps">
-        <li><span class="n">01</span><h4>Hold a chord key</h4><p>Your keyboard's bottom octave becomes twelve chord-quality pads — maj, min7, sus4, dim and more.</p></li>
-        <li><span class="n">02</span><h4>Play a note</h4><p>Whatever you play becomes the root. Blossom builds the full chord — voiced, spread, strummed, exactly how you set it.</p></li>
-        <li><span class="n">03</span><h4>It plays your synth</h4><p>The chord goes straight out as MIDI to a hardware synth or DAW instrument, or runs as a plugin in your session.</p></li>
-      </ol>
-      <div class="sheet">
-        <dl class="specs">
-          <div><dt>Formats</dt><dd>AU MIDI FX · VST3 · Mac app</dd></div>
-          <div><dt>Chords</dt><dd>12 chord keys · 19 qualities · held keys combine</dd></div>
-          <div><dt>Arp</dt><dd>Locks to host tempo, or free-runs</dd></div>
-          <div><dt>Requires</dt><dd>macOS 11+ · Apple silicon &amp; Intel</dd></div>
-        </dl>
-        <div class="buy">
-          <div class="price">$0+<small>Pay what you want, through Gumroad.</small></div>
-          <a class="btn" href="https://dmgleyzer.gumroad.com/l/blossom"><span>Get Blossom</span><span>$0+</span></a>
-          <a class="more" href="blossom/">Full details →</a>
-        </div>
       </div>
     </section>
   </article>
@@ -495,8 +359,7 @@
         <h2 class="plate">Tight takes, no editing.</h2>
         <p>Drop in a guide and its takes — vocal doubles, drum loops, instruments. Lock In locks every take to the guide's timing and hands the files back to your DAW. Formerly Vocal Lock.</p>
         <div class="actions">
-          <a class="btn" href="lock-in/"><span>Download</span><span>Free</span></a>
-          <a class="btn ghostbtn" href="lock-in/">How it works</a>
+          <a class="btn" href="lock-in/"><span>See Lock In</span><span aria-hidden="true">→</span></a>
         </div>
       </div>
       <div class="stage wrap">
@@ -504,30 +367,6 @@
           <img src="lock-in/img/01-app.png" width="2560" height="1660" loading="lazy"
                alt="Lock In: a guide vocal and two takes as waveform lanes, with tightness and pitch knobs">
         </a>
-      </div>
-    </section>
-    <section class="detail wrap">
-      <div class="detail-head">
-        <h3 class="plate">Lock In</h3>
-        <div class="tag label"><span class="code">LI-05</span><span class="led">v0.11.0 · Live</span></div>
-      </div>
-      <ol class="steps">
-        <li><span class="n">01</span><h4>Drop the guide</h4><p>The lead vocal, the main drum loop, or whichever performance the others should follow.</p></li>
-        <li><span class="n">02</span><h4>Drop the takes</h4><p>Doubles, harmonies, ad-libs, loops. Each one is processed as soon as it loads, and turning a knob updates it in about a second.</p></li>
-        <li><span class="n">03</span><h4>Drag them back</h4><p>Drag lanes straight into your DAW or the Finder. Aligned takes come out at the guide's length, so they line up with the lead.</p></li>
-      </ol>
-      <div class="sheet">
-        <dl class="specs">
-          <div><dt>Modes</dt><dd>Align · Align + Pitch · Double · Drums · Instrument</dd></div>
-          <div><dt>Works with</dt><dd>Any DAW · extras for Ableton Live and Logic Pro</dd></div>
-          <div><dt>Reads</dt><dd>WAV, AIFF, FLAC, MP3, M4A · any sample rate</dd></div>
-          <div><dt>Requires</dt><dd>macOS 12+ · Apple silicon &amp; Intel</dd></div>
-        </dl>
-        <div class="buy">
-          <div class="price">Free<small>Signed and notarized disk image.</small></div>
-          <a class="btn" href="lock-in/"><span>Download Lock In</span><span>Mac app</span></a>
-          <a class="more" href="lock-in/">Full details →</a>
-        </div>
       </div>
     </section>
   </article>
@@ -541,8 +380,7 @@
         <h2 class="plate">Sounds you forgot you had.</h2>
         <p>CR8 learns your whole library's tempo, key and role, rolls loops that fit together, and drags them into your DAW. Lock what works, reroll the rest.</p>
         <div class="actions">
-          <a class="btn" href="cr8/"><span>Try it free</span><span>14 days</span></a>
-          <a class="btn ghostbtn" href="cr8/" data-buy-cr8>Buy · $10</a>
+          <a class="btn" href="cr8/"><span>See CR8</span><span aria-hidden="true">→</span></a>
         </div>
       </div>
       <div class="stage wrap">
@@ -550,30 +388,6 @@
           <img src="cr8/img/build.png" width="2880" height="2700" loading="lazy"
                alt="CR8: a song starter at 88 BPM in C minor, with loop cards to lock or reroll">
         </a>
-      </div>
-    </section>
-    <section class="detail wrap">
-      <div class="detail-head">
-        <h3 class="plate">CR8</h3>
-        <div class="tag label"><span class="code">CR-08</span><span class="led">v0.3.12 · Live</span></div>
-      </div>
-      <ol class="steps">
-        <li><span class="n">01</span><h4>Dig</h4><p>Add a folder or a whole drive. CR8 listens to every file in the background — tens of thousands of sounds are ready in minutes.</p></li>
-        <li><span class="n">02</span><h4>Roll</h4><p>Pick a key and tempo, or take the ones it suggests. Each slot gets a sound that fits: drums, bass, tonal, vocal, texture.</p></li>
-        <li><span class="n">03</span><h4>Drag</h4><p>Drag a loop, a beat or the whole set into your DAW. Everything lands stretched and tuned to the session.</p></li>
-      </ol>
-      <div class="sheet">
-        <dl class="specs">
-          <div><dt>Works with</dt><dd>Ableton Live, Logic Pro, FL Studio</dd></div>
-          <div><dt>Your files</dt><dd>Never touched — CR8 only reads them</dd></div>
-          <div><dt>Requires</dt><dd>macOS 14+ · Apple silicon</dd></div>
-          <div><dt>License</dt><dd>One-time · free updates within the major version</dd></div>
-        </dl>
-        <div class="buy">
-          <div class="price">$10<small>Once. 14-day free trial, no card needed.</small></div>
-          <a class="btn" href="cr8/"><span>Try CR8 free</span><span>14 days</span></a>
-          <a class="more" href="cr8/">Full details →</a>
-        </div>
       </div>
     </section>
   </article>
@@ -587,8 +401,7 @@
         <h2 class="plate">See the −38 coming.</h2>
         <p>Your UAD DSP load as a dot in the menu bar, a warning before the −38 error hits, and one-click recovery when your DAW freezes.</p>
         <div class="actions">
-          <a class="btn" href="uad-doctor/"><span>Download</span><span>Free</span></a>
-          <a class="btn ghostbtn" href="uad-doctor/">How it works</a>
+          <a class="btn" href="uad-doctor/"><span>See UAD Doctor</span><span aria-hidden="true">→</span></a>
         </div>
       </div>
       <div class="stage wrap">
@@ -598,58 +411,10 @@
         </a>
       </div>
     </section>
-    <section class="detail wrap">
-      <div class="detail-head">
-        <h3 class="plate">UAD Doctor</h3>
-        <div class="tag label"><span class="code">UD-04</span><span class="led">v1.4.8 · Live</span></div>
-      </div>
-      <ol class="steps">
-        <li><span class="n">01</span><h4>Look up</h4><p>A dot and a number in your menu bar: the same DSP figure the UAD Meter shows. No window, no Dock icon.</p></li>
-        <li><span class="n">02</span><h4>Watch the colour</h4><p>Green: fine. Yellow: save, something is heading for trouble. Red: DSP over 90%, your DAW frozen, or the device gone.</p></li>
-        <li><span class="n">03</span><h4>Recover now</h4><p>One click restarts UA's engine, then CoreAudio only if needed. Your DAW comes back without a power-cycle.</p></li>
-      </ol>
-      <div class="sheet">
-        <dl class="specs">
-          <div><dt>Works with</dt><dd>Universal Audio UAD-2 · Apollo</dd></div>
-          <div><dt>Install</dt><dd><code>brew install --cask gleyzeddonut/tap/uad-doctor</code></dd></div>
-          <div><dt>Requires</dt><dd>macOS 13+ · Apple silicon &amp; Intel</dd></div>
-        </dl>
-        <div class="buy">
-          <div class="price">Free<small>Installer or Homebrew.</small></div>
-          <a class="btn" href="uad-doctor/"><span>Download UAD Doctor</span><span>Menu bar</span></a>
-          <a class="more" href="uad-doctor/">Full details →</a>
-        </div>
-      </div>
-    </section>
   </article>
 
   <canvas id="wave" aria-hidden="true"></canvas>
 
-  <!-- ================= Lineup ================= -->
-  <section class="lineup wrap" id="lineup">
-    <span class="label">GGG Audio · The lineup</span>
-    <h1 class="plate">Independent audio software for music makers, <em>by a music maker.</em></h1>
-    <ul class="grid">
-      <li><button class="tile" data-go="listenlink"><img src="img/listenlink-icon@2x.png" width="56" height="56" alt=""><div><b>ListenLink</b><span>Stream your master bus</span></div><span class="pr">Free</span></button></li>
-      <li><button class="tile" data-go="blossom"><img src="img/blossom-icon@2x.png" width="56" height="56" alt=""><div><b>Blossom</b><span>Full chords, one finger</span></div><span class="pr">$0+</span></button></li>
-      <li><button class="tile" data-go="lock-in"><img src="img/vocal-lock-icon@2x.png" width="56" height="56" alt=""><div><b>Lock In</b><span>Tighten every take</span></div><span class="pr">Free</span></button></li>
-      <li><button class="tile" data-go="cr8"><img src="img/cr8-icon@2x.png" width="56" height="56" alt=""><div><b>CR8</b><span>Dig your sample library</span></div><span class="pr">$10</span></button></li>
-      <li><button class="tile" data-go="uad-doctor"><img src="img/uad-doctor-icon-dark@2x.png" width="56" height="56" alt=""><div><b>UAD Doctor</b><span>Keep the UAD rig alive</span></div><span class="pr">Free</span></button></li>
-    </ul>
-  </section>
-
-  <section class="terms">
-    <div class="wrap terms-inner">
-      <h2 class="plate">Free, or bought <em>once.</em></h2>
-      <div>
-        <p>Every GGG app is a one-time purchase or free. No subscriptions, no accounts. Refunds within 14 days of a purchase.</p>
-        <div class="actions">
-          <a class="btn ghostbtn" href="pricing/">Pricing</a>
-          <a class="btn ghostbtn" href="refund/">Refund policy</a>
-        </div>
-      </div>
-    </div>
-  </section>
 </main>
 
 <footer id="support">
@@ -661,7 +426,6 @@
     <div class="foot-row">
       <span>© 2026 GGG · Tangosol LLC · Est. 2025</span>
       <nav aria-label="Footer">
-        <a href="#lineup">Products</a>
         <a href="pricing/">Pricing</a>
         <a href="terms/">Terms</a>
         <a href="refund/">Refunds</a>
@@ -678,7 +442,6 @@
   var prods = Array.prototype.slice.call(document.querySelectorAll('.prod'));
   var keys = prods.map(function (p) { return p.dataset.p; });
   var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
-  var tiles = Array.prototype.slice.call(document.querySelectorAll('.tile'));
   var wave = document.getElementById('wave');
   var idx = -1;
 
@@ -704,7 +467,6 @@
         t.parentNode.scrollTo({ left: t.offsetLeft - t.parentNode.clientWidth / 2 + t.offsetWidth / 2, behavior: reduced ? 'auto' : 'smooth' });
       }
     });
-    tiles.forEach(function (t) { t.setAttribute('aria-current', t.dataset.go === keys[i]); });
 
     document.title = p.dataset.name + ' · GGG Audio';
     if (opts.hash !== false && history.replaceState) history.replaceState(null, '', '#' + keys[i]);
@@ -721,12 +483,6 @@
       e.preventDefault();
       step(d);
       tabs[idx].focus();
-    });
-  });
-  tiles.forEach(function (t) {
-    t.addEventListener('click', function () {
-      show(t.dataset.go);
-      window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
     });
   });
   window.addEventListener('hashchange', function () { show(location.hash.slice(1), { hash: false }); });
@@ -791,36 +547,6 @@
     document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
   }
   window.addEventListener('resize', function () { size(); draw(); });
-})();
-</script>
-<script>
-// CR8's Buy on this page opens the same Paddle checkout as /cr8/ (same live token and price), and a
-// finished order lands on /cr8/thanks/ with the key. Until Paddle has loaded, the button is a plain
-// link to the CR8 page, which has its own Buy.
-(function () {
-  var PADDLE = { token: 'live_e58e27fe3cf2ebaab9e9d487962', priceId: 'pri_01m753araedh9vaxt75yhsz39j' };
-  var ready = false;
-  function init() {
-    if (ready || !window.Paddle) return;
-    Paddle.Initialize({
-      token: PADDLE.token,
-      eventCallback: function (e) {
-        if (e && e.name === 'checkout.completed' && e.data && e.data.transaction_id) {
-          location.href = new URL('/cr8/thanks/?_ptxn=' + encodeURIComponent(e.data.transaction_id), location.href).href;
-        }
-      }
-    });
-    ready = true;
-  }
-  document.querySelectorAll('[data-buy-cr8]').forEach(function (b) {
-    b.addEventListener('click', function (e) {
-      init();
-      if (!ready) return;
-      e.preventDefault();
-      Paddle.Checkout.open({ items: [{ priceId: PADDLE.priceId, quantity: 1 }], settings: { theme: 'light' } });
-    });
-  });
-  var s = document.createElement('script'); s.src = 'https://cdn.paddle.com/paddle/v2/paddle.js'; s.async = true; s.onload = init; document.head.appendChild(s);
 })();
 </script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "850a6758077f404180dcd5e8a61bfe90"}'></script><!-- End Cloudflare Web Analytics -->
